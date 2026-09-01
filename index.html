@@ -187,6 +187,7 @@
 .pf .tile-shell .ov{transform:translateX(-32px)}
 .pf .tile-shell:hover .tile img{transform:scale(1.05);filter:brightness(.5)}
 .pf .tile-shell:hover .ov,.pf .tile-shell:hover .tile .yr{opacity:1}
+.pf .tile-shell.story-read .tile-info{opacity:0!important;transform:translateY(-50%) scale(.9)!important;pointer-events:none}
 .pf .tile-info{position:absolute;z-index:32;left:calc(50% + 6px);top:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:#f2efef;color:#1a1a19;box-shadow:0 8px 24px rgba(0,0,0,.34);cursor:pointer;opacity:0;transform:translateY(-50%) scale(.9);transition:opacity .18s,transform .22s cubic-bezier(.2,.8,.2,1),background-color .15s}
 .pf .tile-info svg{width:22px;height:22px;display:block}
 .pf .tile-shell:hover .tile-info,.pf .tile-shell:focus-within .tile-info{opacity:1;transform:translateY(-50%) scale(1)}
@@ -627,6 +628,8 @@ function filt(b){
   function linkify(value){return escapeHtml(value).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
   function open(id){
     var item=data()[id];if(!item)return;
+    var source=window.storySource;
+    if(source&&source.closest('.tile-shell'))source.closest('.tile-shell').classList.remove('story-read');
     previousFocus=document.activeElement;
     document.getElementById('storycover').src=item.image||'';
     document.getElementById('storycover').alt=(item.artist||'')+' — '+(item.title||'');
@@ -646,9 +649,11 @@ function filt(b){
     document.getElementById('story-close').focus();
   }
   function close(){
+    var shell=previousFocus&&previousFocus.closest?previousFocus.closest('.tile-shell'):null;
     document.getElementById('storymodal').classList.remove('on');
     document.documentElement.classList.remove('story-open');
-    if(previousFocus&&previousFocus.focus)previousFocus.focus();
+    if(shell)shell.classList.add('story-read');
+    if(previousFocus&&previousFocus.blur)previousFocus.blur();
   }
   window.openStory=open;window.closeStory=close;
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('storymodal').classList.contains('on')){e.preventDefault();close();}});
@@ -659,6 +664,7 @@ function filt(b){
       var button=document.createElement('button');button.className='tile-info';button.type='button';
       button.setAttribute('aria-label','О треке '+((tile.querySelector('.trk')||{}).textContent||''));button.innerHTML=infoIcon();
       button.onclick=function(e){e.preventDefault();e.stopPropagation();window.storySource=tile;open(tile.dataset.id);};shell.appendChild(button);
+      shell.addEventListener('mouseleave',function(){shell.classList.remove('story-read');});
     });
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',decorate);else decorate();
