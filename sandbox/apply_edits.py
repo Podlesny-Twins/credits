@@ -195,14 +195,25 @@ def apply_state(state: dict, dry: bool) -> int:
         return 1 if misses else 0
 
     if changed:
-        INDEX.write_text(doc, encoding="utf-8")
-        ROLES_FILE.write_text(json.dumps(roles, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
-        NOTES_FILE.write_text(json.dumps(notes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        # Write only what actually changed: rewriting an untouched file churns
+        # its formatting and buries the real edit in the diff.
+        write_if_changed(INDEX, doc)
+        write_if_changed(ROLES_FILE, json.dumps(roles, ensure_ascii=False, indent=0) + "\n")
+        write_if_changed(NOTES_FILE, json.dumps(notes, ensure_ascii=False, indent=2) + "\n")
         if hidden:
             HIDDEN_FILE.write_text(json.dumps(hidden, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         elif HIDDEN_FILE.exists():
             HIDDEN_FILE.unlink()
     return 1 if misses else 0
+
+
+def write_if_changed(path: Path, text: str) -> None:
+    try:
+        if path.read_text(encoding="utf-8") == text:
+            return
+    except FileNotFoundError:
+        pass
+    path.write_text(text, encoding="utf-8")
 
 
 def apply_move(doc: str, by_key: dict, mv: dict) -> str:
