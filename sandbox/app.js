@@ -10,9 +10,35 @@
   const BY_KEY = new Map(WORKS.map(w => [w.key, w]));
   for (const w of WORKS) for (const t of w.tracks) BY_KEY.set(t.key, { ...t, kind: "track", parent: w });
 
+  /* Every publish reloads the page, and a publish can fail (network, 404 on
+     the reload, a closed tab). Anything living only in the published document
+     is lost in that window — so answers are ALSO written to localStorage the
+     moment they're typed, and merged back on load. This is the belt: the
+     published state is the braces. */
+  const DRAFT = "credits-sandbox-draft-v1";
+  const draft = {
+    read() { try { return JSON.parse(localStorage.getItem(DRAFT)) || {}; } catch { return {}; } },
+    write(obj) { try { localStorage.setItem(DRAFT, JSON.stringify(obj)); } catch {} },
+    clear(keys) {
+      const d = this.read();
+      for (const k of keys) delete d[k];
+      this.write(d);
+    },
+  };
+
   let state = read("state");
   if (!state.moves) state.moves = [];
   if (state.interview === undefined) state.interview = null;
+
+  // Recover anything typed but never published (the 404-mid-interview case).
+  let recovered = 0;
+  for (const [key, note] of Object.entries(draft.read())) {
+    if (!note) continue;
+    const cur = state.edits[key]?.note;
+    if (cur === note) continue;          // already published — nothing to do
+    state.edits[key] = { ...(state.edits[key] || {}), note };
+    recovered++;
+  }
   let tab = "catalog";
   let open = null;          // key of the work being edited
   let query = "", genreF = "";
@@ -23,6 +49,7 @@
   let publishing = false;
   let again = false;        // an edit arrived mid-publish
   let readOnly = false;
+  let saveError = null;   // last publish failure, shown in the UI
   let artifact = null;
   const root = $("#root");
 
@@ -52,6 +79,12 @@
     return e && field in e ? e[field] : original(key, field);
   };
   const setField = (key, field, value) => {
+    saveError = null;
+    if (field === "note") {
+      const d = draft.read();
+      if (value) d[key] = value; else delete d[key];
+      draft.write(d);
+    }
     const e = state.edits[key] || {};
     if (value === original(key, field)) delete e[field];
     else e[field] = value;
@@ -181,17 +214,22 @@
     try {
       await artifact.publish(documentSource());
       saved = snapshot;                          // the view reloads to it
+      draft.clear(Object.keys(state.edits).filter(k => state.edits[k].note));
     } catch (err) {
       if (err.code === "not_writer" || err.code === "not_granted" || err.code === "not_declared") {
         readOnly = true;
       } else if (err.code !== "conflict") {
-        alert("Не удалось сохранить: " + (err.message || err.code) +
-              "\nПравки остались на экране — попробуйте ещё раз.");
+        // alert() is unreliable inside the artifact frame, so the failure has
+        // to be visible in the page itself — silence here is what made a lost
+        // answer look like a working one.
+        saveError = err.code || "ошибка сети";
+        again = true;                            // try once more on its own
       }
     } finally {
       publishing = false;
+      if (!saveError && rev === saved) saveError = null;
       render();
-      if (again) { again = false; save(); }
+      if (again) { again = false; setTimeout(save, 1200); }
     }
   }
 
@@ -201,6 +239,14 @@
   window.addEventListener("pagehide", save);
 
   /* ── render ─────────────────────────────────────────── */
+  const saveBanner = () => {
+    if (saveError) return `<div class="bar-warn">Не сохранилось на сервер (${esc(saveError)}). ` +
+      `Ответы записаны в этом браузере и не потеряются — пробую ещё раз.</div>`;
+    if (recovered) return `<div class="bar-ok">Восстановлено несохранённых ответов: ${recovered}. ` +
+      `Нажмите «Дальше» или «Готово», чтобы отправить.</div>`;
+    return "";
+  };
+
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -225,7 +271,7 @@
             </button>`).join("")}
         </nav>
       </header>
-      <main>${tab === "catalog" ? viewCatalog() : tab === "add" ? viewAdd() : viewSummary()}</main>
+      <main>${saveBanner()}${tab === "catalog" ? viewCatalog() : tab === "add" ? viewAdd() : viewSummary()}</main>
       ${open ? viewSheet(open) : ""}
       ${publishing ? '<div class="saving">Сохраняю…</div>' : ""}`;
     wire();
@@ -249,6 +295,7 @@
         <span class="wiz-progress">${i + 1} / ${queue.length}</span>
       </header>
       <main class="wiz-main" data-qa-for="${esc(key)}">
+        ${saveBanner()}
         <div class="wiz-head">
           <img src="${(w.parent || w).thumb}" alt="">
           <div><h2>${esc(w.title)}</h2><p>${esc(w.parent ? w.parent.artist : w.artist)}</p></div>
