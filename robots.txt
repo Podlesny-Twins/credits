@@ -58,5 +58,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+# Приватная песочница владельца — индексировать нечего
+Disallow: /edit/
 
 Sitemap: https://credits.podlesnytwins.com/sitemap.xml

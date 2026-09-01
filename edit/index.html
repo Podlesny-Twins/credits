@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Песочница — Podlesny Twins Credits</title>
+<!-- Постоянный короткий адрес песочницы: credits.podlesnytwins.com/edit
+     Ссылка ниже — единственное место, которое нужно менять, если песочницу
+     переопубликуют под другой учётной записью (см. CLAUDE.md → «Песочница»).
+     Артефакт приватный: открывается только под учёткой владельца, так что
+     публичность этого адреса доступа никому не даёт. -->
+<script>
+  var SANDBOX = "https://claude.ai/code/artifact/a4be077f-953d-430c-90f2-5cd40a1902b3";
+</script>
+<style>
+  html,body{height:100%}
+  body{
+    margin:0;display:flex;align-items:center;justify-content:center;
+    background:#1a1a19;color:#f0eee9;text-align:center;padding:24px;
+    font:400 15px/1.5 "Work Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  .box{max-width:340px;display:flex;flex-direction:column;gap:14px}
+  h1{margin:0;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6f6c65}
+  p{margin:0;color:#a09d95;font-size:14px}
+  a{
+    display:block;min-height:48px;line-height:48px;padding:0 20px;
+    background:#cf2c04;color:#fff;text-decoration:none;border-radius:3px;
+    font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:13px;
+  }
+  a:focus-visible{outline:2px solid #ff6a45;outline-offset:3px}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Песочница Credits</h1>
+    <p id="msg">Открываю…</p>
+    <a id="go" href="#">Открыть песочницу</a>
+    <p>Нужен вход в Claude под учётной записью владельца сайта.</p>
+  </div>
+<script>
+  document.getElementById("go").href = SANDBOX;
+  // Переход отдельным шагом: replace не оставляет мусора в истории, а если
+  // браузер его придержит — кнопка выше остаётся рабочей.
+  try { location.replace(SANDBOX); }
+  catch (e) { document.getElementById("msg").textContent = "Нажмите кнопку ниже:"; }
+</script>
+</body>
+</html>
