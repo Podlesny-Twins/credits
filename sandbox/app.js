@@ -12,6 +12,7 @@
 
   let state = read("state");
   if (!state.moves) state.moves = [];
+  if (state.interview === undefined) state.interview = null;
   let tab = "catalog";
   let open = null;          // key of the work being edited
   let query = "", genreF = "";
@@ -84,6 +85,53 @@
     rev++;
   };
   const isMoved = key => state.moves.some(m => m.key === key);
+
+  /* Three questions per work, picked deterministically from a small bank so
+     the same work always gets the same three (stable across renders/reloads)
+     but neighbouring works don't read like the same form repeated. */
+  const QUESTION_BANK = [
+    [ "Что запомнилось в этой работе?",
+      "Была тут какая-то деталь, о которой стоит рассказать?",
+      "Чем эта работа отличалась от обычной?",
+      "Что в ней было нестандартным?" ],
+    [ "Что именно вы делали и какие решения принимали?",
+      "Какой приём здесь сработал лучше всего?",
+      "С чем пришлось повозиться дольше обычного?",
+      "Что технически было интересного в этой работе?" ],
+    [ "Кто ещё участвовал — музыканты, продюсер? Есть что о них рассказать?",
+      "Как вы получили этот заказ или познакомились с артистом?",
+      "Есть история, связанная с этой работой?",
+      "Чем эта работа запомнилась лично вам?" ],
+  ];
+  const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return Math.abs(h); };
+  const pickQuestions = key => {
+    const h = hash(key);
+    return QUESTION_BANK.map((pool, i) => pool[(h + i * 7) % pool.length]);
+  };
+  const qaBlock = key => {
+    const answers = (current(key, "note") || "").split(/\n\n+/).map(s => s.trim());
+    return pickQuestions(key).map((q, i) => `
+      <div class="qa-item">
+        <label class="qa-q">${esc(q)}</label>
+        <textarea class="qa-a" data-qi="${i}" placeholder="Можно пропустить">${esc(answers[i] || "")}</textarea>
+      </div>`).join("");
+  };
+  const collectQA = () => {
+    const nodes = root.querySelectorAll(".qa-a");
+    return [...nodes].map(t => t.value.trim()).filter(Boolean).join("\n\n");
+  };
+
+  /* The order every work is offered in: no text first (that's the point of
+     the interview), then everyone else, so a short session covers the gaps. */
+  const interviewQueue = () => {
+    const list = [];
+    for (const w of ordered()) {
+      if (w.hidden || current(w.key, "hidden")) continue;
+      if (w.kind === "track") list.push(w.key);
+      else for (const t of w.tracks) list.push(t.key);
+    }
+    return list.sort((a, b) => !!current(a, "note") - !!current(b, "note"));
+  };
 
   /* ── writing the page ───────────────────────────────────
      Rebuild the document from this page's own unchanging blocks — never
@@ -161,6 +209,7 @@
     (w.kind === "album" && w.tracks.some(t => state.edits[t.key]));
 
   function render() {
+    if (state.interview) { root.innerHTML = viewInterview(); wireInterview(); return; }
     const n = editCount();
     root.innerHTML = `
       <header class="top">
@@ -180,6 +229,52 @@
       ${open ? viewSheet(open) : ""}
       ${publishing ? '<div class="saving">Сохраняю…</div>' : ""}`;
     wire();
+  }
+
+  function viewInterview() {
+    const { queue, i } = state.interview;
+    if (i >= queue.length) {
+      return `<div class="wiz-done">
+        <h1>Готово</h1>
+        <p>Прошли ${queue.length} ${plural(queue.length)}. Остальное можно дозаполнить
+           в любой момент, открыв работу в каталоге.</p>
+        <button class="btn-main" id="wiz-exit">К каталогу</button>
+      </div>`;
+    }
+    const key = queue[i];
+    const w = BY_KEY.get(key);
+    return `
+      <header class="wiz-top">
+        <button class="wiz-x" id="wiz-exit" aria-label="Закрыть интервью">✕</button>
+        <span class="wiz-progress">${i + 1} / ${queue.length}</span>
+      </header>
+      <main class="wiz-main" data-qa-for="${esc(key)}">
+        <div class="wiz-head">
+          <img src="${(w.parent || w).thumb}" alt="">
+          <div><h2>${esc(w.title)}</h2><p>${esc(w.parent ? w.parent.artist : w.artist)}</p></div>
+        </div>
+        ${qaBlock(key)}
+      </main>
+      <footer class="wiz-acts">
+        <button class="btn-ghost" id="wiz-skip">Пропустить</button>
+        <button class="btn-main" id="wiz-next">Дальше →</button>
+      </footer>`;
+  }
+  const plural = n => { const m = n % 10, h = n % 100;
+    return h >= 11 && h <= 14 ? "работ" : m === 1 ? "работу" : m >= 2 && m <= 4 ? "работы" : "работ"; };
+
+  function wireInterview() {
+    const commit = () => {
+      const { queue, i } = state.interview;
+      const key = queue[i];
+      if (key && root.querySelector(`[data-qa-for="${key}"]`)) setField(key, "note", collectQA());
+    };
+    const exit = $("#wiz-exit");
+    if (exit) exit.onclick = () => { commit(); state.interview = null; rev++; render(); save(); };
+    const skip = $("#wiz-skip");
+    if (skip) skip.onclick = () => { state.interview.i++; rev++; render(); save(); };
+    const next = $("#wiz-next");
+    if (next) next.onclick = () => { commit(); state.interview.i++; rev++; render(); save(); };
   }
 
   function viewCatalog() {
@@ -209,6 +304,7 @@
           ${CAT.genres.map(g => `<option value="${g}"${genreF === g ? " selected" : ""}>${g}</option>`).join("")}
         </select>
         <button class="btn-ghost" id="sorton" title="Изменить порядок">Порядок</button>
+        <button class="btn-ghost" id="ivstart" title="Быстрое интервью по трекам">Интервью</button>
       </div>`}
       ${list.length ? `<div class="grid${sorting ? " sorting" : ""}">${list.map(tile).join("")}</div>`
                     : '<p class="empty">Ничего не нашлось</p>'}`;
@@ -275,10 +371,11 @@
       </div>`}
 
       ${w.kind === "album" && !inAlbum ? "" : `
-      <div class="field">
+      <div class="field qa" data-qa-for="${esc(key)}">
         <span class="lbl">Своими словами</span>
-        <textarea id="note" placeholder="Что именно делали, кто играл, чем эта работа запомнилась. Пустая строка = новый абзац.">${esc(current(key, "note"))}</textarea>
-        <p class="hint">Появится на странице трека под заголовком. Это то, что читают люди и поисковик.</p>
+        <p class="hint">Ответьте на то, что откликается, — остальное пропустите. Появится на странице
+           трека под заголовком, это то, что читают люди и поисковик.</p>
+        ${qaBlock(key)}
       </div>`}
 
       ${inAlbum ? "" : `
@@ -414,6 +511,9 @@
       render(); save();
     });
     const on = $("#sorton"); if (on) on.onclick = () => { sorting = true; picked = null; render(); };
+    const iv = $("#ivstart"); if (iv) iv.onclick = () => {
+      state.interview = { queue: interviewQueue(), i: 0 }; render();
+    };
     const off = $("#sortoff"); if (off) off.onclick = () => { sorting = false; picked = null; render(); };
     const cancel = $("#cancelpick"); if (cancel) cancel.onclick = () => { picked = null; render(); };
     const front = $("#tofront"); if (front) front.onclick = () => {
@@ -471,8 +571,7 @@
   // The note textarea is read on close, not on input: publishing reloads the
   // page, and a reload mid-sentence is how the first version lost text.
   function closeSheet() {
-    const ta = $("#note");
-    if (ta) setField(open, "note", ta.value.trim());
+    if (root.querySelector(`[data-qa-for="${open}"]`)) setField(open, "note", collectQA());
     open = null;
     render();
     save();
