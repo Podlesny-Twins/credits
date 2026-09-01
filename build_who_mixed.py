@@ -128,6 +128,41 @@ def load_notes() -> dict:
 NOTES: dict = {}
 
 
+def album_note_key(artist: str, album: str) -> str:
+    """Stable key for a story that belongs to a release as a whole."""
+    return f"album-{slugify(primary_of(artist), album)}"
+
+
+def notes_for(tr: dict) -> list[str]:
+    """Release context first, then the track-specific interview answer."""
+    paragraphs: list[str] = []
+    if tr.get("album"):
+        paragraphs.extend(NOTES.get(album_note_key(tr["artist"], tr["album"]), []))
+    paragraphs.extend(NOTES.get(tr.get("slug", ""), []))
+    return paragraphs
+
+
+def linkify(text: str) -> str:
+    """Escape interview copy while keeping supplied http(s) references useful."""
+    safe = esc(text)
+    return re.sub(
+        r"(https?://[^\s<]+)",
+        r'<a href="\1" rel="noopener" target="_blank">\1</a>',
+        safe,
+    )
+
+
+def story_details(paragraphs: list[str], label: str = "О работе над треком") -> str:
+    if not paragraphs:
+        return ""
+    body = "".join(f"<p>{linkify(p)}</p>" for p in paragraphs)
+    return (
+        '<details class="story">'
+        f'<summary>{esc(label)}</summary><div class="story-copy">{body}</div>'
+        "</details>"
+    )
+
+
 def load_feats() -> dict:
     """Map track id -> featured artist(s) from feats.json. Value is a
     string ("SALUKI") or list (["SALUKI", "OG Buda"]); empty = no feat."""
@@ -213,6 +248,8 @@ def render_page(tr: dict) -> str:
         f"«{tr['title']}»{year_bit} — {tr['artist']}. {role_word}: "
         f"Podlesny Twins (Павел и Антон Подлесные).{album_plain}"
     )
+    story_paragraphs = notes_for(tr)
+    story_plain = " ".join(story_paragraphs)
 
     schema = {
         "@context": "https://schema.org",
@@ -230,6 +267,7 @@ def render_page(tr: dict) -> str:
                     "name": "Podlesny Twins",
                     "url": f"{SITE}/",
                 },
+                "description": answer_plain + (f" {story_plain}" if story_plain else ""),
             },
             {
                 "@type": "FAQPage",
@@ -255,7 +293,7 @@ def render_page(tr: dict) -> str:
     )
 
     note_html = "".join(
-        f'\n  <p class="note">{esc(p)}</p>' for p in NOTES.get(tr["slug"], [])
+        f'\n  <p class="note">{linkify(p)}</p>' for p in story_paragraphs
     )
 
     return f"""<!DOCTYPE html>
@@ -297,6 +335,7 @@ h1{{font-size:clamp(26px,5vw,38px);line-height:1.08;margin:0;font-weight:700;let
 .lead strong{{color:var(--ink);font-weight:600}}
 .note{{font-size:15px;color:var(--mut);max-width:62ch;margin:0 0 16px;padding-left:14px;border-left:2px solid var(--line)}}
 .note:last-of-type{{margin-bottom:26px}}
+.note a{{color:var(--red);text-decoration:underline;text-underline-offset:3px}}
 .embed{{border-radius:12px;overflow:hidden;margin:0 0 28px}}
 .back{{font-size:14px;color:var(--mut)}}
 .back a{{color:var(--red);font-weight:600}}
@@ -393,11 +432,16 @@ def render_hub(tracks: list[dict]) -> str:
         rels = []
         for name, alb in g["albums"].items():
             items = "".join(
-                f'<li><a href="/track/{esc(t["slug"])}/" '
-                f'data-q="{_dq(t["title"], t["artist"], name)}">{esc(t["title"])}{_feat(t)}</a></li>'
+                f'<li class="trk-item" data-q="{_dq(t["title"], t["artist"], name)}">'
+                f'<a href="/track/{esc(t["slug"])}/">{esc(t["title"])}{_feat(t)}</a>'
+                f'{story_details(NOTES.get(t["slug"], []))}</li>'
                 for t in alb["tracks"]
             )
             year = f'<span class="rel-year">{esc(alb["year"])}</span>' if alb["year"] else ""
+            release_story = story_details(
+                NOTES.get(album_note_key(alb["artist"], name), []),
+                "История альбома",
+            )
             rels.append(
                 '<div class="rel album">'
                 f'<img class="rel-cover" src="{esc(alb["cover"])}" '
@@ -405,6 +449,7 @@ def render_hub(tracks: list[dict]) -> str:
                 '<div class="rel-body">'
                 f'<div class="rel-head"><span class="rel-name">«{esc(name)}»</span>{year}'
                 f'<span class="rel-kind">альбом</span></div>'
+                f'{release_story}'
                 f'<ol class="trk-list">{items}</ol>'
                 "</div></div>"
             )
@@ -412,13 +457,13 @@ def render_hub(tracks: list[dict]) -> str:
         if g["singles"]:
             label = '<div class="rel-label">Синглы</div>' if g["albums"] else ""
             rows = "".join(
-                f'<a class="sg" href="/track/{esc(t["slug"])}/" '
-                f'data-q="{_dq(t["title"], t["artist"])}">'
+                f'<div class="sg-wrap" data-q="{_dq(t["title"], t["artist"])}">'
+                f'<a class="sg" href="/track/{esc(t["slug"])}/">'
                 f'<img src="{esc(t["img"])}" alt="" loading="lazy" width="40" height="40">'
                 f'<span class="sg-name">{esc(t["title"])}{_feat(t)}</span>'
                 + (f'<span class="sg-year">{esc(t["year"])}</span>'
                    if t.get("year") and t["year"] != "альбом" else "<span></span>")
-                + "</a>"
+                + f'</a>{story_details(NOTES.get(t["slug"], []))}</div>'
                 for t in sorted(g["singles"], key=lambda x: x["title"].lower())
             )
             rels.append(f'<div class="rel singles">{label}<div class="sg-list">{rows}</div></div>')
@@ -526,12 +571,24 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 .trk-list a::before{{content:counter(t);color:var(--mut2);font-size:12px;font-variant-numeric:tabular-nums;min-width:1.7em;text-align:right;flex:none}}
 .trk-list a:hover{{color:var(--red)}}
 .sg-list{{display:flex;flex-direction:column}}
-.sg{{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;padding:7px 0;border-top:1px solid var(--line2)}}
-.sg:first-child{{border-top:0}}
+.sg-wrap{{border-top:1px solid var(--line2)}}
+.sg-wrap:first-child{{border-top:0}}
+.sg{{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;padding:7px 0}}
 .sg img{{width:40px;height:40px;border-radius:6px;object-fit:cover;display:block}}
 .sg-name{{font-size:14px;font-weight:500;min-width:0;transition:color .12s}}
 .sg-year{{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}}
 .sg:hover .sg-name{{color:var(--red)}}
+.story{{margin:3px 0 10px;max-width:72ch}}
+.story summary{{display:flex;align-items:center;min-height:36px;width:max-content;max-width:100%;color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;list-style:none;transition:color .15s}}
+.story summary::-webkit-details-marker{{display:none}}
+.story summary::after{{content:"";width:6px;height:6px;margin-left:8px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s cubic-bezier(.2,.8,.2,1)}}
+.story[open] summary{{color:var(--red)}}
+.story[open] summary::after{{transform:rotate(225deg) translate(-1px,-1px)}}
+.story-copy{{padding:2px 0 5px;color:#aaa3a3;font-size:13px;line-height:1.62;max-width:68ch}}
+.story-copy p{{margin:0 0 9px}}
+.story-copy p:last-child{{margin-bottom:0}}
+.story-copy a{{color:var(--red);text-decoration:underline;text-underline-offset:3px}}
+.rel > .rel-body > .story{{margin:-2px 0 8px}}
 .ia-foot{{margin-top:40px;font-size:12px;color:var(--mut2)}}
 .hublead{{font-size:14px;color:var(--mut);max-width:58ch;margin:10px 0 0}}
 .hublead a{{color:var(--red);font-weight:600}}
@@ -546,6 +603,7 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 .rel.album{{gap:11px}}
 .rel-cover{{width:48px;height:48px}}
 .trk-list{{column-width:auto}}
+.story summary{{min-height:44px}}
 }}
 @media (prefers-reduced-motion:reduce){{*{{transition:none!important}}}}
 </style>
@@ -607,7 +665,7 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 """
 
 
-def patch_index_footer(doc: str) -> str:
+def patch_index_footer(doc: str, tracks: list[dict]) -> str:
     css = """
 .pf .seo-foot{margin:22px auto 0;font-size:12px;line-height:1.5}
 .pf .seo-foot a{color:#918b8b;font-weight:600}
@@ -627,6 +685,38 @@ def patch_index_footer(doc: str) -> str:
         doc = re.sub(r'<p class="seo-foot">.*?</p>', foot, doc, count=1, flags=re.S)
     else:
         doc = doc.replace('<p class="iadisc">', foot + "\n    " + '<p class="iadisc">', 1)
+
+    # One source of truth for the card-side story viewer. The role remains a
+    # separate, explicit field; interview copy is additional context only.
+    track_info = {
+        tr["id"]: {
+            "slug": tr["slug"],
+            "artist": tr["artist"],
+            "title": tr["title"],
+            "year": tr.get("year", ""),
+            "role": ROLE_WORD.get(tr["role"], "Сведение"),
+            "notes": notes_for(tr),
+            "url": f"/track/{tr['slug']}/",
+            "image": tr.get("img", ""),
+        }
+        for tr in tracks
+    }
+    payload = json.dumps(track_info, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    data_tag = f'<script type="application/json" id="track-info-data">{payload}</script>'
+    if 'id="track-info-data"' in doc:
+        doc = re.sub(
+            r'<script type="application/json" id="track-info-data">.*?</script>',
+            data_tag,
+            doc,
+            count=1,
+            flags=re.S,
+        )
+    else:
+        doc = doc.replace(
+            '<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>',
+            data_tag + '\n<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>',
+            1,
+        )
     return doc
 
 
@@ -644,7 +734,7 @@ def content_hash(tr: dict) -> str:
             "artist": tr.get("artist", ""), "title": tr.get("title", ""),
             "year": tr.get("year", ""), "role": tr.get("role", ""),
             "feat": tr.get("feat", ""), "album": tr.get("album", ""),
-            "img": tr.get("img", ""), "notes": NOTES.get(tr.get("slug", ""), []),
+            "img": tr.get("img", ""), "notes": notes_for(tr),
         },
         ensure_ascii=False, sort_keys=True,
     )
@@ -788,7 +878,7 @@ def main() -> None:
         (out / "index.html").write_text(render_redirect(new_slug), encoding="utf-8")
 
     hub_file.write_text(render_hub(tracks), encoding="utf-8")
-    INDEX.write_text(patch_index_footer(doc), encoding="utf-8")
+    INDEX.write_text(patch_index_footer(doc, tracks), encoding="utf-8")
 
     write_sitemap(tracks, dates)
     from collections import Counter
