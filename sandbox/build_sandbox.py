@@ -14,6 +14,7 @@ import base64
 import io
 import json
 import sys
+import time
 from pathlib import Path
 
 from PIL import Image
@@ -43,7 +44,7 @@ def thumb(cover: str, cache: dict) -> str:
     return uri
 
 
-def build(out: Path) -> None:
+def build(out: Path, keep_state: dict | None = None) -> None:
     works, _ = read_catalog()
     cache: dict[str, str] = {}
     for w in works:
@@ -61,8 +62,16 @@ def build(out: Path) -> None:
     page = page.replace("/*APP_JS*/", (HERE / "app.js").read_text(encoding="utf-8"))
     page = page.replace('"__CATALOG__"',
                         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")))
-    page = page.replace('"__STATE__"', json.dumps({"ready": None, "edits": {}, "queue": [], "moves": []},
-                                                  ensure_ascii=False))
+    # A rebuild must never silently drop edits the owner has not handed over
+    # yet: pass the live state with --state and it is carried into the new page.
+    state = {"ready": None, "edits": {}, "queue": [], "moves": [], "interview": None}
+    if keep_state:
+        state.update({k: v for k, v in keep_state.items() if k in state})
+    # buildId identifies this catalogue snapshot; the page's local draft is only
+    # restored when it belongs to the same build (see app.js), so an applied and
+    # rebuilt sandbox cannot resurrect edits that already went live.
+    state["buildId"] = str(int(time.time()))
+    page = page.replace('"__STATE__"', json.dumps(state, ensure_ascii=False))
     out.write_text(page, encoding="utf-8")
     print(f"{out}  {len(page) / 1024:.0f} КБ  "
           f"работ: {len(works)}  обложек: {sum(1 for v in cache.values() if v)}")
@@ -73,4 +82,10 @@ def build(out: Path) -> None:
 if __name__ == "__main__":
     args = sys.argv[1:]
     out = Path(args[args.index("-o") + 1]) if "-o" in args else HERE / "sandbox.html"
-    build(out)
+    keep = None
+    if "--state" in args:
+        src = Path(args[args.index("--state") + 1])
+        keep = json.loads(src.read_text(encoding="utf-8"))
+        n = len(keep.get("edits", {})) + len(keep.get("queue", [])) + len(keep.get("moves", []))
+        print(f"переношу неотданные правки: {n}")
+    build(out, keep)

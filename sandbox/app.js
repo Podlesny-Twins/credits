@@ -15,7 +15,28 @@
      is lost in that window — so answers are ALSO written to localStorage the
      moment they're typed, and merged back on load. This is the belt: the
      published state is the braces. */
-  const DRAFT = "credits-sandbox-draft-v1";
+  /* The key carries the catalogue build: once edits are applied and the
+     sandbox is rebuilt, the key changes and the stale draft is ignored (and
+     swept) instead of resurrecting work that already went live. */
+  const BUILD = read("state").buildId || "0";
+  const DRAFT = "credits-sandbox-draft-v1:" + BUILD;
+  try {
+    // Answers typed under the previous build (or the build-less first version)
+    // are carried over once, then the old keys are swept: an unsent answer must
+    // survive the very upgrade that fixes losing it.
+    const LEGACY = "credits-sandbox-draft-v1";     // first version, no build tag
+    const merged = JSON.parse(localStorage.getItem(DRAFT) || "{}");
+    let carried = false;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith(LEGACY) || k === DRAFT) continue;
+      if (k === LEGACY) {                          // carry it over once
+        try { Object.assign(merged, JSON.parse(localStorage.getItem(k)) || {}); carried = true; } catch {}
+      }
+      localStorage.removeItem(k);                  // other builds: already applied
+    }
+    if (carried) localStorage.setItem(DRAFT, JSON.stringify(merged));
+  } catch {}
   const draft = {
     read() { try { return JSON.parse(localStorage.getItem(DRAFT)) || {}; } catch { return {}; } },
     write(obj) { try { localStorage.setItem(DRAFT, JSON.stringify(obj)); } catch {} },
@@ -36,6 +57,7 @@
     if (!note) continue;
     const cur = state.edits[key]?.note;
     if (cur === note) continue;          // already published — nothing to do
+    if ((BY_KEY.get(key)?.note || "") === note) continue;   // already live on the site
     state.edits[key] = { ...(state.edits[key] || {}), note };
     recovered++;
   }
@@ -175,6 +197,7 @@
     const css = document.getElementById("app-css").textContent;
     const js = document.getElementById("app-js").textContent;
     const cat = document.getElementById("catalog").textContent;
+    state.ts = Date.now();
     const st = JSON.stringify(state);
     const esc = s => s.replace(/<\/script/gi, "<\\/script");
     return `<!doctype html>
