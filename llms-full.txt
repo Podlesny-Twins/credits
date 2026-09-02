@@ -9,7 +9,7 @@
 Podlesny Twins — это студия сведения и мастеринга братьев-близнецов Антона и
 Павла Подлесных из Санкт-Петербурга, работающая с 2017 года. Всего студия
 свела более 1500 треков. Этот сайт — не всё портфолио, а выборка:
-214 избранных работ для 69 русскоязычных артистов,
+217 избранных работ для 71 русскоязычных артистов,
 включая Хаски, ЛСП, NAVAI, T-Fest, MACAN, Клаву Коку, Диму Билана и ANNA ASTI.
 Стоимость сведения — от 30 000 до 45 000 ₽, мастеринга — 6 000 ₽. Также
 близнецы ведут курсы Podlesny Education.
@@ -20,7 +20,7 @@ Podlesny Twins — это студия сведения и мастеринга 
 - Основатели: Антон Подлесный и Павел Подлесный, братья-близнецы
 - Локация: Санкт-Петербург; работа с артистами из любых городов удалённо
 - В профессии с 2017 года
-- Масштаб открытого каталога: 214 треков, 69 артистов.
+- Масштаб открытого каталога: 217 треков, 71 артистов.
   Это опубликованная выборка значимых работ, а не весь объём студии.
 - Услуги и цены: сведение — от 30 000 до 45 000 ₽ за трек; мастеринг — 6 000 ₽
 - Сроки: сведение 7–10 дней, мастеринг 1–3 дня
@@ -40,7 +40,7 @@ Podlesny Twins — это студия сведения и мастеринга 
 
 ## Артисты
 
-9mice, ALISHA, Angel Haze, ANNA ASTI, BANDURA, Barz, BATO, bollywoodFM, DASHXX, Didar, Dose, eli, ENCASSATOR, FEDUK, glaive, GLAZAMI, Hloy, HOLLYFLAME, Indi de V, IOWA, Jazzbe, JEEMBO, JIMM, Kai Angel, Kill Eva, Kyol, Lasilini, Loc-Dog, LYRIQ, MACAN, Magic Man, MORGENSHTERN*, NAVAI, NEMIGA, Nick Rouze, OG Buda, Ollane, PIZZA, Polina Offline, qantreez x челс, Rhymefest, SALUKI, Sight By Sight, T-Fest, The OM, TumaniYO, TVETH, WOKAWÓNA, zavet, Андрей Катиков, Бондарь, Дима Билан, Дора, Егор Крид, катя милтей, Клава Кока, Леонид Агутин, Лера Литвинцева, ЛСП, Миша Марвин, МОТ, Мэйби Бэйби, Оли, Оля Краснова, Папион, Скриптонит, тима ищет свет, Хаски, Эндшпиль
+9mice, ALISHA, Angel Haze, ANNA ASTI, BANDURA, Barz, BATO, bollywoodFM, DASHXX, Didar, Dose, eli, ENCASSATOR, FEDUK, fvnni, glaive, GLAZAMI, Hloy, HOLLYFLAME, Indi de V, IOWA, Jazzbe, JEEMBO, JIMM, JONY, Kai Angel, Kill Eva, Kyol, Lasilini, Loc-Dog, LYRIQ, MACAN, Magic Man, MORGENSHTERN*, NAVAI, NEMIGA, Nick Rouze, OG Buda, Ollane, PIZZA, Polina Offline, qantreez x челс, Rhymefest, SALUKI, Sight By Sight, T-Fest, The OM, TumaniYO, TVETH, WOKAWÓNA, zavet, Андрей Катиков, Бондарь, Дима Билан, Дора, Егор Крид, катя милтей, Клава Кока, Леонид Агутин, Лера Литвинцева, ЛСП, Миша Марвин, МОТ, Мэйби Бэйби, Оли, Оля Краснова, Папион, Скриптонит, тима ищет свет, Хаски, Эндшпиль
 
 ## Работы с указанием роли
 
@@ -121,6 +121,7 @@ Podlesny Twins — это студия сведения и мастеринга 
 - Егор Крид, 9mice — «Jealous» — Мастеринг · 2026 — https://credits.podlesnytwins.com/track/egor-krid-9mice-jealous/
 - eli, Angel Haze — «BEAUTIFUL TEARS» — Сведение и мастеринг · 2025 — https://credits.podlesnytwins.com/track/eli-angel-haze-beautiful-tears/
 - FEDUK, Андрей Катиков — «Перепутал» — Сведение · 2025 — https://credits.podlesnytwins.com/track/feduk-andrey-katikov-pereputal/
+- fvnni — «аня» — Мастеринг · 2026 — https://credits.podlesnytwins.com/track/fvnni-anya/
 - GLAZAMI — «Грустно» — Сведение и мастеринг · 2025 — https://credits.podlesnytwins.com/track/glazami-grustno/
 - GLAZAMI — «Иллюзия» — Сведение и мастеринг · 2025 — https://credits.podlesnytwins.com/track/glazami-illyuziya/
 - Хаски — «Ангел учится летать» — Сведение · 2025 — https://credits.podlesnytwins.com/track/haski-angel-uchitsya-letat/
@@ -163,6 +164,7 @@ Podlesny Twins — это студия сведения и мастеринга 
 - Kill Eva, ENCASSATOR — «Psycho Dreams 2» — Сведение и мастеринг · 2025 — https://credits.podlesnytwins.com/track/kill-eva-encassator-psycho-dreams-2/
 - Kill Eva, Мэйби Бэйби — «Popstars» — Сведение и мастеринг · 2024 — https://credits.podlesnytwins.com/track/kill-eva-meybi-beybi-popstars/
 - Клава Кока — «Ещё люблю» — Мастеринг · 2025 — https://credits.podlesnytwins.com/track/klava-koka-eschyo-lyublyu/
+- Клава Кока, JONY — «Журавли» — Мастеринг · 2026 — https://credits.podlesnytwins.com/track/klava-koka-jony-zhuravli/
 - Клава Кока — «СПЛЕТНИ. ШУМ. ЛУК.» — Мастеринг · 2025 — https://credits.podlesnytwins.com/track/klava-koka-spletni-shum-luk/
 - Клава Кока — «Тысячи зим» — Мастеринг · 2026 — https://credits.podlesnytwins.com/track/klava-koka-tysyachi-zim/
 - Lasilini, TVETH, BATO — «Kowloon» — Сведение и мастеринг · 2025 — https://credits.podlesnytwins.com/track/lasilini-tveth-bato-kowloon/
@@ -225,6 +227,7 @@ Podlesny Twins — это студия сведения и мастеринга 
 - Rhymefest — «Surprise» — Сведение и мастеринг · 2024 — https://credits.podlesnytwins.com/track/rhymefest-surprise/
 - Скриптонит, T-Fest — «1, 2» — Сведение · 2024 — https://credits.podlesnytwins.com/track/skriptonit-t-fest-1-2/
 - T-Fest — «11 pm in Berlin» — Сведение · 2025 — https://credits.podlesnytwins.com/track/t-fest-11-pm-in-berlin/
+- T-Fest — «72 Barz Freestyle» — Сведение · 2026 — https://credits.podlesnytwins.com/track/t-fest-72-barz-freestyle/
 - T-Fest — «Давай сконнектимся» — Сведение · 2025 — https://credits.podlesnytwins.com/track/t-fest-davay-skonnektimsya/
 - T-Fest — «Иногда» — Сведение · 2024 — https://credits.podlesnytwins.com/track/t-fest-inogda/
 - T-Fest, катя милтей — «Встретимся завтра» — Сведение · 2025 — https://credits.podlesnytwins.com/track/t-fest-katya-miltey-vstretimsya-zavtra/
