@@ -44,6 +44,31 @@ def thumb(cover: str, cache: dict) -> str:
     return uri
 
 
+def drop_applied(edits: dict, works: list[dict]) -> dict:
+    """Forget edits the site has caught up with.
+
+    Someone else may have applied the same change by hand between the owner
+    writing it and the sandbox being rebuilt. Carrying it over would show a
+    change that isn't one — «было X → стало X» — in the summary.
+    """
+    live: dict[str, dict] = {}
+    for w in works:
+        live[w["key"]] = w
+        for tr in w["tracks"]:
+            live[tr["key"]] = {**tr, "hidden": w["hidden"]}
+    out: dict[str, dict] = {}
+    for key, edit in edits.items():
+        work = live.get(key)
+        if work is None:
+            out[key] = edit                      # unknown target: keep, apply_edits reports it
+            continue
+        kept = {f: v for f, v in edit.items()
+                if not (f in work and (v or "") == (work.get(f) or ""))}
+        if kept:
+            out[key] = kept
+    return out
+
+
 def build(out: Path, keep_state: dict | None = None) -> None:
     works, _ = read_catalog()
     cache: dict[str, str] = {}
@@ -64,9 +89,10 @@ def build(out: Path, keep_state: dict | None = None) -> None:
                         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")))
     # A rebuild must never silently drop edits the owner has not handed over
     # yet: pass the live state with --state and it is carried into the new page.
-    state = {"ready": None, "edits": {}, "queue": [], "moves": [], "interview": None}
+    state = {"ready": None, "edits": {}, "queue": [], "moves": []}
     if keep_state:
         state.update({k: v for k, v in keep_state.items() if k in state})
+        state["edits"] = drop_applied(state["edits"], works)
     # buildId identifies this catalogue snapshot; the page's local draft is only
     # restored when it belongs to the same build (see app.js), so an applied and
     # rebuilt sandbox cannot resurrect edits that already went live.

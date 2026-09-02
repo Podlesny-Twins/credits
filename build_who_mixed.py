@@ -143,13 +143,22 @@ def notes_for(tr: dict) -> list[str]:
 
 
 def linkify(text: str) -> str:
-    """Escape interview copy while keeping supplied http(s) references useful."""
+    """Escape story copy while keeping supplied http(s) references useful.
+
+    Trailing sentence punctuation is left outside the link: a URL that ends a
+    sentence would otherwise carry the full stop into href and 404.
+    """
     safe = esc(text)
-    return re.sub(
-        r"(https?://[^\s<]+)",
-        r'<a href="\1" rel="noopener" target="_blank">\1</a>',
-        safe,
-    )
+
+    def wrap(m: re.Match) -> str:
+        url = m.group(0)
+        tail = re.search(r"[.,;:!?)»]+$", url)
+        tail = tail.group(0) if tail else ""
+        if tail:
+            url = url[: -len(tail)]
+        return f'<a href="{url}" rel="noopener" target="_blank">{url}</a>{tail}'
+
+    return re.sub(r"https?://[^\s<]+", wrap, safe)
 
 
 def story_details(paragraphs: list[str], label: str = "О работе над треком") -> str:
