@@ -695,8 +695,13 @@ def patch_index_footer(doc: str, tracks: list[dict]) -> str:
     else:
         doc = doc.replace('<p class="iadisc">', foot + "\n    " + '<p class="iadisc">', 1)
 
-    # One source of truth for the card-side story viewer. The role remains a
-    # separate, explicit field; interview copy is additional context only.
+    # One source of truth for the card-side story viewer. Only works that
+    # actually have a story are listed: the modal never opens without one.
+    #
+    # The texts (≈140 KB) live in /track-info.json, not inline — the grid is
+    # the page's whole promise and pays for its own weight; the stories are
+    # fetched once the page is idle, long before anyone opens one. Inline
+    # stays the id list, so the ⓘ buttons can be placed on first paint.
     track_info = {
         tr["id"]: {
             "slug": tr["slug"],
@@ -709,12 +714,25 @@ def patch_index_footer(doc: str, tracks: list[dict]) -> str:
             "image": tr.get("img", ""),
         }
         for tr in tracks
+        if notes_for(tr)
     }
-    payload = json.dumps(track_info, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    data_tag = f'<script type="application/json" id="track-info-data">{payload}</script>'
-    if 'id="track-info-data"' in doc:
+    (ROOT / "track-info.json").write_text(
+        json.dumps(track_info, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+
+    ids = json.dumps(sorted(track_info), separators=(",", ":"))
+    data_tag = f'<script type="application/json" id="track-story-ids">{ids}</script>'
+    doc = re.sub(                       # the earlier inline payload, if present
+        r'<script type="application/json" id="track-info-data">.*?</script>\n?',
+        "",
+        doc,
+        count=1,
+        flags=re.S,
+    )
+    if 'id="track-story-ids"' in doc:
         doc = re.sub(
-            r'<script type="application/json" id="track-info-data">.*?</script>',
+            r'<script type="application/json" id="track-story-ids">.*?</script>',
             data_tag,
             doc,
             count=1,
