@@ -94,7 +94,10 @@ def read_catalog() -> tuple[list[dict], str]:
                 return
             seen.add(key)
             works.append({**common, "key": key, "kind": "album", "id": "",
-                          "year": "", "slug": "", "note": "",
+                          "year": "", "slug": "",
+                          # история релиза: приклеивается ко всем его трекам
+                          "note": "\n\n".join(
+                              notes.get(bwm.album_note_key(artist, title), [])),
                           "tracks": [{
                               "key": f"t:{tr['id']}", "id": tr["id"],
                               "title": tr["title"], "year": tr.get("year", ""),

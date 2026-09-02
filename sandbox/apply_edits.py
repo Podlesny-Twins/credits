@@ -25,6 +25,7 @@ from pathlib import Path
 
 from catalog import (ROOT, INDEX, HIDDEN_FILE, TILE_RE, GENRES, ROLES, AWARDS,
                      album_map, attr, inner, load_json, read_catalog)
+import build_who_mixed as bwm   # ключи историй считает сам сборщик
 
 ROLES_FILE = ROOT / "roles.json"
 NOTES_FILE = ROOT / "notes.json"
@@ -101,12 +102,17 @@ def apply_state(state: dict, dry: bool) -> int:
                     changed.append(f"роль {label}{n} → {ROLES[role]}")
 
         if "note" in edit:
-            targets = [(work["slug"], label)] if work["kind"] == "track" else []
+            # у альбома своей страницы нет, но есть история релиза: она лежит
+            # под ключом album-<слаг> и приклеивается ко всем его трекам
+            targets = ([(work["slug"], label)] if work["kind"] == "track"
+                       else [(bwm.album_note_key(work["artist"], work["title"]),
+                              f"{label} (весь альбом)")])
             for tr in work["tracks"]:
                 if tr["key"] == key:
                     targets = [(tr["slug"], label)]
-            if not targets:
-                miss(f"{label}: описание некуда положить — у альбома нет страницы")
+            if not any(slug for slug, _ in targets):
+                miss(f"{label}: описание некуда положить — не нашли слаг")
+                targets = []
             for slug, lbl in targets:
                 paras = [p.strip() for p in edit["note"].split("\n\n") if p.strip()]
                 if paras:
