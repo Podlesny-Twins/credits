@@ -229,6 +229,76 @@ def assign_slugs(tracks: list[dict]) -> None:
         tr["slug"] = base if n == 0 else f"{base}-{n + 1}"
 
 
+# ── related works (внутренняя перелинковка) ──────────────────────────
+#
+# Страница трека раньше ссылалась только на хаб и FAQ, поэтому в Search
+# Console у каждой стояло «Ссылающаяся страница: не найдено», а 179 из 220
+# адресов висели в статусе «Обнаружена, не проиндексирована»: робот знал
+# про них из sitemap, но не имел пути обхода и повода тратить бюджет.
+# Соседи выбираются кольцом (не «первые пять»), чтобы входящие ссылки
+# достались каждому треку, а не только началу списка артиста.
+
+REL_MAX = 5
+
+
+def _ring(seq: list[dict], start: int, n: int) -> list[dict]:
+    """n соседей по кругу, начиная со следующего за start."""
+    out = []
+    for k in range(1, len(seq)):
+        if len(out) >= n:
+            break
+        out.append(seq[(start + k) % len(seq)])
+    return out
+
+
+def attach_related(tracks: list[dict]) -> None:
+    by_artist: "OrderedDict[str, list[dict]]" = OrderedDict()
+    by_album: "OrderedDict[tuple, list[dict]]" = OrderedDict()
+    for tr in tracks:
+        by_artist.setdefault(primary_of(tr["artist"]), []).append(tr)
+        if tr.get("album"):
+            by_album.setdefault((primary_of(tr["artist"]), tr["album"]), []).append(tr)
+
+    for group in by_album.values():
+        for i, tr in enumerate(group):
+            tr["rel_album"] = _ring(group, i, REL_MAX)
+
+    for group in by_artist.values():
+        for i, tr in enumerate(group):
+            same = tr.get("album") or ""
+            pool = [
+                t for t in group
+                if t is not tr and not (same and (t.get("album") or "") == same)
+            ]
+            tr["rel_artist"] = _ring(pool, i % len(pool), REL_MAX) if pool else []
+
+    # одиночки (единственная работа артиста) остались бы без ссылок вовсе —
+    # им кольцо по всему каталогу, чтобы страница не была тупиком
+    for i, tr in enumerate(tracks):
+        if not tr.get("rel_album") and not tr.get("rel_artist"):
+            tr["rel_any"] = _ring(tracks, i, 4)
+
+    # Обратный проход: пулы у соседей разного размера, поэтому кольцо со
+    # смещением само по себе не покрывает всех — часть треков осталась бы
+    # без входящих ссылок, то есть ровно в том состоянии, ради которого всё
+    # и затевалось. Донор — сосед по артисту с самым коротким списком.
+    inbound: dict[str, int] = {}
+    for tr in tracks:
+        for t in (tr.get("rel_album", []) + tr.get("rel_artist", [])
+                  + tr.get("rel_any", [])):
+            inbound[t["slug"]] = inbound.get(t["slug"], 0) + 1
+    for tr in tracks:
+        if inbound.get(tr["slug"]):
+            continue
+        donors = [t for t in by_artist[primary_of(tr["artist"])] if t is not tr]
+        if not donors:
+            donors = [t for t in tracks if t is not tr]
+        donor = min(donors, key=lambda t: len(t.get("rel_album", []))
+                    + len(t.get("rel_artist", [])) + len(t.get("rel_any", [])))
+        donor.setdefault("rel_artist", []).append(tr)
+        inbound[tr["slug"]] = 1
+
+
 # ── track detail page ────────────────────────────────────────────────
 
 def render_page(tr: dict) -> str:
@@ -290,7 +360,10 @@ def render_page(tr: dict) -> str:
                 "itemListElement": [
                     {"@type": "ListItem", "position": 1, "name": "Все треки",
                      "item": f"{SITE}/track/"},
-                    {"@type": "ListItem", "position": 2, "name": tr["title"],
+                    {"@type": "ListItem", "position": 2,
+                     "name": primary_of(tr["artist"]),
+                     "item": f"{SITE}/track/#{slugify(primary_of(tr['artist'])) or 'artist'}"},
+                    {"@type": "ListItem", "position": 3, "name": tr["title"],
                      "item": url},
                 ],
             },
@@ -304,6 +377,28 @@ def render_page(tr: dict) -> str:
     note_html = "".join(
         f'\n  <p class="note">{linkify(p)}</p>' for p in story_paragraphs
     )
+
+    artist_primary = primary_of(tr["artist"])
+    artist_anchor = f"{SITE}/track/#{slugify(artist_primary) or 'artist'}"
+
+    def rel_line(label: str, items: list[dict]) -> str:
+        if not items:
+            return ""
+        links = " · ".join(
+            f'<a href="{SITE}/track/{esc(t["slug"])}/">{esc(t["title"])}</a>'
+            for t in items
+        )
+        return f'\n    <p><span class="alab">{label}</span>{links}</p>'
+
+    also_html = (
+        rel_line(f'Из альбома «{esc(tr["album"])}»: ', tr.get("rel_album", []))
+        + rel_line(f"Ещё с {esc(artist_primary)}: ", tr.get("rel_artist", []))
+        + rel_line("Ещё из портфолио: ", tr.get("rel_any", []))
+    )
+    if also_html:
+        also_html = (
+            f'\n  <nav class="also" aria-label="Другие работы студии">{also_html}\n  </nav>'
+        )
 
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -349,6 +444,12 @@ h1{{font-size:clamp(26px,5vw,38px);line-height:1.08;margin:0;font-weight:700;let
 .back{{font-size:14px;color:var(--mut)}}
 .back a{{color:var(--red);font-weight:600}}
 .back a:hover{{text-decoration:underline}}
+.also{{margin:0 0 24px}}
+.also p{{font-size:13px;color:var(--mut);margin:0 0 8px;line-height:1.75;max-width:62ch}}
+.also p:last-child{{margin:0}}
+.alab{{color:var(--mut)}}
+.also a{{white-space:nowrap;color:#cfc9c9;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}}
+.also a:hover{{color:var(--ink);text-decoration-color:var(--red)}}
 .workinfo{{font-size:13px;color:var(--mut);margin:0 0 16px}}
 .workinfo a{{color:var(--red);font-weight:600}}
 .workinfo a:hover{{text-decoration:underline}}
@@ -363,7 +464,7 @@ h1{{font-size:clamp(26px,5vw,38px);line-height:1.08;margin:0;font-weight:700;let
     <a href="{SITE}/">Портфолио</a>
     <a href="https://podlesnytwins.com">Курс</a>
   </div>
-  <div class="bc"><a href="{SITE}/">Портфолио</a> / <a href="{SITE}/track/">Все треки</a> / {esc(tr['title'])}</div>
+  <div class="bc"><a href="{SITE}/">Портфолио</a> / <a href="{SITE}/track/">Все треки</a> / <a href="{esc(artist_anchor)}">{esc(artist_primary)}</a> / {esc(tr['title'])}</div>
   <div class="entry">
     <img src="{esc(tr['img'])}" alt="{esc(tr['artist'] + ' — ' + tr['title'])}">
     <div>
@@ -374,7 +475,7 @@ h1{{font-size:clamp(26px,5vw,38px);line-height:1.08;margin:0;font-weight:700;let
   <p class="lead">{lead}</p>{note_html}
   <div class="embed">
     <iframe src="https://open.spotify.com/embed/track/{esc(tr['id'])}?utm_source=generator" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Слушать «{esc(tr['title'])}»"></iframe>
-  </div>
+  </div>{also_html}
   <p class="workinfo">Условия работы: <a href="{SITE}/faq/#what-to-send">что прислать, чтобы заказать сведение</a> · <a href="{SITE}/faq/#order">цены, сроки и правки</a></p>
   <p class="back"><a href="{SITE}/track/">← Все треки</a></p>
   <p class="trackfoot"><a href="{SITE}/faq/">Вопросы и ответы</a> · <a href="https://t.me/lesnymix" rel="noopener">Канал о звуке</a> · <a href="https://t.me/+VXgXHnAXj9w2ZGYy" rel="noopener">Чат</a></p>
@@ -876,6 +977,7 @@ def main() -> None:
     doc = INDEX.read_text(encoding="utf-8")
     tracks = extract_tracks(doc, roles)
     assign_slugs(tracks)
+    attach_related(tracks)
 
     hub_file = TRACK_DIR / "index.html"
     if TRACK_DIR.exists():
