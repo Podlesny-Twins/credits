@@ -35,7 +35,7 @@ TODAY = date.today().isoformat()
 
 # /faq/ is a hand-written page, not generated from track data. Bump this when the
 # FAQ text itself changes — a rebuild must not fake freshness for untouched copy.
-FAQ_LASTMOD = "2026-07-22"
+FAQ_LASTMOD = "2026-09-09"
 
 # canonical display name for spelling variants of the same artist
 CANON = {"Dima Bilan": "Дима Билан"}
