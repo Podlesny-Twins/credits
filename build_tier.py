@@ -197,7 +197,7 @@ def render(data: dict) -> str:
             "@id": f"{SITE}/tier/#video",
             "name": v["title"],
             "description": data["lead"],
-            "uploadDate": v["published"],
+            "uploadDate": v.get("uploaded", v["published"]),
             "duration": iso_duration(v["duration"]),
             "thumbnailUrl": f"https://i.ytimg.com/vi/{v['id']}/maxresdefault.jpg",
             "embedUrl": f"https://www.youtube.com/embed/{v['id']}",
