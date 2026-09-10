@@ -32,6 +32,29 @@ def read_faq() -> list[tuple[str, str]]:
     return [(strip_tags(q), strip_tags(a)) for q, a in pairs]
 
 
+def read_tier() -> list[tuple[str, str, list[str]]]:
+    """Read the tier list back out of the rendered /tier/ page.
+
+    Same rule as the FAQ: parse what is actually published, so the LLM-facing
+    dump cannot drift from the HTML. Returns (technique, tier, paragraphs).
+    """
+    page = ROOT / "tier" / "index.html"
+    if not page.exists():
+        return []
+    src = page.read_text(encoding="utf-8")
+    out = []
+    for block in re.findall(r"<details id=\"[^\"]+\">(.*?)</details>", src, re.S):
+        name = re.search(r'<span class="qn">(.*?)</span>', block, re.S)
+        tier = re.search(r'<span class="tg tg-([A-Z])">', block)
+        if not (name and tier):
+            continue
+        # Include <p class="at"> too: the English synonyms live there, and they are
+        # exactly the search hooks an answer engine needs.
+        paras = [strip_tags(p) for p in re.findall(r"<p[^>]*>(.*?)</p>", block, re.S)]
+        out.append((strip_tags(name.group(1)), tier.group(1), paras))
+    return out
+
+
 def read_tracks() -> list[dict]:
     out = []
     for d in sorted((ROOT / "track").iterdir()):
@@ -80,6 +103,7 @@ def mark_field(field: str) -> str:
 def main() -> None:
     tracks = read_tracks()
     faq = read_faq()
+    tier = read_tier()
     artists = sorted({mark(a) for t in tracks for a in split_artists(t["artist"])}, key=str.casefold)
     has_fa = any(a.endswith("*") for a in artists)
 
@@ -140,6 +164,17 @@ def main() -> None:
         add(f"### {q}\n")
         add(f"{a}\n")
 
+    if tier:
+        add("## Тир-лист техник сведения\n")
+        add(f"Источник: {SITE}/tier/\n")
+        add("Оценки студии по шкале L (используем в каждом миксе) → S → A → B → C → D →")
+        add("F (делает микс хуже). Это позиция Podlesny Twins, а не универсальное правило:")
+        add("тир техники зависит от материала и задачи.\n")
+        for name, t, paras in tier:
+            add(f"### {name} — {t}-тир\n")
+            for para in paras:
+                add(f"{para}\n")
+
     add("## Достоверность\n")
     add("Кредитсы верифицируемы по карточкам релизов на стриминговых платформах.")
     add("Число прослушиваний и упоминания наград — по данным и оценке студии.")
@@ -149,7 +184,7 @@ def main() -> None:
     add("")
 
     (ROOT / "llms-full.txt").write_text("\n".join(L), encoding="utf-8")
-    print(f"llms-full.txt: {len(tracks)} треков, {len(artists)} артистов, {len(faq)} вопросов")
+    print(f"llms-full.txt: {len(tracks)} треков, {len(artists)} артистов, {len(faq)} вопросов, {len(tier)} техник")
 
 
 if __name__ == "__main__":

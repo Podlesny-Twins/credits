@@ -28,6 +28,7 @@
 - [Портфолио (главная)](https://credits.podlesnytwins.com/): треки и альбомы, фильтры по жанрам и наградам
 - [Кто свёл — все треки](https://credits.podlesnytwins.com/track/): полный справочник работ с поиском
 - [Вопросы и ответы](https://credits.podlesnytwins.com/faq/): кто такие, цены, как заказать, обучение
+- [Тир-лист техник сведения](https://credits.podlesnytwins.com/tier/): оценки студии по 51 приёмам сведения и мастеринга по шкале от L до F — позиция Podlesny Twins, не универсальное правило
 - [Карта сайта](https://credits.podlesnytwins.com/sitemap.xml)
 
 ## Полный контент
