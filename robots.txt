@@ -5,56 +5,72 @@
 # --- OpenAI ---
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /edit/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /edit/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /edit/
 
 # --- Perplexity ---
 User-agent: PerplexityBot
 Allow: /
+Disallow: /edit/
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /edit/
 
 # --- Anthropic ---
 User-agent: ClaudeBot
 Allow: /
+Disallow: /edit/
 
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /edit/
 
 User-agent: Claude-User
 Allow: /
+Disallow: /edit/
 
 # --- Google ---
 User-agent: Googlebot
 Allow: /
+Disallow: /edit/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /edit/
 
 # --- Yandex ---
 User-agent: YandexBot
 Allow: /
+Disallow: /edit/
 
 User-agent: YandexAdditional
 Allow: /
+Disallow: /edit/
 
 # --- Others ---
 User-agent: Bingbot
 Allow: /
+Disallow: /edit/
 
 User-agent: Applebot
 Allow: /
+Disallow: /edit/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /edit/
 
 User-agent: CCBot
 Allow: /
+Disallow: /edit/
 
 User-agent: *
 Allow: /

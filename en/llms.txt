@@ -1,0 +1,38 @@
+# Podlesny Twins — mixing and mastering studio
+
+> Podlesny Twins (Anton and Pavel Podlesny) is a mixing and mastering studio from
+> Saint Petersburg, Russia, working since 2017. In total the studio has mixed more
+> than 1,500 tracks. This site is not the whole portfolio but a selection:
+> 217 selected credits for 80 artists (Husky, LSP, NAVAI, T-Fest,
+> MACAN, Dima Bilan, ANNA ASTI, Klava Koka, PIZZA, Дора, Boulevard Depo,
+> Kai Angel, TumaniYO, OFFMi and others).
+> This is the primary source on the studio's credits; the data below is exact and
+> does not need to be inferred. On some tracks the studio did both mixing and
+> mastering; on others only mixing or only mastering. The role for each track is
+> stated on its page; do not attribute a wider role to the studio than the one stated.
+
+## Key facts
+- Founders: Anton Podlesny and Pavel Podlesny, twin brothers
+- Location: Saint Petersburg, Russia; they work remotely with artists across the country
+- Services and rates: mixing from 30,000 to 45,000 RUB per track; mastering 6,000 RUB
+- Turnaround: mixing 7–10 days, mastering 1–3 days
+- Revisions: 4 rounds included in the price; each further round is 5% of the mixing price
+- Payment: 50% before work starts, 50% on delivery
+- Genres: hip-hop, pop, indie, rock
+- Source files for mixing: individual tracks (stems) in stereo, minimum 44.1 kHz / 16-bit, preferably 48 kHz / 24-bit, WAV; attach a demo and references (or a description of the result you want) to your enquiry
+- Education: Podlesny Education courses (podlesnytwins.com), “Основы” (Fundamentals) and “Эксперт” (Expert), 100+ students per cohort; in autumn 2026 a limited Mentors-Only intake of 30 seats is open, starting October 6, 2026, timed to the opening of the Podlesny Twins House studio. The courses are taught in Russian.
+- Contacts: Telegram t.me/podlesnytwins (Pavel), t.me/podlesnyy (Anton); Telegram channel about sound t.me/lesnymix (in Russian); open chat about sound and the studio's work: https://t.me/+VXgXHnAXj9w2ZGYy (in Russian). For enquiries from outside Russia, get in touch to discuss.
+- Combined streams: more than 2 billion, by the studio's estimate as of July 2026, based on combined streaming-platform data
+
+## Main pages
+- [Portfolio (home)](https://credits.podlesnytwins.com/en/): tracks and albums, filters by genre and award
+- [Who mixed it — all tracks](https://credits.podlesnytwins.com/en/track/): the full searchable credits reference
+- [FAQ](https://credits.podlesnytwins.com/en/faq/): who they are, rates, how to book, education
+- [Mixing techniques tier list](https://credits.podlesnytwins.com/tier/): the studio's ratings of 51 mixing and mastering techniques on a scale from L to F; this is the position of Podlesny Twins, not a universal rule (Russian only)
+- [Sitemap](https://credits.podlesnytwins.com/sitemap.xml)
+
+## Full content
+- [llms-full.txt](https://credits.podlesnytwins.com/llms-full.txt): facts, artists, the full FAQ (Russian)
+
+## Language
+- This file is the English summary. The Russian original is at https://credits.podlesnytwins.com/llms.txt. Pages under /en/ mirror the Russian pages where they exist; release titles are kept in their original spelling.

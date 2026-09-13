@@ -18,8 +18,10 @@ SITE = "https://credits.podlesnytwins.com"
 # same rule the site's tiles already follow.
 FOREIGN_AGENTS = ("MORGENSHTERN",)
 
-# Same spelling-variant map the site generator uses, so one artist is counted once.
-CANON = {"Dima Bilan": "Дима Билан"}
+# The artist roster and its size come from the site generator itself, so the
+# count here is the same creditedArtistsCount the FAQ, llms.txt and the hub
+# print (collab partners and featured artists included).
+from build_who_mixed import CANON, credited_artists, load_tracks
 
 
 def strip_tags(s: str) -> str:
@@ -104,7 +106,7 @@ def main() -> None:
     tracks = read_tracks()
     faq = read_faq()
     tier = read_tier()
-    artists = sorted({mark(a) for t in tracks for a in split_artists(t["artist"])}, key=str.casefold)
+    artists = sorted({mark(a) for a in credited_artists(load_tracks())}, key=str.casefold)
     has_fa = any(a.endswith("*") for a in artists)
 
     L: list[str] = []

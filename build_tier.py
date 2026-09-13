@@ -69,6 +69,29 @@ def shell() -> tuple[str, str]:
     return style.group(0), nav.group(0) + "\n\n  " + wave.group(0)
 
 
+STUDIO_ID = f"{SITE}/#podlesnytwins"
+
+
+def studio_entity() -> list[dict]:
+    """The studio Organization node and its founder Person nodes, read from
+    faq/index.html's JSON-LD (build_who_mixed.py keeps that graph normalised).
+    Fails loudly if the FAQ graph lost the entity or still types it MusicGroup."""
+    src = (ROOT / "faq" / "index.html").read_text(encoding="utf-8")
+    block = re.search(r'<script type="application/ld\+json">(.*?)</script>', src, re.S)
+    if not block:
+        raise SystemExit("faq/index.html has no JSON-LD — cannot lift the studio entity")
+    graph = json.loads(block.group(1))["@graph"]
+    studio = next((n for n in graph if n.get("@id") == STUDIO_ID), None)
+    if not studio or studio.get("@type") != "Organization":
+        raise SystemExit("faq/index.html: studio node missing or not an Organization — "
+                         "run build_who_mixed.py first")
+    founder_ids = {f["@id"] for f in studio.get("founder", [])}
+    founders = [n for n in graph if n.get("@id") in founder_ids]
+    if len(founders) != len(founder_ids):
+        raise SystemExit("faq/index.html: founder @id without a Person node")
+    return [studio, *founders]
+
+
 EXTRA_CSS = """
 <style>
 /* ---- tier list: the ladder is the only thing this page adds to the FAQ shell ---- */
@@ -122,6 +145,8 @@ def render_item(it: dict, video_id: str) -> str:
 
 def render(data: dict) -> str:
     style, nav = shell()
+    # [switcher] the FAQ header points at /en/faq/; /tier/ has no EN twin, so send to the EN home
+    nav = nav.replace('href="https://credits.podlesnytwins.com/en/faq/"', 'href="https://credits.podlesnytwins.com/en/"')
     v = data["video"]
     items = data["items"]
     by_tier = {t: [i for i in items if i["tier"] == t] for t in TIER_ORDER}
@@ -148,24 +173,9 @@ def render(data: dict) -> str:
             + "\n".join(render_item(i, v["id"]) for i in by_tier[t])
         )
 
-    studio = {
-        "@type": "MusicGroup",
-        "@id": f"{SITE}/#podlesnytwins",
-        "name": "Podlesny Twins",
-        "alternateName": "Подлесные",
-        "foundingDate": "2017",
-        "foundingLocation": {"@type": "Place", "name": "Санкт-Петербург"},
-        "member": [
-            {"@type": "Person", "name": "Антон Подлесный", "jobTitle": "Звукорежиссёр"},
-            {"@type": "Person", "name": "Павел Подлесный", "jobTitle": "Звукорежиссёр"},
-        ],
-        "sameAs": [
-            "https://podlesnytwins.com",
-            "https://youtube.com/@podlesnytwins",
-            "https://t.me/lesnymix",
-            "https://vk.com/podlesnytwins",
-        ],
-    }
+    # The studio entity (Organization + its two founders) is lifted from the
+    # FAQ's graph the same way the shell is — one definition, no drift.
+    studio_nodes = studio_entity()
 
     crumbs = {
         "@type": "BreadcrumbList",
@@ -177,7 +187,7 @@ def render(data: dict) -> str:
     }
 
     graph = [
-        studio,
+        *studio_nodes,
         crumbs,
         {
             "@type": "WebPage",

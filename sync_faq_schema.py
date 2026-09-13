@@ -22,8 +22,8 @@ def strip_tags(s: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", s))).strip()
 
 
-def main() -> int:
-    src = PAGE.read_text(encoding="utf-8")
+def main(page: Path = PAGE) -> int:
+    src = page.read_text(encoding="utf-8")
 
     pairs = re.findall(
         r"<summary>(.*?)</summary>\s*<p class=\"ans\">(.*?)</p>", src, re.S
@@ -54,8 +54,8 @@ def main() -> int:
 
     rebuilt = json.dumps(data, ensure_ascii=False)
     src = src[: block.start(1)] + rebuilt + src[block.end(1) :]
-    PAGE.write_text(src, encoding="utf-8")
-    print(f"faq/index.html: JSON-LD пересобран из HTML, вопросов — {len(pairs)}")
+    page.write_text(src, encoding="utf-8")
+    print(f"{page.relative_to(ROOT)}: JSON-LD пересобран из HTML, вопросов — {len(pairs)}")
     return 0
 
 
