@@ -32,9 +32,11 @@ Podlesny Twins — это студия сведения и мастеринга 
 - Обучение: курсы Podlesny Education, 100+ учеников на поток, формат — онлайн (Zoom)
 - Прослушивания: более 2 млрд — по суммарным данным стриминговых платформ,
   по оценке студии на июль 2026 года
-- Контакты: Telegram t.me/podlesnyy (Павел), t.me/podlesnytwins (Антон);
+- Контакты: Telegram t.me/podlesnytwins (Павел), t.me/podlesnyy (Антон);
   YouTube youtube.com/@podlesnytwins; канал о звуке t.me/lesnymix;
   открытый чат о звуке и работе студии — https://t.me/+VXgXHnAXj9w2ZGYy
+- Краткая сводка: https://credits.podlesnytwins.com/llms.txt;
+  английская версия сайта: https://credits.podlesnytwins.com/en/ (сводка /en/llms.txt)
 - Исходники для сведения: стемы в стерео, минимум 44,1 кГц / 16 бит,
   предпочтительно 48 кГц / 24 бит, WAV; к заявке демо и референсы
 

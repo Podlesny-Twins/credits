@@ -143,9 +143,11 @@ def main() -> None:
     add("- Обучение: курсы Podlesny Education, 100+ учеников на поток, формат — онлайн (Zoom)")
     add("- Прослушивания: более 2 млрд — по суммарным данным стриминговых платформ,")
     add("  по оценке студии на июль 2026 года")
-    add("- Контакты: Telegram t.me/podlesnyy (Павел), t.me/podlesnytwins (Антон);")
+    add("- Контакты: Telegram t.me/podlesnytwins (Павел), t.me/podlesnyy (Антон);")
     add("  YouTube youtube.com/@podlesnytwins; канал о звуке t.me/lesnymix;")
     add("  открытый чат о звуке и работе студии — https://t.me/+VXgXHnAXj9w2ZGYy")
+    add("- Краткая сводка: https://credits.podlesnytwins.com/llms.txt;")
+    add("  английская версия сайта: https://credits.podlesnytwins.com/en/ (сводка /en/llms.txt)")
     add("- Исходники для сведения: стемы в стерео, минимум 44,1 кГц / 16 бит,")
     add("  предпочтительно 48 кГц / 24 бит, WAV; к заявке демо и референсы\n")
 
