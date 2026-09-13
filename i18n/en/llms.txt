@@ -28,7 +28,7 @@
 - [Portfolio (home)](https://credits.podlesnytwins.com/): tracks and albums, filters by genre and award
 - [Who mixed it — all tracks](https://credits.podlesnytwins.com/track/): the full searchable credits reference
 - [FAQ](https://credits.podlesnytwins.com/faq/): who they are, rates, how to book, education
-- [Mixing techniques tier list](https://credits.podlesnytwins.com/tier/): the studio's ratings of 51 mixing and mastering techniques on a scale from L to F; this is the position of Podlesny Twins, not a universal rule (Russian only)
+- [Mixing techniques tier list](https://credits.podlesnytwins.com/en/tier/): the studio's ratings of 51 mixing and mastering techniques on a scale from L to F; this is the position of Podlesny Twins, not a universal rule
 - [Sitemap](https://credits.podlesnytwins.com/sitemap.xml)
 
 ## Full content

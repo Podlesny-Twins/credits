@@ -11,7 +11,7 @@ hreflang / og:* and internal links change. Never hand-edit `en/**`.
 
 ```bash
 python3 build_who_mixed.py   # RU outputs, then runs build_en.py itself (--no-en to skip)
-python3 build_tier.py        # /tier/ (RU only; EN pages link to it as "(Russian)")
+python3 build_tier.py        # /tier/ + /en/tier/ (EN from i18n/en/tier.json; skipped with a warning if absent)
 python3 build_llms_full.py   # llms-full.txt from the rendered pages
 python3 build_en.py          # standalone rerun after dictionary / FAQ edits
 python3 build_en.py --strict # before a release: unmapped artists / untranslated stories are fatal
@@ -20,8 +20,10 @@ python3 build_en.py --check  # structural diff RU vs EN (tag sequences per page 
 
 Order: `build_who_mixed.py` (→ `build_en.py`) → `build_tier.py` → `build_llms_full.py`.
 A clean checkout builds in one pass: the RU side emits hreflang for exactly the
-set of pages `build_en.py` produces (home, hub, FAQ, every live track page) without
-looking at `en/**`.
+set of pages that get an EN twin (home, hub, FAQ, every live track page — from
+`build_en.py` — and `/tier/`, from `build_tier.py`) without looking at `en/**`.
+`build_tier.py` lifts its EN shell from `en/faq/index.html`, so it must run after
+`build_en.py`.
 
 Lenient mode (default) exists so the owner's add-track routine (`add_track.py`,
 `sandbox/apply_edits.py`) never blocks on i18n:
@@ -54,6 +56,7 @@ Local preview: `python3 -m http.server 4173 --directory <repo>` → http://local
 | `notes.json` | same keys as `/notes.json`, translated paragraphs | by key (track page, hub, JSON-LD description, `en/track-info.json`) |
 | `artists.json` | RU display name → international name | text nodes, alts, JSON-LD `byArtist`, `ALBUMS`, breadcrumbs — never slugs/URLs |
 | `llms.txt` | EN template with `{tracks}` / `{artists}` placeholders | → `en/llms.txt`, internal URLs re-pointed to `/en/` where the page exists |
+| `tier.json` | same structure as `/tier.json`, translated (same slugs in the same order; verdicts open with `S tier:` instead of `S-тир:`) | read by `build_tier.py`, not by `build_en.py` → `en/tier/index.html`; the video title stays as on YouTube |
 | `ui.build-agent.json` | fallback for technical strings (JS literals, plural, role words) — lower priority than `ui.json` | same as `ui.json` |
 
 Accepted shapes for `templates.json`: `{"ru": "en"}`, `{"name": {"ru":…, "en":…}}`,
@@ -79,8 +82,12 @@ quotes in translated stories.
   `fetch('/en/track-info.json')`; `ALBUMS[].artist` through `artists.json`.
 - Hub: sections re-sorted and letter headings / jump links regenerated from EN names;
   `data-q` / `data-artist` get the EN name appended so search works in both languages.
-- Links: internal links move under `/en/` when the counterpart exists; `/tier/`, `/edit/`
-  stay RU with a " (Russian)" suffix on the link text; covers/favicon/fonts unchanged.
+- Links: internal links move under `/en/` when the counterpart exists (`/tier/` included,
+  since `build_tier.py` renders `/en/tier/`); `/edit/` stays RU with a " (Russian)" suffix
+  on the link text; covers/favicon/fonts unchanged.
+- `/en/tier/`: rendered by `build_tier.py` from `i18n/en/tier.json`; the UI chrome not in the
+  data (breadcrumb, "In short", the footer sentence) lives in `build_tier.py`'s `LANGS["en"]`.
+  `build_en.py --check` compares the `/tier/` pair like the other pages.
 
 ## Notes on the transform (things that were not a 1:1 string swap)
 
@@ -102,7 +109,6 @@ quotes in translated stories.
 
 ## What is next
 
-- `/en/tier/` (out of scope for this wave; EN pages link to the RU tier list).
 - Language switcher (separate agent; it adds the element to RU sources, `build_en.py`
   maps its links like any other internal link).
 - sitemap.xml / llms.txt cross-links for EN (GEO agent, phase 2).

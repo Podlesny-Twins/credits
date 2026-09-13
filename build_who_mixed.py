@@ -19,9 +19,11 @@ hand-written pages from the same data, so facts can't drift between them:
     the dictionaries in i18n/en/. Pass --no-en to skip it. The hreflang links
     on the RU side are emitted for exactly that set of pages unconditionally
     (no dependency on en/** already existing, so a clean checkout builds in
-    one pass); /tier/ has no EN twin and gets none.
+    one pass). /tier/ and /en/tier/ are both rendered by build_tier.py (from
+    tier.json / i18n/en/tier.json) — they are listed here (EN_STATIC) so the
+    sitemap and the home-page links treat them as a translated pair.
 Build order: python3 build_who_mixed.py (→ build_en.py) → build_tier.py
-(lifts the FAQ shell and studio entity) → build_llms_full.py (reads the
+(lifts the FAQ shells and studio entity, both languages) → build_llms_full.py (reads the
 rendered pages). build_en.py is lenient by default (new artists / stories
 without a translation are reported in i18n/missing.txt, not fatal); run
 `python3 build_en.py --strict` before a release to make them fatal.
@@ -187,19 +189,21 @@ def load_tracks() -> list[dict]:
 # ── EN mirror (Phase 2) ─────────────────────────────────────────────
 #
 # build_en.py mirrors the RU pages under /en/<same path>/: the home page, the
-# hub, the FAQ and every live (non-redirect) track page — and nothing else
-# (/tier/ stays RU-only). Each RU page points at its EN twin (hreflang) and
-# the sitemap lists the EN URLs for exactly that set. This is decided here,
-# not by looking at en/** on disk: main() runs build_en.py at the end, so a
-# clean checkout builds both sides in one pass with no bootstrap order.
+# hub, the FAQ and every live (non-redirect) track page; build_tier.py renders
+# /tier/ and /en/tier/ itself (from tier.json and i18n/en/tier.json). Each RU
+# page points at its EN twin (hreflang) and the sitemap lists the EN URLs for
+# exactly that set. This is decided here, not by looking at en/** on disk:
+# main() runs build_en.py at the end, so a clean checkout builds both sides
+# in one pass with no bootstrap order.
 EMIT_EN = True  # Phase 2: /en/ mirror is live (build_en.py)
 EN_DIR = ROOT / "en"
-EN_STATIC = {"", "track/", "faq/"}
+EN_STATIC = {"", "track/", "faq/", "tier/"}
 
 
 def en_exists(rel: str) -> bool:
-    """Does build_en.py produce /en/<rel>? rel is the site-relative directory:
-    "" for the home, "track/", "track/<slug>/", "faq/". Redirect stubs are
+    """Is there an /en/<rel> twin? rel is the site-relative directory: "" for
+    the home, "track/", "track/<slug>/", "faq/" (build_en.py) and "tier/"
+    (build_tier.py --lang en, from i18n/en/tier.json). Redirect stubs are
     rendered by render_redirect (no hreflang) and never reach this check."""
     if not EMIT_EN:
         return False

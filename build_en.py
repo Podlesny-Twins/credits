@@ -75,8 +75,10 @@ Deliberate deviations from "same markup" (all in EN output only):
 - Hub ``data-q`` / ``data-artist`` search keys get the EN artist name *appended*
   (RU kept) so the search box finds "Dima Bilan" as well as "Дима Билан".
 - Hub letter groups / jump links are regenerated from the EN artist names.
-- Internal links whose EN counterpart does not exist (e.g. ``/tier/``) keep the
-  RU URL and get a " (Russian)" suffix on the link text.
+- Internal links whose EN counterpart does not exist (e.g. ``/edit/``) keep the
+  RU URL and get a " (Russian)" suffix on the link text. ``/tier/`` has a twin
+  (``/en/tier/``, rendered by build_tier.py from i18n/en/tier.json, not by this
+  script), so links to it move under ``/en/`` like every other translated page.
 """
 
 from __future__ import annotations
@@ -424,7 +426,9 @@ class Site:
             if 'http-equiv="refresh"' in f.read_text(encoding="utf-8")[:1500]:
                 continue
             self.track_pages.append(d.name)
-        self.en_paths = {"/", "/track/", "/faq/"} | {f"/track/{s}/" for s in self.track_pages}
+        # the static set is owned by build_who_mixed (hreflang + sitemap use the
+        # same one); it includes /tier/, which build_tier.py renders for EN
+        self.en_paths = {"/" + p for p in bwm.EN_STATIC} | {f"/track/{s}/" for s in self.track_pages}
 
 
 # ─────────────────────────────────────────────────────────────── missing log
@@ -769,7 +773,7 @@ def map_link(href: str, site: Site) -> tuple[str, bool]:
     # assets and files keep working from the root
     if "." in path.rsplit("/", 1)[-1] or path.startswith("/covers/"):
         return href, False
-    return href, True  # RU-only page (tier, edit, …)
+    return href, True  # RU-only page (edit, …)
 
 
 # ─────────────────────────────────────────────────────────────── transformer
@@ -1273,6 +1277,12 @@ def check() -> int:
     dropper = Page("track/index.html", "track/index.html", site, d, res)
     pairs = [("index.html", "index.html"), ("track/index.html", "track/index.html"),
              ("faq/index.html", "faq/index.html")]
+    # /tier/ is rendered per language by build_tier.py (not by this script), but
+    # the two twins must still share one tag skeleton — checked like the others.
+    if (DICT_DIR / "tier.json").is_file():
+        pairs.append(("tier/index.html", "tier/index.html"))
+    else:
+        print("note     tier/index.html: i18n/en/tier.json absent, /en/tier/ not built — pair skipped")
     pairs += [(f"track/{s}/index.html",) * 2 for s in site.track_pages]
     bad = 0
     for ru_rel, en_rel in pairs:
@@ -1297,7 +1307,7 @@ def check() -> int:
         if status == "DIFF":
             bad += 1
             print(f"{status:16} {ru_rel}: {len(diffs)} diffs, first: {diffs[:6]}")
-        elif ru_rel in ("index.html", "track/index.html", "faq/index.html"):
+        elif ru_rel in ("index.html", "track/index.html", "faq/index.html", "tier/index.html"):
             print(f"{status:16} {ru_rel}: {len(a)} tags, extra in EN: {[x[2:] for x in diffs if x[0]=='+']}")
     print(f"checked {len(pairs)} page pairs, {bad} structural differences")
     return 1 if bad else 0

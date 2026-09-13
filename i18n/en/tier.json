@@ -1,0 +1,929 @@
+{
+ "title": "Mixing techniques tier list",
+ "h1": "Mixing techniques tier list",
+ "meta_description": "Podlesny Twins rate mixing and mastering techniques, from mixing into a limiter and narrow cuts on vocals to OTT, God Particle and Fresh Air, on a scale from L to F.",
+ "lead": "Anton and Pavel Podlesny went through 51 mixing and mastering techniques, their own, from the chat and from the comments, and placed each on a scale from L to F: does it make the mix better or worse.",
+ "intro": "The scale has seven steps. <strong>L</strong> is a legendary technique the studio uses in every mix. <strong>F</strong> is something that leaves the mix worse than it was. In between sit techniques that don't work every time or for everyone; that is the biggest group. Podlesny Twins call C, D and F tier techniques \"the fast carbs of mixing\": they work right now, and the problems surface later. At the top of the scale, by contrast, are techniques that put the engineer in an awkward spot: mixing in mono, mixing with only the midrange, mixing straight into a limiter. It's like running with a weighted backpack: you hear worse than you could, and that is exactly why you make more precise decisions. Another 5 techniques were discussed without a tier letter; they are collected separately at the end.",
+ "modified": "2026-09-10",
+ "modified_human": "September 10, 2026",
+ "video": {
+  "id": "Ns2ap2w1CK8",
+  "title": "ТИР ЛИСТ ВСЕХ ТЕХНИК СВЕДЕНИЯ",
+  "published": "2026-09-07",
+  "duration": 3584,
+  "uploaded": "2026-09-07T03:08:15-07:00"
+ },
+ "tiers": [
+  {
+   "key": "L",
+   "name": "Legendary",
+   "desc": "An outstanding technique we use in every mix. Without it, mixing would be a different job for us.",
+   "short": "L tier"
+  },
+  {
+   "key": "S",
+   "name": "Must have",
+   "desc": "A very strong technique. You can live without it in specific cases, but it's a must have.",
+   "short": "S tier"
+  },
+  {
+   "key": "A",
+   "name": "Great",
+   "desc": "A great technique, a little niche in places.",
+   "short": "A tier"
+  },
+  {
+   "key": "B",
+   "name": "Works, but not everywhere",
+   "desc": "You can generally do without it, but sometimes it helps.",
+   "short": "B tier"
+  },
+  {
+   "key": "C",
+   "name": "So-so",
+   "desc": "Works occasionally, either for specific people or on specific material.",
+   "short": "C tier"
+  },
+  {
+   "key": "D",
+   "name": "Questionable",
+   "desc": "Questionable, but okay.",
+   "short": "D tier"
+  },
+  {
+   "key": "F",
+   "name": "Not recommended",
+   "desc": "Harmful techniques: the mix ends up worse than it was.",
+   "short": "F tier"
+  },
+  {
+   "key": "N",
+   "short": "Unrated",
+   "name": "Unrated",
+   "desc": "The technique was discussed on stream, but no tier letter was given."
+  }
+ ],
+ "items": [
+  {
+   "slug": "bass-mono",
+   "name": "Bass in mono",
+   "alt": [
+    "mono bass",
+    "mono low end",
+    "sub in mono"
+   ],
+   "tier": "S",
+   "t": 137,
+   "verdict": "S tier: keep the sub frequencies of the bass in mono. A universal technique, but it's about the low end, not the whole instrument.",
+   "body": [
+    "This is about the region below 100–150 Hz, not the bass as a whole. Everything above that can live wider without any trouble.",
+    "Podlesny Twins give the technique S tier: mono at the very bottom gives translation. The mix folds down predictably when it's summed to mono.",
+    "A common confusion: this does not mean cutting everything below 150 Hz from the sides on the master, and it does not mean turning a stereo bass into a narrow one. If the bass is stereo to begin with, its sense of width is kept. Sometimes a Reese bass only needs a single channel, left or right, instead of full mono."
+   ]
+  },
+  {
+   "slug": "artificial-double",
+   "name": "Artificial double",
+   "alt": [
+    "duplicate-track double",
+    "revoiced double",
+    "fake double"
+   ],
+   "tier": "F",
+   "t": 226,
+   "verdict": "F tier: a double built from a duplicated track or a revoice is something the studio doesn't use. A doubler or a chorus on a send works better.",
+   "body": [
+    "This means a double made by duplicating the track, with co-lines, or with revoices.",
+    "Podlesny Twins don't use this one: in their experience a doubler or a chorus on a send does the job better.",
+    "The brothers' scores split: Pavel proposed D, Anton F. The technique stayed in F on the list."
+   ]
+  },
+  {
+   "slug": "softclip-master",
+   "name": "Soft clip on the master",
+   "alt": [
+    "soft clipper",
+    "soft clip",
+    "soft clipping on the master bus"
+   ],
+   "tier": "C",
+   "t": 279,
+   "verdict": "C tier: a soft clipper rounds off transients and adds saturation, but other tools handle those jobs better.",
+   "body": [
+    "A soft clipper has its strengths: it rounds off transients and saturates. But in the studio's view there are plenty of tools that do the same thing better.",
+    "People love it because it pushes the loudness up right away, which is where the feeling that it 'got better' comes from. Podlesny Twins skip it most of the time.",
+    "Soft clip on the master is where the formula came up in the review: C, D and F tier techniques are \"the fast carbs of mixing\". They work now, and the problems come further down the track."
+   ]
+  },
+  {
+   "slug": "mix-into-limiter",
+   "name": "Mixing into a limiter",
+   "alt": [
+    "mixing into a limiter",
+    "mixing through a limiter",
+    "limiter on the master while mixing"
+   ],
+   "tier": "L",
+   "t": 331,
+   "verdict": "L tier: in 2026, not mixing into a limiter no longer works, in the studio's opinion.",
+   "body": [
+    "One of the three techniques Podlesny Twins named the best of the whole review.",
+    "This does not mean the limiter should be pulling 6–7 dB. The order goes like this: build the basic balance first, then put the limiter on and try to push into it. If it won't push, fix the balance. From there the track gets mixed with the limiter doing 2–3 dB of gain reduction.",
+    "The idea is the same as with Reverb first: mix in the context of how the track will sound at the end, not 'dry'."
+   ]
+  },
+  {
+   "slug": "pink-noise",
+   "name": "Pink noise mixing",
+   "alt": [
+    "pink noise mixing",
+    "pink noise balancing",
+    "pink noise reference"
+   ],
+   "tier": "N",
+   "t": 376,
+   "verdict": "No tier assigned. The studio's wording is 'a really questionable technique': decisions made this way aren't musical.",
+   "body": [
+    "Pavel first heard about this technique around 2017, when the studio was just starting to mix. In theory there is something to it, but decisions made this way aren't musical, roughly like mixing by analyzers alone.",
+    "Podlesny Twins think mixing by Tonal Balance Control is better than by pink noise: at least it accounts for the nonlinearity of hearing and the equal-loudness curves, while pink noise is just a uniform slope.",
+    "They have barely used it themselves: tried it a couple of times, and it didn't stick."
+   ]
+  },
+  {
+   "slug": "parallel-vocal-comp",
+   "name": "Parallel vocal compression",
+   "alt": [
+    "parallel compression",
+    "New York compression",
+    "parallel comp on vocals"
+   ],
+   "tier": "A",
+   "t": 434,
+   "verdict": "A tier: gives density and an in-your-face feel, and through that, vocal intelligibility.",
+   "body": [
+    "The vocal goes to a send or gets duplicated, gets compressed hard, and is blended back in.",
+    "The technique gives density and an in-your-face feel, and through those, intelligibility. Podlesny Twins call it an excellent tool for control.",
+    "You can survive without it, but it makes the mixing process itself more convenient, more pleasant and faster."
+   ]
+  },
+  {
+   "slug": "side-saturation-master",
+   "name": "Side saturation on the master",
+   "alt": [
+    "Swedish mastering",
+    "side saturation",
+    "saturating the sides"
+   ],
+   "tier": "D",
+   "t": 469,
+   "verdict": "D tier: overdriving the sides easily shifts the depth layers. In the studio's genres the technique is nearly unusable.",
+   "body": [
+    "A technique the review calls 'Swedish mastering'.",
+    "The studio treats the sides with care: that's where the sense of depth, width and the size of the picture lives. When the sides get hit hard and effectively overdriven, the depth can drift.",
+    "In purely electronic music, where it's a deliberate idea, the technique can pass. In hip-hop, pop and indie, which the studio works with most, probably not."
+   ]
+  },
+  {
+   "slug": "reverb-first",
+   "name": "Reverb first",
+   "alt": [
+    "reverb first",
+    "mixing vocals with the reverb on from the start"
+   ],
+   "tier": "A",
+   "t": 594,
+   "verdict": "A tier: the vocal is mixed with the reverb on from the start, and the tone is shaped for that space. You get to the result faster.",
+   "body": [
+    "Pavel picked up the technique on forums from Serban Ghenea. The vocal is heard together with the reverb from the very beginning, and the tone is shaped for that space right away.",
+    "Pavel now mixes almost every track this way: it's faster than EQing and compressing 'dry' and then adding the space afterwards.",
+    "It's an advanced technique; Podlesny Twins cover it in their Expert course. It opens up once you already understand reverb, EQ and compression. If you start mixing this way from zero experience, it will most likely lead to problems."
+   ]
+  },
+  {
+   "slug": "reverb-on-master",
+   "name": "Reverb on the master",
+   "alt": [
+    "reverb on master bus",
+    "master bus reverb",
+    "global reverb on the master"
+   ],
+   "tier": "B",
+   "t": 684,
+   "verdict": "B tier: acceptable where there's little low end. In the studio's genres it's almost never needed.",
+   "body": [
+    "The technique is acceptable in genres without a lot of lows and subs: jazz, classical, singer-songwriter material where a vocalist sings over a guitar.",
+    "In pop, hip-hop and indie, which the studio works with most, it's needed very rarely.",
+    "You can get by without it in jazz too: separate reverbs on individual instruments often turn out more precise than one global reverb on the master."
+   ]
+  },
+  {
+   "slug": "tape-all-tracks",
+   "name": "Virtual tape on every track",
+   "alt": [
+    "virtual tape machine",
+    "tape emulation on every track",
+    "tape on all channels"
+   ],
+   "tier": "D",
+   "t": 734,
+   "verdict": "D tier: uncontrolled phase smearing and a low-end bump on every track at once, plus noise that adds up.",
+   "body": [
+    "This means putting a tape machine emulation on every track in the project.",
+    "Podlesny Twins see it as a negative: why have phase smearing and an uncontrolled low-end bump with saturation everywhere at once. A separate problem is plugin noise, which adds up across the tracks.",
+    "On a project of five to ten tracks, where the noise sounds appropriate, it can still be justified. On a 50–100 track multitrack the computer most likely won't handle the load.",
+    "The studio separates console emulation from tape and puts it in A tier: it sometimes cooks things very nicely."
+   ]
+  },
+  {
+   "slug": "multi-size-spaces",
+   "name": "Spaces of different sizes on one source",
+   "alt": [
+    "several reverbs of different sizes",
+    "multi reverb",
+    "stacking reverbs"
+   ],
+   "tier": "N",
+   "t": 813,
+   "verdict": "No tier assigned. The studio doesn't like the technique overall: stacking a room, a plate and halls on one source gives a strange sense of space.",
+   "body": [
+    "Advice Pavel ran into on YouTube when he was just learning to mix: one source must have a micro room, a small plate, a bigger chamber, a medium hall and a large hall, all layered on top of each other.",
+    "The result feels strange: the instrument is in a small room and a big one at the same time. In reality instruments sit in a more or less unified space, and the difference between them is distance: closer, with less send, or further away, with more.",
+    "Podlesny Twins suggest a different approach, which they cover in the Expert course: pick spaces not by size but by task. One gives a sense of mono, another gives close width, a third gives distant width, a fourth fills things out overall. Instead of three rooms, a voice is usually fine with one room, a slap and a doubler."
+   ]
+  },
+  {
+   "slug": "noise-gate-everywhere",
+   "name": "10% noise reduction on every track",
+   "alt": [
+    "noise suppressor by default",
+    "NS1 on every track",
+    "noise reduction on all tracks"
+   ],
+   "tier": "F",
+   "t": 1083,
+   "verdict": "F tier: the most harmful technique of the whole review. Noise reduction by default on every track kills the tone.",
+   "body": [
+    "The technique was sent to the chat during the stream, and Podlesny Twins named it the most harmful of the whole review.",
+    "A noise suppressor goes on every track by default, and it kills the tone. Far from every track is noisy, so this just makes both your life and the mix worse.",
+    "Noise reduction isn't as smart as it seems: it treats detail and air in the instruments as noise."
+   ]
+  },
+  {
+   "slug": "tonal-balance-control",
+   "name": "Tonal Balance Control",
+   "alt": [
+    "TBC",
+    "tonal balance",
+    "iZotope Tonal Balance Control"
+   ],
+   "tier": "B",
+   "t": 1121,
+   "verdict": "B tier: a tool for checking, not a basis for serious decisions.",
+   "body": [
+    "Pavel uses it regularly, but as a check: is he still hearing the low end and the top end accurately, or is he tired and should stop.",
+    "The studio wouldn't make serious decisions based on it. For a general check and a sanity test it works fine.",
+    "Still, the studio considers mixing by Tonal Balance Control more sensible than by pink noise: at least it accounts for the nonlinearity of hearing and the equal-loudness curves."
+   ]
+  },
+  {
+   "slug": "brauerizing",
+   "name": "Brauerizing",
+   "alt": [
+    "Brauerizing",
+    "Michael Brauer's method",
+    "Michael Brauer"
+   ],
+   "tier": "C",
+   "t": 1155,
+   "verdict": "C tier: works for Brauer himself and on his material, but never became a universal technique.",
+   "body": [
+    "The approach of engineer Michael Brauer, who mixed John Mayer: the whole mix runs through a system of parallel buses, where some things get compressed and some don't. On vocals he has several EQs and compressors at once, which is how the saturation builds up.",
+    "Since it works for Brauer himself, the technique is definitely not F and not D. But it doesn't work across all genres: in hip-hop the drums often don't need compressing at all.",
+    "In some of Brauer's mixes, including John Mayer's, you can hear how hard the sibilants jump out, partly because of the multi-stage compression. Podlesny Twins consider him legendary and love his mixes, but suggest adapting his methods to modern material rather than copying them as is."
+   ]
+  },
+  {
+   "slug": "cut-side-below-100",
+   "name": "Cutting the sides below 100 Hz",
+   "alt": [
+    "mono below 100 Hz on the master",
+    "low cut on the side",
+    "side high-pass"
+   ],
+   "tier": "D",
+   "t": 1242,
+   "verdict": "D tier: below 100 Hz lives the sense of the mix being real. Cut it from the sides and you lose the size and the 'fat'.",
+   "body": [
+    "Below 100 Hz in drums, electric guitars and live instruments is the sense of reality: what the microphones captured and the reverbs shaped.",
+    "The review recalls an episode with Andrew Scheps, who tried cutting the very low end from the sides on one group, and all the fat and size of the mix disappeared.",
+    "In melodic rap, most likely nothing bad will happen. But on live material, rock and acoustic, Podlesny Twins don't do this by default."
+   ]
+  },
+  {
+   "slug": "parallel-exciter-vocal",
+   "name": "Parallel exciter on vocals",
+   "alt": [
+    "parallel exciter",
+    "exciter on a send"
+   ],
+   "tier": "B",
+   "t": 1382,
+   "verdict": "B tier: a working technique, although the studio itself doesn't use it.",
+   "body": [
+    "The exciter works not on the track itself but in parallel, on a copy or a send.",
+    "Podlesny Twins call it a solid B tier: they don't use it themselves, but acknowledge that it works."
+   ]
+  },
+  {
+   "slug": "narrow-cuts-vocal",
+   "name": "Narrow cuts on vocals",
+   "alt": [
+    "vocal resonances",
+    "surgical EQ",
+    "notching resonances"
+   ],
+   "tier": "L",
+   "t": 1399,
+   "verdict": "L tier: precisely notching out resonances on the vocal isn't a beginner technique, it's daily work.",
+   "body": [
+    "One of the three techniques the studio named the best of the whole review, and contrary to expectations, it wasn't put on the list to be laughed at.",
+    "The beginner mistake isn't the cuts themselves, it's treating everything as a resonance and cutting everything. Resonances inevitably come from the mic, from the voice, from the room, even from the forehead.",
+    "The example Pavel points to: Tom Elmhirst, who engineered Adele and Amy Winehouse, showed on the Gear Space forum that he cut specific resonances on a specific album.",
+    "Pavel cuts something on the vocal in the region of 4 dB in practically every mix, one way or another. The important part is doing it precisely: locate the cause and fix exactly that."
+   ]
+  },
+  {
+   "slug": "analog-for-mixing",
+   "name": "Analog gear for mixing",
+   "alt": [
+    "analog",
+    "hardware",
+    "analog gear",
+    "outboard"
+   ],
+   "tier": "A",
+   "t": 1476,
+   "verdict": "A tier: plugins already deliver both saturation and tape character, and digital wins on project maintainability.",
+   "body": [
+    "Many strong engineers are moving to digital and don't regret it: plugins let you get both good saturation and tape distortion.",
+    "The main marker of that shift for the studio is Michael Brauer, known precisely for his collection of analog gear, who recorded a video saying he now works fully in the box.",
+    "The reasons for the move are practical: revisions are easier, the project is easier to maintain, and every export comes out identical."
+   ]
+  },
+  {
+   "slug": "stabilizer",
+   "name": "Stabilizer and 'smart' auto-EQs",
+   "alt": [
+    "Waves Stabilizer",
+    "auto EQ",
+    "adaptive EQ"
+   ],
+   "tier": "D",
+   "t": 1529,
+   "verdict": "D tier: the studio can almost always hear a plugin like this on a mix. In their words, it sounds like AI.",
+   "body": [
+    "You can adjust a plugin like this a little, which is why it's not the very bottom of the scale.",
+    "Podlesny Twins don't like the technique: to their ears it sounds synthetic, and they can almost always hear a mix that has Stabilizer or something like it on it."
+   ]
+  },
+  {
+   "slug": "parallel-drum-comp",
+   "name": "Parallel drum compression",
+   "alt": [
+    "parallel drum compression",
+    "New York compression on drums"
+   ],
+   "tier": "S",
+   "t": 1568,
+   "verdict": "S tier: gives density without destroying the natural dynamics of live drums.",
+   "body": [
+    "This is specifically about live drums.",
+    "If you start compressing the drums directly, it's easy to wreck the natural dynamics without noticing. Parallel compression lets you get into the tone carefully without destroying either the tone or the dynamics."
+   ]
+  },
+  {
+   "slug": "multiband-master",
+   "name": "Multiband on the master",
+   "alt": [
+    "multiband compressor on the master",
+    "multiband on master",
+    "master bus multiband"
+   ],
+   "tier": "B",
+   "t": 1607,
+   "verdict": "B tier: the result depends heavily on who sets it up. The studio skips it for the sake of project maintainability.",
+   "body": [
+    "There are tracks that won't work at all without a multiband on the master, especially if the material was mixed to a beat.",
+    "Podlesny Twins skip multiband on the master for two reasons. First: the stems that go to the artist for live shows have to sound the same as the master. Second: they want nothing happening on the master that can't be controlled later. Project maintainability is a matter of principle for the studio.",
+    "If you set it precisely, attack and release, and understand what you're doing, the technique works. Unlike closed 'black boxes' where the settings aren't visible."
+   ]
+  },
+  {
+   "slug": "mid-range-mixing",
+   "name": "Mixing in midrange-only mode",
+   "alt": [
+    "mixing without lows and highs",
+    "mixing on an Auratone",
+    "Auratone",
+    "bandpassed monitoring"
+   ],
+   "tier": "L",
+   "t": 1673,
+   "verdict": "L tier: listening to the mids only focuses you on the right things. The difference is drastic.",
+   "body": [
+    "The third of the techniques Podlesny Twins named the best of the whole review. Everything gets mixed while listening only to the midrange, with no lows and no highs.",
+    "The difference, as the studio describes it, is drastic: in this mode your attention goes to what actually defines the mix. Mixing on an Auratone belongs here too.",
+    "The technique is old; practically every engineer uses it in one form or another."
+   ]
+  },
+  {
+   "slug": "delay-calculator",
+   "name": "Delay calculator",
+   "alt": [
+    "delay calculator",
+    "reverb tails in tempo",
+    "tempo-synced reverb decay"
+   ],
+   "tier": "B",
+   "t": 1734,
+   "verdict": "B tier: there's a point to it, but it's easy to do without, and the studio doesn't want to turn mixing into math.",
+   "body": [
+    "The reverb tail is set to decay in time with the beat: for example, at 120 BPM it doesn't spill into the next chord.",
+    "There's sense in it: chords usually move with the tempo, so there's less dissonance. Pavel says he'd send it to A, but it's easy to survive without.",
+    "The studio's main caveat: mixing shouldn't turn into math where the tools decide everything and listening becomes optional."
+   ]
+  },
+  {
+   "slug": "bitcrush-vocal",
+   "name": "Bitcrush on vocals",
+   "alt": [
+    "bitcrusher on vocals",
+    "bitcrusher",
+    "bit reduction on vocals"
+   ],
+   "tier": "B",
+   "t": 1808,
+   "verdict": "B tier: a working way to take excess detail off a vocal. Sometimes it hits.",
+   "body": [
+    "The technique helps when a vocal has too much detail, in pop music for example. The voice gets taken down to, say, 15 bit.",
+    "It works especially well where the recording has a lot of top end and 'grit': after a light bitcrush it stops being uncontrollable and becomes tamed."
+   ]
+  },
+  {
+   "slug": "vocalign-backs",
+   "name": "Aligning backing vocals (VocAlign)",
+   "alt": [
+    "VocAlign",
+    "vocal alignment",
+    "aligning backing vocals",
+    "BGV alignment"
+   ],
+   "tier": "A",
+   "t": 1845,
+   "verdict": "A tier: in mainstream pop, where the backing vocals have to sit tight against the lead, you can't line them up by hand.",
+   "body": [
+    "For many years Pavel skipped this technique; now he puts it in a clean A.",
+    "There are genres, mainstream pop and estrada, where the backing vocals have to sit really close to the lead and the stacks are large. Without alignment the discrepancies will be constant and will strain the ear, and you can't line them up like that by hand."
+   ]
+  },
+  {
+   "slug": "bass-split-bands",
+   "name": "Splitting the bass into bands",
+   "alt": [
+    "multiband on bass",
+    "bass split into two or three bands",
+    "band-splitting the bass"
+   ],
+   "tier": "B",
+   "t": 1877,
+   "verdict": "B tier: plenty of respected people do this, but splitting into bands brings phase problems.",
+   "body": [
+    "The bass is split into two or three separate bands to control them independently.",
+    "Podlesny Twins don't put the technique below B, because many respected engineers work this way. But splitting into bands brings phase problems one way or another, and you can do without it.",
+    "Most often it's a way to get better control over a live bass. The studio doesn't consider it a universal technique."
+   ]
+  },
+  {
+   "slug": "god-particle",
+   "name": "God Particle on the master",
+   "alt": [
+    "Cradle God Particle",
+    "God Particle"
+   ],
+   "tier": "B",
+   "t": 1911,
+   "verdict": "B tier: instantly wider, louder and more powerful, but it takes away depth, transients and balance, and gives you no controls.",
+   "body": [
+    "When the plugin first came out, the studio liked that you could just put it on the master and it was instantly wider, louder, more powerful and more saturated. Hence the nickname: 'the touch of god'.",
+    "The view now is different: any plugin on the master that makes things instantly better is most likely taking something away from your future self. God Particle is a multiband limiter; it can completely remove the depth, hit the transients and shift the balance, because it pulls attention hard into the midrange. The low end can end up inaudible.",
+    "On hip-hop with a clipping low end and a punchy kick, it doesn't fit. It works in pop music with few instruments; when there are many instruments, they blur into one pile.",
+    "The studio's technique for plugins like this: put God Particle on, export, remove it, and then adjust the balance to match that version as a reference. This often works better than leaving the plugin in the chain."
+   ]
+  },
+  {
+   "slug": "ozone-automaster",
+   "name": "Auto-mastering in Ozone",
+   "alt": [
+    "iZotope Ozone",
+    "Master Assistant",
+    "Ozone"
+   ],
+   "tier": "S",
+   "t": 2044,
+   "verdict": "S tier, but only if you switch off half the modules and tweak by ear.",
+   "body": [
+    "In Ozone you can choose which modules are active. Podlesny Twins switch off Rebalance, Impact, Stabilizer and Clarity: these modes change the sound too crudely. They keep the EQ, the dynamic EQ and the Imager, and then tweak by ear.",
+    "The typical scenario: the track is already mixed, and Ozone goes on at the very end. They listen to whether it got better or worse, and if better, keep it at, say, 50%.",
+    "It can suggest an idea, for example that the mix could be a bit wider. Pavel isn't a fan of unnaturally wide mixes and admits he sometimes goes a little more mono than needed; here Ozone helps with the decision.",
+    "The key caveat: don't treat it as an oracle that has told you how your mix should sound."
+   ]
+  },
+  {
+   "slug": "spectral-plugins",
+   "name": "Spectral plugins",
+   "alt": [
+    "Soothe",
+    "Soothe 2",
+    "Soothe 3",
+    "SpecCraft",
+    "dynamic resonance suppression",
+    "resonance suppressor"
+   ],
+   "tier": "S",
+   "t": 2132,
+   "verdict": "S tier: an important tool in 2026, if you treat it like compression rather than a preset.",
+   "body": [
+    "This is about Soothe 2 and Soothe 3, and SpecCraft in certain modes.",
+    "The caveat is the same as with Ozone: it's important to understand the degree of processing. Spectral plugins need to be treated the same way as compression or saturation: figure out what attack, release and the details parameter do, and set them for the task.",
+    "The bad scenario is flipping through presets looking for 'the one'. Then the plugin stays a box rather than a tool.",
+    "The studio considers Soothe 3 a step forward from the second version: the algorithm has been reworked. Podlesny Twins use their own approach to the high frequencies on it practically every day, but it's not a classic preset: attack and release are tweaked by ear while listening to the delta."
+   ]
+  },
+  {
+   "slug": "gain-compensation",
+   "name": "Level matching when comparing",
+   "alt": [
+    "gain matching",
+    "level matched comparison",
+    "gain compensation",
+    "loudness-matched A/B"
+   ],
+   "tier": "L",
+   "t": 2334,
+   "verdict": "L tier: without level matching, a before and after comparison proves nothing.",
+   "body": [
+    "This technique wasn't on the original list; it was added during the review and sent straight to L.",
+    "The logic is simple: if you don't compensate for level, you're easy to fool. Louder is almost always perceived as better.",
+    "Podlesny Twins note that plugin manufacturers play on this too: many emulations add level by default, so the plugin sounds better when engaged purely because of the loudness."
+   ]
+  },
+  {
+   "slug": "sausage-fattener",
+   "name": "Sausage Fattener on bass",
+   "alt": [
+    "Sausage Fattener",
+    "Dada Life Sausage Fattener"
+   ],
+   "tier": "B",
+   "t": 2386,
+   "verdict": "B tier: for all its meme status, a decent saturator with character, but it either hits or it doesn't.",
+   "body": [
+    "For all its meme status, it's a normal saturator with a particular character.",
+    "The question is the comparison: is it better than Saturn, is it better than Decapitator? In the studio's opinion, no. It either hits on specific material or it doesn't.",
+    "So it can't be put on the same level as techniques like parallel vocal compression: it's a plugin for a mood, not a method."
+   ]
+  },
+  {
+   "slug": "imager-master",
+   "name": "Imager on the master",
+   "alt": [
+    "stereo imager",
+    "stereo widener",
+    "widening on the master"
+   ],
+   "tier": "N",
+   "t": 2417,
+   "verdict": "No tier assigned. The studio's wording is 'it's great when you don't need it': reaching for an imager usually means something in the mix is unfinished.",
+   "body": [
+    "The studio's wording: it's great when the imager isn't needed. If you're reaching for it, something wasn't finished earlier.",
+    "Any changes to the sides and any widening, misjudged, remove the depth.",
+    "Podlesny Twins' advice: when turning an imager, listen not to the overall 'wash' but to exactly where each thing sits in the mix. In certain genres, electronic music and sound design, it's irreplaceable."
+   ]
+  },
+  {
+   "slug": "ott",
+   "name": "OTT",
+   "alt": [
+    "Xfer OTT",
+    "multiband upward compression"
+   ],
+   "tier": "B",
+   "t": 2455,
+   "verdict": "B tier: a necessity in electronic music and production, a poor choice for pop vocals and hip-hop.",
+   "body": [
+    "On a pop vocal, OTT drags all the noise up and creates problems with many things at once.",
+    "In electronic music, on basses and in synthesis, it's the opposite: you need it.",
+    "An experienced person will do good work with OTT. An inexperienced one won't hear the noise, the clicks or the room lifted out of nowhere, and will get a worse result."
+   ]
+  },
+  {
+   "slug": "minus18-sources",
+   "name": "All sources at −18 dBFS",
+   "alt": [
+    "gain staging",
+    "−18 dBFS",
+    "normalizing every track to −18"
+   ],
+   "tier": "B",
+   "t": 2505,
+   "verdict": "B tier for overall headroom; per-track normalization is below F, it's just a lot of extra work.",
+   "body": [
+    "Two different techniques need to be told apart. Normalizing every track to −18 is below F: you're giving yourself a huge amount of work. Engineers sometimes do this when they're offended that the mix was handed to someone else.",
+    "Setting overall headroom so the summed level lands somewhere around −18 is a decent technique: plugins then work without unnecessary saturation.",
+    "Even so, the studio considers −18 overkill, too quiet. Closer to −12: some plugins, Fairchild for example, simply won't engage at too low a level."
+   ]
+  },
+  {
+   "slug": "trackspacer",
+   "name": "TrackSpacer",
+   "alt": [
+    "dynamic sidechain EQ",
+    "carving the music around the vocal",
+    "Wavesfactory TrackSpacer"
+   ],
+   "tier": "S",
+   "t": 2582,
+   "verdict": "S tier, but it's a dangerous one: the plugin works at one or two percent of maximum.",
+   "body": [
+    "The technique is in almost every mix the studio does: TrackSpacer carves the music out from under the vocal.",
+    "The danger is in the interface. Open the plugin, see a scale that goes to 100%, and you'll almost certainly set at least 50, and get a track with no music.",
+    "The working zone is one or two percent of maximum. You need to be careful here."
+   ]
+  },
+  {
+   "slug": "clipper-instrumental",
+   "name": "Clipper on the instrumental bus",
+   "alt": [
+    "clipping the instrumental",
+    "clipper",
+    "clipping the beat"
+   ],
+   "tier": "A",
+   "t": 2619,
+   "verdict": "A tier: clipping a couple of dB off the instrumental is a working technique.",
+   "body": [
+    "This means taking a couple of decibels off the peaks on the instrumental bus.",
+    "Podlesny Twins consider the technique workable, unlike a clipper on vocals."
+   ]
+  },
+  {
+   "slug": "clipper-vocal",
+   "name": "Clipper on vocals",
+   "alt": [
+    "clipping vocals",
+    "clipper on vocals"
+   ],
+   "tier": "F",
+   "t": 2634,
+   "verdict": "F tier: a vocal has no frequencies the studio would want to clip.",
+   "body": [
+    "In the studio's opinion, a vocal has no frequencies worth clipping.",
+    "A clipper works poorly on long sounds in general. Try clipping a piano, a synth or a vocal stack: unless it's an intended effect, the result will be bad."
+   ]
+  },
+  {
+   "slug": "master-comp-dre",
+   "name": "Master compression in Dr. Dre mode",
+   "alt": [
+    "SSL bus compressor",
+    "master bus compression",
+    "glue compression on the master"
+   ],
+   "tier": "A",
+   "t": 2682,
+   "verdict": "A tier: an SSL with a fast release pulls the transients out and gives the mix a unified movement.",
+   "body": [
+    "This means the SSL in the mode people call 'Dr. Dre': attack around 30 ms and a very fast release.",
+    "That setting pulls the transients out and gives the whole mix a unified movement.",
+    "Fast compression that just squashes everything is a different story. The rating depends on exactly which compression we're talking about.",
+    "Master compression in general the studio rates B: it can be good or bad. The A applies specifically to this setting."
+   ]
+  },
+  {
+   "slug": "la2a-drums",
+   "name": "LA-2A on drums",
+   "alt": [
+    "opto compressor on drums",
+    "analog on drums",
+    "LA-2A"
+   ],
+   "tier": "F",
+   "t": 2719,
+   "verdict": "F tier: the long release of an opto compressor works badly on drums. Analog by itself doesn't improve anything.",
+   "body": [
+    "A story from Paris: Pavel was invited to a private university to see how the students mix. The studio turned out to be seriously equipped, some thirty analog units and a console.",
+    "They had an LA-2A on the drums simply because it was there. The logic was: since there's analog, it's guaranteed to make things better.",
+    "In practice the result wasn't compression but ruined material: a release that long works badly on drums. The students weren't listening to references; hooking them up to the console was complicated.",
+    "The studio's conclusion: analog has to be treated the same way as plugins. It can make things worse too.",
+    "The scores split: Anton gave F, Pavel said he'd send it to D, but in the exact context where he heard it, the technique killed everything."
+   ]
+  },
+  {
+   "slug": "fresh-air",
+   "name": "Fresh Air",
+   "alt": [
+    "Slate Digital Fresh Air",
+    "air on the top end",
+    "high-end air"
+   ],
+   "tier": "B",
+   "t": 2848,
+   "verdict": "B tier: the working zone is 1–2%, and at 50% it's a brutal top end right where there's the most junk.",
+   "body": [
+    "The problem is the same as with TrackSpacer: the plugin looks like it needs to be turned up a long way, but it works at the very start of the scale.",
+    "In the studio's observation, the working position is one or two percent. At 1% the top end already rises by about 3 dB, and at 50% by about 20 dB, and that's the highest frequencies, where there's the most junk.",
+    "The practical takeaway: someone who turned Fresh Air up to 50% and is sitting in headphones wears out their ears within a few minutes and can't hear anything after that."
+   ]
+  },
+  {
+   "slug": "rear-bus",
+   "name": "Andrew Scheps's Rear Bus",
+   "alt": [
+    "Andrew Scheps rear bus",
+    "parallel compression on the mix bus",
+    "rear bus"
+   ],
+   "tier": "B",
+   "t": 2909,
+   "verdict": "B tier: Scheps himself dropped it as a default, and most often it's a symptom of an underworked balance.",
+   "body": [
+    "A parallel bus for the whole mix, where everything except bass and drums goes: overall parallel compression on the mix bus.",
+    "Andrew Scheps himself now talks about it with reserve: where his template from ten years ago used it constantly, he now advises applying no processing by default at all and checking whether it works or not.",
+    "Podlesny Twins resort to something like this extremely rarely, maybe once every three months. In their view, the need for such a bus most often means an individual instrument that's under-compressed or underworked."
+   ]
+  },
+  {
+   "slug": "match-eq",
+   "name": "Match EQ from a reference",
+   "alt": [
+    "matching EQ",
+    "Match EQ",
+    "EQ matching"
+   ],
+   "tier": "B",
+   "t": 2975,
+   "verdict": "B tier: as analysis it works, as processing on the master it doesn't.",
+   "body": [
+    "The technique looks like an act of desperation: you listen to the reference, can't tell which frequencies are missing, and put on a plugin to add them for you.",
+    "The studio doesn't advise leaving the resulting EQ on the master. But as analysis it works: it shows which frequencies you have more or less of, and then you get there with balance.",
+    "A separate useful scenario is features with several artists. If one artist's tone came together particularly well, Match EQ suggests which frequencies to lift on the second so everything sounds in the same context."
+   ]
+  },
+  {
+   "slug": "two-mono-reverbs",
+   "name": "Two hard-panned mono reverbs",
+   "alt": [
+    "hard-panned mono reverbs",
+    "short and long reverb on opposite sides"
+   ],
+   "tier": "C",
+   "t": 3010,
+   "verdict": "C tier: very niche. More an effect than a universal technique.",
+   "body": [
+    "An idea from the comments: two mono reverbs, one short and one long, panned hard left and right.",
+    "Podlesny Twins consider the technique very niche. On some individual instrument it might sound special, but that's a lucky hit rather than a method; essentially it's just an effect."
+   ]
+  },
+  {
+   "slug": "comp-in-tempo",
+   "name": "Compression in tempo",
+   "alt": [
+    "release in tempo",
+    "tempo-synced compression",
+    "release timed to the beat"
+   ],
+   "tier": "B",
+   "t": 3061,
+   "verdict": "B tier: a release that recovers by the next hit is a way of managing the track's macrodynamics.",
+   "body": [
+    "On the same SSL on the master, the release is set slightly slower so the compressor recovers exactly by the next hit.",
+    "Essentially this is managing the track's macrodynamics, and it can sound very interesting.",
+    "It's in the same family as the delay calculator, and the studio gave it the same rating."
+   ]
+  },
+  {
+   "slug": "sidechain-side-from-mid",
+   "name": "Sidechaining the side from the mid",
+   "alt": [
+    "side from mid sidechain",
+    "widening the mix with a sidechain",
+    "mid/side sidechain"
+   ],
+   "tier": "F",
+   "t": 3100,
+   "verdict": "F tier: anything that destroys the depth goes to F for the studio.",
+   "body": [
+    "The idea was sent to the Telegram chat during the stream: the side gets ducked by the mid so the mix seems wider.",
+    "The answer is short: anything that destroys the depth is F tier for Podlesny Twins."
+   ]
+  },
+  {
+   "slug": "tape-master",
+   "name": "Tape on the master",
+   "alt": [
+    "tape emulation on the master",
+    "tape emulation",
+    "master bus tape"
+   ],
+   "tier": "B",
+   "t": 3246,
+   "verdict": "B tier: it fits like a puzzle piece. It helps a bright, overly detailed track and makes a muddy one worse.",
+   "body": [
+    "Pavel has had mixes where tape on the master started working right away.",
+    "But tape changes the frequency response a lot: more low end, less top. Plus it affects phase and smears the attacks.",
+    "That's where the puzzle rule comes from: if the track is super bright and overly detailed, tape will go on great. If the track is already muddy, it will only make it worse."
+   ]
+  },
+  {
+   "slug": "maserati-grp",
+   "name": "Maserati GRP",
+   "alt": [
+    "Waves Maserati GRP",
+    "Tony Maserati GRP"
+   ],
+   "tier": "B",
+   "t": 3340,
+   "verdict": "B tier: a niche one. Sometimes it hits, and sometimes it solves everything.",
+   "body": [
+    "A niche case of the same order as Ozone: it can be excellent or harmful.",
+    "Pavel recalls working on a Husky track where the glued feel they needed couldn't be reached any other way, and it all came together on Maserati GRP."
+   ]
+  },
+  {
+   "slug": "mono-mixing",
+   "name": "Mixing in mono",
+   "alt": [
+    "mono mixing",
+    "mono check",
+    "mono compatibility check"
+   ],
+   "tier": "S",
+   "t": 3385,
+   "verdict": "S tier: helps you concentrate on what reaches the listener first.",
+   "body": [
+    "A useful technique: it forces you to concentrate on what will translate to the listener first.",
+    "The studio does put it one step below mixing on a single channel."
+   ]
+  },
+  {
+   "slug": "lr-mixing",
+   "name": "Mixing on a single channel, L or R",
+   "alt": [
+    "mixing in L/R",
+    "single-channel mixing",
+    "one-speaker mixing"
+   ],
+   "tier": "L",
+   "t": 3400,
+   "verdict": "L tier: in the studio's opinion, even more useful than mixing in mono.",
+   "body": [
+    "Instead of mono, you listen to only the left or only the right channel.",
+    "Podlesny Twins consider this technique more promising than mixing in mono and cover it in their course. You rarely hear about it, but in their words it works every time.",
+    "It's one of the techniques that explain their approach to the top of the scale: put yourself in an awkward spot, hear worse than you could, and make more precise decisions because of it."
+   ]
+  },
+  {
+   "slug": "lowcut-everywhere",
+   "name": "Low cut on everything except kick and bass",
+   "alt": [
+    "high-pass filter on every track",
+    "high-passing everything",
+    "low cut by default"
+   ],
+   "tier": "N",
+   "t": 3432,
+   "verdict": "No tier assigned. Works in certain genres; in pop and hip-hop it's more often a minus.",
+   "body": [
+    "There are genres where this is a working technique: Skrillex does it on the melodic group.",
+    "In pop and hip-hop it's most often a minus. Instead of a low cut, Podlesny Twins prefer a few wide bells."
+   ]
+  },
+  {
+   "slug": "tilt-eq-master",
+   "name": "Tilt EQ on the master",
+   "alt": [
+    "tilt EQ",
+    "tilt equalizer",
+    "spectral tilt"
+   ],
+   "tier": "N",
+   "t": 3472,
+   "verdict": "No tier assigned. The studio considers the technique workable, although the same task is better solved with balance.",
+   "body": [
+    "The point is to pull back the low end and let the limiter breathe more freely.",
+    "Podlesny Twins consider the technique workable. One caveat: it's more correct to solve this task with balance rather than by tilting the whole frequency response."
+   ]
+  }
+ ],
+ "published": "2026-09-10"
+}
