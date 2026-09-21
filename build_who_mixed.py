@@ -115,21 +115,50 @@ FOUNDERS = [
 # properties that only make sense on a MusicGroup (or are replaced by founder)
 MUSICGROUP_ONLY = ("genre", "member", "album", "track", "musicGroupMember")
 
+# ── the studio's business facts, mirrored from the FAQ ───────────────
+#
+# These are invisible (JSON-LD only) but they are the facts an AI answer
+# needs to place the studio: where it is, since when, what it charges.
+# Every value below is stated verbatim on /faq/ — schema must never claim
+# more than the visible page does.
+STUDIO_ADDRESS = {
+    "@type": "PostalAddress",
+    "addressLocality": "Санкт-Петербург",
+    "addressCountry": "RU",
+}
+# «Сведение — от 30 000 до 45 000 ₽, мастеринг — 6 000 ₽» (/faq/)
+STUDIO_OFFERS = [
+    {"@type": "Offer", "name": "Сведение трека",
+     "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "RUB",
+                            "minPrice": 30000, "maxPrice": 45000}},
+    {"@type": "Offer", "name": "Мастеринг трека",
+     "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "RUB",
+                            "price": 6000}},
+]
+STUDIO_BUSINESS = {
+    "@type": ["Organization", "ProfessionalService"],
+    "foundingDate": "2017",
+    "address": STUDIO_ADDRESS,
+    "areaServed": {"@type": "Country", "name": "Россия"},
+    "priceRange": "6000–45000 ₽",
+    "makesOffer": STUDIO_OFFERS,
+}
+
 
 def fix_studio_graph(graph: list[dict]) -> list[dict]:
     """Normalise the studio node in a page's @graph and add the founders.
 
-    Idempotent: keeps @id, name, alternateName, url, sameAs, description,
-    foundingDate/Location and anything else page-specific; only the type,
-    the MusicGroup-only keys and the founder links change.
+    Idempotent: keeps @id, name, alternateName, url, sameAs, description
+    and anything else page-specific; the type, the MusicGroup-only keys,
+    the founder links and the STUDIO_BUSINESS facts are rewritten.
     """
     idx = next((i for i, n in enumerate(graph) if n.get("@id") == STUDIO_ID), None)
     if idx is None:
         raise SystemExit(f"studio node {STUDIO_ID} not found in JSON-LD graph")
     node = graph[idx]
-    node["@type"] = "Organization"
     for key in MUSICGROUP_ONLY:
         node.pop(key, None)
+    node.update(STUDIO_BUSINESS)
     node["founder"] = [{"@id": p["@id"]} for p in FOUNDERS]
     present = {n.get("@id") for n in graph}
     persons = [dict(p) for p in FOUNDERS if p["@id"] not in present]
@@ -481,7 +510,23 @@ def attach_related(tracks: list[dict]) -> None:
 
 # ── track detail page ────────────────────────────────────────────────
 
-def render_page(tr: dict) -> str:
+def studio_ref_nodes() -> list[dict]:
+    """The studio + founders, compact, for a page that only references them.
+
+    A track page credits the studio and both engineers by @id. Those @ids
+    resolve site-wide, but a consumer reading one page in isolation (which
+    is how an AI answer engine reads it) needs the nodes present, so a
+    lean copy ships with every detail page.
+    """
+    return [
+        {"@id": STUDIO_ID, "name": "Podlesny Twins", "url": f"{SITE}/",
+         **STUDIO_BUSINESS,
+         "founder": [{"@id": p["@id"]} for p in FOUNDERS]},
+        *(dict(p) for p in FOUNDERS),
+    ]
+
+
+def render_page(tr: dict, lastmod: str = "") -> str:
     url = f"{SITE}/track/{tr['slug']}/"
     role = tr["role"]
     role_word = ROLE_WORD.get(role, "Сведение")
@@ -513,21 +558,39 @@ def render_page(tr: dict) -> str:
     schema = {
         "@context": "https://schema.org",
         "@graph": [
+            *studio_ref_nodes(),
             {
                 "@type": "MusicRecording",
+                "@id": f"{url}#recording",
                 "name": tr["title"],
                 "url": url,
                 "image": abs_img(tr["img"]),
                 "byArtist": {"@type": "MusicGroup", "name": tr["artist"]},
                 **({"inAlbum": {"@type": "MusicAlbum", "name": tr["album"]}}
                    if tr.get("album") else {}),
+                # the credit states the role we actually did (roles.json) and
+                # names both engineers, not just the studio — the home-page
+                # catalogue has done this for a while, detail pages now match
                 "contributor": {
-                    "@type": "Organization",
-                    "@id": STUDIO_ID,
-                    "name": "Podlesny Twins",
-                    "url": f"{SITE}/",
+                    "@type": "Role",
+                    "roleName": ROLE_NAME_LD[role],
+                    "contributor": [{"@id": STUDIO_ID},
+                                    *({"@id": p["@id"]} for p in FOUNDERS)],
                 },
                 "description": answer_plain + (f" {story_plain}" if story_plain else ""),
+            },
+            # dateModified comes from the SEO ledger, which only advances when
+            # the track's own content changes — a template rebuild can't fake
+            # freshness here (see content_hash / sync_seo_state)
+            {
+                "@type": "WebPage",
+                "@id": f"{url}#webpage",
+                "url": url,
+                "name": title,
+                "inLanguage": "ru",
+                **({"dateModified": lastmod} if lastmod else {}),
+                "about": {"@id": STUDIO_ID},
+                "mainEntity": {"@id": f"{url}#recording"},
             },
             {
                 "@type": "FAQPage",
@@ -696,7 +759,7 @@ def _feat(tr: dict) -> str:
     return f'<span class="feat"> · с {esc(", ".join(o))}</span>' if o else ""
 
 
-def render_hub(tracks: list[dict]) -> str:
+def render_hub(tracks: list[dict], lastmod: str = "") -> str:
     groups: "OrderedDict[str, dict]" = OrderedDict()
     for tr in tracks:
         key = primary_of(tr["artist"])
@@ -799,15 +862,20 @@ def render_hub(tracks: list[dict]) -> str:
     catalog = "".join(blocks)
 
     # ItemList of the whole catalogue — one structured list an answer engine
-    # can read as "these are the works", plus breadcrumbs. Reuses the site's
-    # existing #podlesnytwins entity id.
+    # can read as "these are the works", plus breadcrumbs. The studio entity
+    # ships with the page: the graph referenced #podlesnytwins by @id without
+    # defining it, so a consumer reading this page alone couldn't resolve it
+    # (and «isPartOf» a studio was the wrong relation — a page is *about* it).
     item_ld = {
         "@context": "https://schema.org",
         "@graph": [
+            *studio_ref_nodes(),
             {"@type": "CollectionPage", "@id": f"{SITE}/track/#webpage",
              "url": f"{SITE}/track/",
              "name": "Кто свёл — все треки Podlesny Twins",
-             "isPartOf": {"@id": f"{SITE}/#podlesnytwins"}},
+             "inLanguage": "ru",
+             **({"dateModified": lastmod} if lastmod else {}),
+             "about": {"@id": STUDIO_ID}},
             {"@type": "ItemList", "numberOfItems": total, "itemListOrder": "https://schema.org/ItemListUnordered",
              "itemListElement": [
                  {"@type": "ListItem", "position": i,
@@ -978,7 +1046,7 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 """
 
 
-def patch_index_footer(doc: str, tracks: list[dict]) -> str:
+def patch_index_footer(doc: str, tracks: list[dict], site_lastmod: str = "") -> str:
     css = """
 .pf .seo-foot{margin:22px auto 0;font-size:12px;line-height:1.5}
 .pf .seo-foot a{color:#918b8b;font-weight:600}
@@ -1049,7 +1117,7 @@ def patch_index_footer(doc: str, tracks: list[dict]) -> str:
             data_tag + '\n<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>',
             1,
         )
-    doc = patch_index_roles(doc, tracks)
+    doc = patch_index_roles(doc, tracks, site_lastmod)
     return patch_hreflang(doc, "")
 
 
@@ -1086,7 +1154,7 @@ def _album_roles(album: dict, by_id: dict) -> set[str]:
     return {by_id[t["id"]]["role"] for t in album["tracks"] if t["id"] in by_id}
 
 
-def patch_index_roles(doc: str, tracks: list[dict]) -> str:
+def patch_index_roles(doc: str, tracks: list[dict], site_lastmod: str = "") -> str:
     by_id = {tr["id"]: tr for tr in tracks}
     albums = json.loads(re.search(r"var ALBUMS=(\[.*?\]);", doc, re.S).group(1))
 
@@ -1127,7 +1195,20 @@ def patch_index_roles(doc: str, tracks: list[dict]) -> str:
     if not m:
         raise SystemExit("index.html: JSON-LD block not found")
     graph = json.loads(m.group(2))["@graph"]
-    head = fix_studio_graph([n for n in graph if n.get("@type") not in ("MusicRecording", "MusicAlbum")])
+    head = fix_studio_graph([n for n in graph
+                             if n.get("@type") not in ("MusicRecording", "MusicAlbum")
+                             and n.get("@id") != f"{SITE}/#webpage"])
+    # the home page had no date of its own; the catalogue's newest lastmod is
+    # the honest one — it moves only when a track's content actually changed
+    head.append({
+        "@type": "CollectionPage",
+        "@id": f"{SITE}/#webpage",
+        "url": f"{SITE}/",
+        "name": "Podlesny Twins — сведение и мастеринг · портфолио работ",
+        "inLanguage": "ru",
+        **({"dateModified": site_lastmod} if site_lastmod else {}),
+        "about": {"@id": STUDIO_ID},
+    })
 
     catalogue: list[dict] = []
     for tr in tracks:
@@ -1368,14 +1449,18 @@ def main() -> None:
     TRACK_DIR.mkdir(exist_ok=True)
 
     live_slugs = {tr["slug"] for tr in tracks}
+    # the ledger is reconciled first: its per-slug lastmod is both the
+    # sitemap date and the page's own dateModified, so the pages have to be
+    # rendered from it. It reads `tracks` only — rendering can't affect it.
+    dates, redirects = sync_seo_state(tracks)
     for tr in tracks:
         out = TRACK_DIR / tr["slug"]
         out.mkdir(parents=True, exist_ok=True)
-        (out / "index.html").write_text(render_page(tr), encoding="utf-8")
+        (out / "index.html").write_text(
+            render_page(tr, dates.get(tr["slug"], "")), encoding="utf-8")
 
-    # reconcile SEO ledger, then re-emit redirect stubs for retired slugs
-    # (the track/ wipe above deletes them each build, so rebuild from state)
-    dates, redirects = sync_seo_state(tracks)
+    # re-emit redirect stubs for retired slugs (the track/ wipe above
+    # deletes them each build, so rebuild from state)
     for old_slug, new_slug in redirects.items():
         if old_slug in live_slugs:
             continue
@@ -1383,8 +1468,11 @@ def main() -> None:
         out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(render_redirect(new_slug), encoding="utf-8")
 
-    hub_file.write_text(render_hub(tracks), encoding="utf-8")
-    INDEX.write_text(patch_index_footer(doc, tracks), encoding="utf-8")
+    hub_file.write_text(
+        render_hub(tracks, max(dates.values(), default="")), encoding="utf-8")
+    INDEX.write_text(
+        patch_index_footer(doc, tracks, max(dates.values(), default="")),
+        encoding="utf-8")
 
     counts = catalog_counts(tracks)
     patch_faq(counts)

@@ -173,7 +173,11 @@ def studio_entity(cfg: dict) -> list[dict]:
         raise SystemExit(f"{cfg['shell'].relative_to(ROOT)} has no JSON-LD — cannot lift the studio entity")
     graph = json.loads(block.group(1))["@graph"]
     studio = next((n for n in graph if n.get("@id") == STUDIO_ID), None)
-    if not studio or studio.get("@type") != "Organization":
+    # the node declares several types (Organization + ProfessionalService);
+    # the guard is that Organization is still among them, not MusicGroup
+    types = studio.get("@type") if studio else None
+    types = [types] if isinstance(types, str) else (types or [])
+    if not studio or "Organization" not in types:
         raise SystemExit(f"{cfg['shell'].relative_to(ROOT)}: studio node missing or not an Organization — "
                          "run build_who_mixed.py first")
     founder_ids = {f["@id"] for f in studio.get("founder", [])}
