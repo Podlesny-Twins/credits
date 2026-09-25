@@ -1046,6 +1046,40 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 """
 
 
+# ── ссылки с плиток главной на страницы треков ───────────────────────
+#
+# Плитка — это <button> (клик = play), а ссылку внутрь кнопки класть нельзя.
+# Поэтому плитка оборачивается в .tile-shell, и рядом с кнопкой ставится
+# прозрачная <a class="tile-page"> поверх подписи. Обёртка пишется прямо в
+# HTML, а не создаётся в JS: краулер видит только статические href, а
+# главная — самая сильная страница сайта; без этих ссылок страницы треков
+# висели в «Обнаружена, не проиндексирована». Всё на одной строке с кнопкой:
+# add_track.py вставляет и удаляет плитки построчно.
+
+_SHELL_RE = re.compile(
+    r'<div class="tile-shell">(<button class="tile[^"]*"[^>]*>.*?</button>)'
+    r'<a class="tile-page"[^>]*>.*?</a></div>', re.S)
+_TILE_RE = re.compile(
+    r'<button class="tile(?![^"]*album)[^"]*"[^>]*data-id="([A-Za-z0-9]{22})"[^>]*>.*?</button>',
+    re.S)
+
+
+def link_tiles(doc: str, tracks: list[dict]) -> str:
+    by_id = {t["id"]: t for t in tracks if not t.get("album")}
+    doc = _SHELL_RE.sub(r"\1", doc)              # идемпотентно: снять и заново
+
+    def wrap(m: re.Match) -> str:
+        tr = by_id.get(m.group(1))
+        if not tr:
+            return m.group(0)
+        label = esc(f'{tr["artist"]} — {tr["title"]}')
+        return (f'<div class="tile-shell">{m.group(0)}'
+                f'<a class="tile-page" href="/track/{esc(tr["slug"])}/">'
+                f'<span class="sr-only">{label}</span></a></div>')
+
+    return _TILE_RE.sub(wrap, doc)
+
+
 def patch_index_footer(doc: str, tracks: list[dict], site_lastmod: str = "") -> str:
     css = """
 .pf .seo-foot{margin:22px auto 0;font-size:12px;line-height:1.5}
@@ -1471,7 +1505,7 @@ def main() -> None:
     hub_file.write_text(
         render_hub(tracks, max(dates.values(), default="")), encoding="utf-8")
     INDEX.write_text(
-        patch_index_footer(doc, tracks, max(dates.values(), default="")),
+        patch_index_footer(link_tiles(doc, tracks), tracks, max(dates.values(), default="")),
         encoding="utf-8")
 
     counts = catalog_counts(tracks)
