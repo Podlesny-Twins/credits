@@ -217,6 +217,9 @@ EXTRA_CSS = """
 .more li{border-bottom:1px solid var(--line)}
 .more a{display:flex;align-items:center;min-height:48px;padding:10px 0;font-weight:600;color:#cfc9c9;transition:color .15s}
 .more a:hover,.more a:focus-visible{color:var(--red)}
+.tierlink{font-size:15px;color:#cfc9c9;margin:-10px 0 34px}
+.tierlink a{color:var(--red);font-weight:600}
+.tierlink a:hover{text-decoration:underline}
 .posts{list-style:none;margin:0;padding:0}
 .posts li{padding:22px 0;border-bottom:1px solid var(--line)}
 .posts li:first-child{padding-top:4px}
@@ -637,6 +640,7 @@ def render_index(posts: list[dict]) -> str:
   <div class="meta">Podlesny Twins · Блог</div>
   <h1>{esc(INDEX["h1"])}</h1>
   <p class="lead">{esc(INDEX["lead"])}</p>
+  <p class="tierlink">{tier_sentence()}</p>
 
   <h2 id="posts">Статьи</h2>
   <ul class="posts">
@@ -654,6 +658,24 @@ def render_index(posts: list[dict]) -> str:
 </body>
 </html>
 """
+
+
+# ── the tier-list pointer on the index ────────────────────────────────
+
+def tier_count() -> int:
+    return len(json.loads((ROOT / "tier.json").read_text(encoding="utf-8"))["items"])
+
+
+def tier_sentence(lang: str = "ru") -> str:
+    """One visible link from the blog to /tier/: the tier list had no internal
+    referrer Google could see (it was found through the sitemap only)."""
+    n = tier_count()
+    if lang == "ru":
+        word = "приёма" if n % 10 == 1 and n % 100 != 11 else "приёмов"   # «оценки 51 приёма»
+        return (f'Ещё у нас есть <a href="{SITE}/tier/">тир-лист техник сведения</a>: '
+                f"оценки {n} {word} сведения и мастеринга по шкале от L до F.")
+    return (f'We also have a <a href="{SITE}/tier/">mixing techniques tier list</a>: '
+            f"our ratings of {n} mixing and mastering techniques on a scale from L to F.")
 
 
 # ── llms.txt (RU) and the EN llms template ─────────────────────────────
@@ -681,6 +703,10 @@ def sync_ui(ru_posts: list[dict], en_by_slug: dict) -> int:
     each article the EN article's own title/description."""
     ui = json.loads(UI.read_text(encoding="utf-8"))
     n = 0
+    if ui.get(tier_sentence("ru")) != tier_sentence("en"):   # inline-HTML entry for build_en
+        ui = {k: v for k, v in ui.items() if not k.startswith("Ещё у нас есть <a href=")}
+        ui[tier_sentence("ru")] = tier_sentence("en")
+        n += 1
     for p in ru_posts:
         en = en_by_slug.get(p["slug"])
         if not en:
