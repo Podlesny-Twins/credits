@@ -218,7 +218,7 @@ def load_tracks() -> list[dict]:
 # ── EN mirror (Phase 2) ─────────────────────────────────────────────
 #
 # build_en.py mirrors the RU pages under /en/<same path>/: the home page, the
-# hub, the FAQ and every live (non-redirect) track page; build_tier.py renders
+# hub, the FAQ, the blog and every live (non-redirect) track page; build_tier.py renders
 # /tier/ and /en/tier/ itself (from tier.json and i18n/en/tier.json). Each RU
 # page points at its EN twin (hreflang) and the sitemap lists the EN URLs for
 # exactly that set. This is decided here, not by looking at en/** on disk:
@@ -226,7 +226,7 @@ def load_tracks() -> list[dict]:
 # in one pass with no bootstrap order.
 EMIT_EN = True  # Phase 2: /en/ mirror is live (build_en.py)
 EN_DIR = ROOT / "en"
-EN_STATIC = {"", "track/", "faq/", "tier/"}
+EN_STATIC = {"", "track/", "faq/", "tier/", "blog/"}
 
 
 def en_exists(rel: str) -> bool:
@@ -712,6 +712,7 @@ h1{{font-size:clamp(26px,5vw,38px);line-height:1.08;margin:0;font-weight:700;let
 <div class="wrap">
   <div class="nav">
     <a href="{SITE}/">Портфолио</a>
+    <a href="{SITE}/blog/">Блог</a>
     <a href="https://podlesnytwins.com">Курс</a>
     <a class="pflang" href="{SITE}/en/track/{esc(tr['slug'])}/" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
   </div>
@@ -992,6 +993,7 @@ h1{{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(36px,7
 <div class="pf">
   <div class="pfnav">
     <a class="pflink" href="{SITE}/">← Портфолио</a>
+    <a class="pflink" href="{SITE}/blog/">Блог</a>
     <a class="pflink" href="https://podlesnytwins.com">Курс →</a>
     <a class="pflink pflang" href="{SITE}/en/track/" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
   </div>

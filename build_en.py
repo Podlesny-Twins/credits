@@ -9,6 +9,7 @@ template: same DOM, same CSS, same JS, so design parity holds by construction.
     track/index.html              ->  en/track/index.html
     track/<slug>/index.html       ->  en/track/<slug>/index.html   (redirect stubs skipped)
     faq/index.html                ->  en/faq/index.html
+    blog/index.html               ->  en/blog/index.html
     track-info.json               ->  en/track-info.json
     i18n/en/llms.txt (template)   ->  en/llms.txt   ({tracks}/{artists} filled in)
 
@@ -787,7 +788,8 @@ class Page:
         self.en_path = "/" + ru_rel.replace("index.html", "")
         self.kind = ("home" if ru_rel == "index.html" else
                      "hub" if ru_rel == "track/index.html" else
-                     "faq" if ru_rel == "faq/index.html" else "track")
+                     "faq" if ru_rel == "faq/index.html" else
+                     "track" if ru_rel.startswith("track/") else "page")
         self.slug = ru_rel.split("/")[1] if self.kind == "track" else ""
 
     # -- whole-document pre-pass (inline-HTML dictionary entries) -----------
@@ -1201,7 +1203,7 @@ def build(quiet: bool = False, strict: bool = False) -> int:
     (OUT / "faq").mkdir(exist_ok=True)
 
     pages = [("index.html", "index.html"), ("track/index.html", "track/index.html"),
-             ("faq/index.html", "faq/index.html")]
+             ("faq/index.html", "faq/index.html"), ("blog/index.html", "blog/index.html")]
     pages += [(f"track/{s}/index.html", f"track/{s}/index.html") for s in site.track_pages]
 
     built = 0
