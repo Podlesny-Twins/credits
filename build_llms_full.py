@@ -68,9 +68,9 @@ def read_blog() -> list[tuple[dict, list[str]]]:
     out = []
     for post in json.loads(manifest.read_text(encoding="utf-8")):
         page = ROOT / "blog" / post["slug"] / "index.html"
-        m = re.search(r'<article class="post">(.*?)</article>', page.read_text(encoding="utf-8"), re.S)
-        if not m:
-            continue
+        m = re.search(r'<article class="post\b[^"]*">(.*?)</article>', page.read_text(encoding="utf-8"), re.S)
+        if not m:   # a template change, not an empty article: never drop the blog from the dump silently
+            raise SystemExit(f"{page.relative_to(ROOT)}: no <article class=\"post\"> — cannot read the article")
         lines = []
         for tag, inner in re.findall(r"<(h2|h3|p|li|tr|blockquote)[^>]*>(.*?)</\1>", m.group(1), re.S):
             if tag == "tr":

@@ -60,7 +60,7 @@ import markdown
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 import build_who_mixed as bwm  # noqa: E402
-from build_tier import shell, studio_entity  # noqa: E402  (one shell, one studio entity)
+from build_tier import rail_script, shell, studio_entity  # noqa: E402  (one shell, one studio entity)
 
 SITE = "https://credits.podlesnytwins.com"
 SRC = ROOT / "blog-src"
@@ -88,6 +88,8 @@ LANG = {
             "blog_link": "Блог",
             "in_short": "Коротко",
             "minutes": "{n} мин чтения",
+            "min_short": "{n} мин",
+            "contents": "Содержание",
             "updated": "обновлено",
             "byline": "Антон и Павел Подлесные, звукорежиссёры студии",
             "sources": "Источники",
@@ -123,6 +125,8 @@ LANG = {
             "blog_link": "Blog",
             "in_short": "In short",
             "minutes": "{n} min read",
+            "min_short": "{n} min",
+            "contents": "Contents",
             "updated": "updated",
             "byline": "Anton and Pavel Podlesny, mixing engineers at",
             "sources": "Sources",
@@ -175,64 +179,113 @@ MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "Au
 
 EXTRA_CSS = """
 <style>
-/* ---- blog: active nav item, article typography, index list ---- */
+/* ---- blog: article head, prose, credits rows, and the index as a running order ---- */
 .pflink[aria-current="page"]{color:var(--red)}
-.byline{font-size:14px;color:var(--mut);margin:-6px 0 28px}
-.byline a{color:#cfc9c9;font-weight:600}
+.dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:14px;color:var(--mut)}
+.dek p{margin:0}
+.byline a{color:var(--ink2);font-weight:600;transition:color .15s}
 .byline a:hover{color:var(--ink)}
-.post{font-size:16.5px;line-height:1.72;color:#d9d3d3;max-width:70ch}
-.post p{margin:0 0 18px}
-.post h2{margin-top:64px}
-.post h3{font-size:17px;font-weight:700;line-height:1.35;color:var(--ink);margin:32px 0 10px}
-.post ul,.post ol{margin:0 0 22px;padding-left:22px}
-.post li{margin:0 0 9px}
+.post{font-size:17px;line-height:1.75;color:var(--ink2);max-width:66ch}
+.post p{margin:0 0 20px}
+.post h2{font-size:clamp(24px,2.6vw,32px);line-height:1.05;margin:84px 0 22px}
+.post>h2:first-child{margin-top:0}
+.post h3{font-size:18.5px;font-weight:700;line-height:1.35;color:var(--ink);margin:40px 0 10px}
+.post #faq~h3{margin:0;padding:24px 0 10px;border-top:1px solid var(--line)}
+.post ul,.post ol{margin:0 0 24px;padding-left:22px}
+.post li{margin:0 0 10px;padding-left:4px}
 .post li::marker{color:var(--red);font-weight:700}
-.post a{color:var(--red);font-weight:600}
-.post a:hover{text-decoration:underline}
+.post a,.src a,.about a{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:1px;text-underline-offset:.24em;transition:text-decoration-thickness .15s,color .15s}
+.post a:hover,.src a:hover,.about a:hover{color:#fff;text-decoration-thickness:2px}
 .post strong{color:var(--ink);font-weight:600}
-.post blockquote{margin:0 0 24px;padding:6px 0 6px 20px;border-left:3px solid var(--red);color:#cfc9c9}
+.post blockquote{margin:36px 0;padding:0;font-size:clamp(18px,1.7vw,21px);line-height:1.5;font-weight:500;color:var(--ink)}
 .post blockquote p{margin:0}
-.post figure{margin:8px 0 30px}
-.post figure img{display:block;max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
-.post figcaption{font-size:13px;line-height:1.5;color:var(--mut);margin-top:9px}
+.post figure{margin:40px 0 44px}
+.post figure img{display:block;width:auto;max-width:100%;height:auto;max-height:min(78vh,720px);border-radius:6px;background:var(--surface)}
+.post figcaption{font-size:13.5px;line-height:1.5;color:var(--mut);margin-top:12px;max-width:56ch}
 .post code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;background:var(--surface);padding:1px 5px;border-radius:4px}
 .tbl{overflow-x:auto;margin:4px 0 28px;-webkit-overflow-scrolling:touch}
-.tbl table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.55}
+.tbl table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.55;font-variant-numeric:tabular-nums}
 /* only wide tables scroll sideways on phones; two columns fit as they are */
 .tbl table:has(th:nth-child(3)){min-width:540px}
 .tbl table:has(th:nth-child(4)){min-width:660px}
 .tbl th,.tbl td{text-align:left;vertical-align:top;padding:11px 14px 11px 0;border-bottom:1px solid var(--line)}
 .tbl th{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 .tbl td:first-child{color:var(--ink);font-weight:600}
-.src,.about{margin:46px 0 0;padding:20px 22px;background:var(--surface);border-radius:10px;font-size:14.5px;color:#cfc9c9}
-.about{margin-top:14px}
-.src .eyebrow,.about .eyebrow,.more .eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
-.src p,.about p{margin:0 0 8px}
-.src ul{margin:0;padding-left:18px}
-.src li{margin:0 0 6px}
-.src a,.about a{color:var(--red);font-weight:600}
-.src a:hover,.about a:hover{text-decoration:underline}
-.more{margin:40px 0 0}
+
+/* credits under the article: the same margin-head grid as the rest of the sheet */
+.src,.about,.more,.shelf,.coda{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gap);align-items:start;margin:0;padding:30px 0;border-top:1px solid var(--line)}
+.src{margin-top:96px}
+.src>:not(.eyebrow),.about>:not(.eyebrow),.more>:not(.eyebrow),.coda>*{grid-column:2}
+.src>p:not(.eyebrow),.about>p:not(.eyebrow){margin:0 0 10px;font-size:15.5px;line-height:1.6;color:var(--ink2);max-width:62ch}
+.src ul{list-style:none;margin:4px 0 0;padding:0}
+.src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
 .more ul{list-style:none;margin:0;padding:0}
-.more li{border-bottom:1px solid var(--line)}
-.more a{display:flex;align-items:center;min-height:48px;padding:10px 0;font-weight:600;color:#cfc9c9;transition:color .15s}
-.more a:hover,.more a:focus-visible{color:var(--red)}
-.tierlink{font-size:15px;color:#cfc9c9;margin:-10px 0 34px}
-.tierlink a{color:var(--red);font-weight:600}
-.tierlink a:hover{text-decoration:underline}
+.more li+li{border-top:1px solid var(--line)}
+.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:16px;font-weight:600;line-height:1.4;color:var(--ink)}
+.more li:first-child a{padding-top:0;min-height:44px}
+.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
+.more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.dur{flex:0 0 auto;font-size:12.5px;font-weight:600;color:var(--mut);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+
+/* ---- the index: a running order, newest article opens it ---- */
+.tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
+.shelf{margin-top:64px}
+.shelf+.shelf{margin-top:48px}
+.shelf>h2{grid-column:1;position:sticky;top:28px;margin:0;font-size:clamp(24px,2.4vw,30px)}
+.shelf>.posts{grid-column:2}
 .posts{list-style:none;margin:0;padding:0}
-.posts li{padding:22px 0;border-bottom:1px solid var(--line)}
-.posts li:first-child{padding-top:4px}
-.posts .pt{display:inline;font-size:19px;font-weight:700;line-height:1.35;color:var(--ink);transition:color .15s}
-.posts .pt:hover,.posts .pt:focus-visible{color:var(--red)}
-.posts .pt:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-.posts .pd{margin:8px 0 6px;font-size:15px;line-height:1.6;color:#cfc9c9;max-width:68ch}
-.posts .pm{margin:0;font-size:12.5px;color:var(--mut);letter-spacing:.02em}
+.posts li{position:relative;padding:28px 64px 28px 0;border-bottom:1px solid var(--line)}
+.posts li:first-child{padding-top:0}
+.posts li:last-child{border-bottom:0;padding-bottom:0}
+.posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
+.posts li:first-child::after{top:10px}
+.posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
+.posts .pt{font-size:21px;font-weight:600;line-height:1.32;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.posts .pt::before{content:"";position:absolute;inset:0}
+.posts li:hover .pt{text-decoration-color:var(--red)}
+.posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
+.posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
+.posts .pd{margin:10px 0 12px;font-size:15.5px;line-height:1.6;color:#bdb6b6;max-width:62ch}
+.posts .pm{margin:0;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-variant-numeric:tabular-nums}
+/* articles read as a running order: the reading time sits where a track's duration would */
+.run li{padding-right:88px}
+.run li::after{display:none}
+.run .dur{position:absolute;right:0;top:31px;font-size:14px;letter-spacing:.02em;transition:color .15s}
+.run li:hover .dur,.run li:focus-within .dur{color:var(--ink)}
+.run .pm{margin-top:4px}
+/* the newest article opens the issue, with its own picture when it has one */
+.run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:40px;align-items:start;padding:0 0 40px}
+.run>li.opener>*{grid-column:1}
+.run>li.opener .pt{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(40px,5vw,60px);line-height:.98;text-decoration-thickness:3px;text-underline-offset:.1em}
+.run>li.opener .pd{font-size:clamp(16.5px,1.5vw,19px);color:var(--ink2);margin:18px 0 16px;max-width:54ch}
+.run>li.opener .pi{grid-column:2;grid-row:1 / span 3;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.run>li.opener:hover .pi{transform:translateY(-3px)}
+.coda{margin-top:96px}
+.coda .faqfoot{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.5;font-weight:500;color:var(--ink2);max-width:44ch}
+.coda .back{margin:18px 0 0}
+@media(min-width:768px) and (max-width:1023px){
+  .post{font-size:16.5px}
+}
+@media(max-width:767px){
+  .src,.about,.more,.shelf,.coda{display:block}
+  .src{margin-top:72px}
+  .shelf>h2{position:static;margin:0 0 24px}
+  .coda{margin-top:72px}
+}
 @media(max-width:520px){
-  .post{font-size:16px}
-  .post h2{margin-top:50px}
-  .src,.about{padding:16px 16px}
-  .posts .pt{font-size:17.5px}
+  .dek{gap:4px 16px;font-size:13.5px}
+  .post{font-size:16.5px}
+  .post h2{margin-top:60px}
+  .posts li{padding-right:40px}
+  .posts li::after{top:34px;width:20px}
+  .posts .pt{font-size:18.5px}
+  .run li{padding-right:56px}
+  .run .dur{top:30px;font-size:13px}
+  .run>li.opener{column-gap:20px}
+  .run>li.opener .pt{font-size:clamp(30px,9vw,38px)}
+  .run>li.opener .pi{width:96px;grid-row:1}
+  .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }
 </style>
 """
@@ -398,7 +451,7 @@ def lifted_shell(lang: str, twin_rel: str) -> tuple[str, str]:
     if nav.count(blog_link) != 1:
         raise SystemExit(f"{cfg['shell'].relative_to(ROOT)}: header has no single blog link — cannot mark it current")
     current = blog_link.replace('">', '" aria-current="page">', 1)
-    return style, nav.replace(blog_link, current)
+    return style, nav.replace(blog_link, current), rail_script(cfg["shell"])
 
 
 # ── article ────────────────────────────────────────────────────────────
@@ -409,7 +462,7 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
     page = f"{base}blog/{p['slug']}/"
     twin_rel = (f"{cfg['other_prefix']}blog/{p['slug']}/" if has_twin
                 else f"{cfg['other_prefix']}blog/")
-    style, nav = lifted_shell(lang, twin_rel)
+    style, nav, rail_js = lifted_shell(lang, twin_rel)
     studio = studio_entity({"shell": cfg["shell"]})
     hreflang = bwm.hreflang_links(f"blog/{p['slug']}/") if has_twin else ""
 
@@ -472,8 +525,13 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
         for x in p["sources"]
     )
     others = "\n".join(
-        f'      <li><a href="{base}blog/{o["slug"]}/">{esc(o["title"])}</a></li>'
+        f'      <li><a href="{base}blog/{o["slug"]}/"><span class="t">{esc(o["title"])}</span>'
+        f'<span class="dur">{s["min_short"].format(n=o["minutes"])}</span></a></li>'
         for o in siblings if o["slug"] != p["slug"]
+    )
+    contents = "\n".join(
+        f'      <li><a href="#{hid}">{esc(strip_tags(h))}</a></li>'
+        for hid, h in re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', p["body"], re.S)
     )
     og_image = (f'<meta property="og:image" content="{p["image"]["url"]}">\n'
                 f'<meta property="og:image:width" content="{p["image"]["width"]}">\n'
@@ -512,18 +570,28 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
 
   <p class="bc"><a href="{base}">{s["portfolio"]}</a> / <a href="{base}blog/">{s["blog"]}</a> / {esc(p["title"])}</p>
 
-  <p class="meta">{s["blog"]} · <time datetime="{p["date"]}">{human_date(p["date"], lang)}</time>{updated} · {s["minutes"].format(n=p["minutes"])}</p>
   <h1>{esc(p["title"])}</h1>
-  <p class="byline">{s["byline"]} <a href="{base}faq/">Podlesny Twins</a></p>
+  <div class="dek">
+    <p class="byline">{s["byline"]} <a href="{base}faq/">Podlesny Twins</a></p>
+    <p class="meta"><time datetime="{p["date"]}">{human_date(p["date"], lang)}</time>{updated} · {s["minutes"].format(n=p["minutes"])}</p>
+  </div>
 
   <div class="intro">
     <p class="eyebrow">{s["in_short"]}</p>
     <p>{esc(p["lead"])}</p>
   </div>
 
-  <article class="post">
+  <div class="doc">
+    <nav class="rail rail-c" aria-labelledby="contents-h">
+      <p class="rail-h" id="contents-h">{s["contents"]}</p>
+      <ol class="toc">
+{contents}
+      </ol>
+    </nav>
+    <article class="post flow">
 {p["body"]}
-  </article>
+    </article>
+  </div>
 
   <aside class="src">
     <p class="eyebrow">{s["sources"]}</p>
@@ -548,6 +616,7 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
 
   <p class="back"><a href="{base}blog/">{s["back"]}</a></p>
 </div>
+{rail_js}
 </body>
 </html>
 """
@@ -557,7 +626,7 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
 
 def render_index(posts: list[dict]) -> str:
     page = f"{SITE}/blog/"
-    style, nav = lifted_shell("ru", "en/blog/")
+    style, nav, _ = lifted_shell("ru", "en/blog/")
     studio = studio_entity({"shell": LANG["ru"]["shell"]})
     hreflang = bwm.hreflang_links("blog/")
     if not hreflang:
@@ -598,12 +667,7 @@ def render_index(posts: list[dict]) -> str:
             ],
         },
     ]
-    items = "\n".join(
-        f'    <li><a class="pt" href="{SITE}/blog/{p["slug"]}/">{esc(p["title"])}</a>'
-        f'<p class="pd">{esc(p["description"])}</p>'
-        f'<p class="pm"><time datetime="{p["date"]}">{dotted(p["date"])}</time></p></li>'
-        for p in posts
-    )
+    items = "\n".join(running_order(posts))
     press = "\n".join(
         f'    <li><a class="pt" href="{i["url"]}" rel="noopener">{esc(i["title"])}</a>'
         f'<p class="pd">{esc(i["about"])}</p>'
@@ -637,27 +701,56 @@ def render_index(posts: list[dict]) -> str:
 
   <div class="bc"><a href="{SITE}/">Портфолио</a> / Блог</div>
 
-  <div class="meta">Podlesny Twins · Блог</div>
   <h1>{esc(INDEX["h1"])}</h1>
   <p class="lead">{esc(INDEX["lead"])}</p>
   <p class="tierlink">{tier_sentence()}</p>
 
+  <section class="shelf">
   <h2 id="posts">Статьи</h2>
-  <ul class="posts">
+  <ul class="posts run">
 {items}
   </ul>
+  </section>
 
+  <section class="shelf">
   <h2 id="interviews">Интервью</h2>
   <ul class="posts">
 {press}
   </ul>
+  </section>
 
+  <div class="coda">
   <p class="faqfoot">Новые заметки сначала выходят в Telegram-канале <a href="{CHANNEL}" rel="noopener">@lesnymix</a> · <a href="{CHAT}" rel="noopener">Чат</a></p>
   <p class="back"><a href="{SITE}/">← Все работы студии</a></p>
+  </div>
 </div>
 </body>
 </html>
 """
+
+
+def running_order(posts: list[dict]) -> list[str]:
+    """Index rows. The newest article leads with its date, reading time and
+    first picture; the rest read like a tracklist — title, teaser and the
+    reading time as a duration. A row repeats the date only when it differs
+    from the row above, so a batch published on one day shows it once."""
+    s = LANG["ru"]["s"]
+    rows, prev = [], None
+    for k, p in enumerate(posts):
+        link = f'<a class="pt" href="{SITE}/blog/{p["slug"]}/">{esc(p["title"])}</a>'
+        teaser = f'<p class="pd">{esc(p["description"])}</p>'
+        date = f'<time datetime="{p["date"]}">{dotted(p["date"])}</time>'
+        if k == 0:
+            pic = (f'<img class="pi" src="{p["image"]["url"]}" alt="" width="{p["image"]["width"]}" '
+                   f'height="{p["image"]["height"]}" decoding="async">' if p["image"] else "")
+            rows.append(f'    <li class="opener">{link}{teaser}<p class="pm">{date} · '
+                        f'<span>{s["minutes"].format(n=p["minutes"])}</span></p>{pic}</li>')
+        else:
+            when = f'<p class="pm">{date}</p>' if p["date"] != prev else ""
+            rows.append(f'    <li>{link}{teaser}{when}'
+                        f'<span class="dur">{s["min_short"].format(n=p["minutes"])}</span></li>')
+        prev = p["date"]
+    return rows
 
 
 # ── the tier-list pointer on the index ────────────────────────────────

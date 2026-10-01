@@ -159,6 +159,16 @@ def shell(cfg: dict) -> tuple[str, str]:
     return style.group(0), nav_html + "\n\n  " + wave.group(0)
 
 
+def rail_script(shell_path: Path) -> str:
+    """The rail's playhead script, lifted from the FAQ page like the stylesheet:
+    the FAQ owns the two-column sheet, tier and blog borrow it unchanged."""
+    src = shell_path.read_text(encoding="utf-8")
+    m = re.search(r'<script id="rail">.*?</script>', src, re.S)
+    if not m:
+        raise SystemExit(f"{shell_path.relative_to(ROOT)} has no <script id=\"rail\"> — cannot lift the rail")
+    return m.group(0)
+
+
 STUDIO_ID = f"{SITE}/#podlesnytwins"
 
 
@@ -402,12 +412,15 @@ def render(data: dict, cfg: dict) -> str:
     <p>{data["intro"]}</p>
   </div>
 
-  <ul class="toc">{toc}</ul>
-
+  <div class="doc">
+  <div class="rail"><ul class="toc">{toc}</ul></div>
+  <div class="flow">
   <p class="meta">{esc(s["scale"])}</p>
   <ul class="tierkey">{key}</ul>
 
   {"".join(sections)}
+  </div>
+  </div>
 
   <p class="upd">{esc(s["updated"].format(date=data["modified_human"]))}</p>
   <p class="faqfoot">{esc(s["full_video"])}<a href="https://www.youtube.com/watch?v={v['id']}" rel="noopener">{esc(s["video_label"].format(title=v["title"]))}</a>
@@ -415,6 +428,7 @@ def render(data: dict, cfg: dict) -> str:
    · <a href="{works}">{esc(s["works"])}</a></p>
   <p class="back"><a href="{home}">{esc(s["back"])}</a></p>
 </div>
+{rail_script(cfg["shell"])}
 <script>
 // Every technique is addressable as /tier/#slug — that is what the JSON-LD
 // publishes and what an answer engine cites. Browsers do not open a targeted

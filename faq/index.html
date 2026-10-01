@@ -34,10 +34,14 @@
 /* Headline font — same family as the main site podlesnytwins.com (Tilda 'SaarSP') */
 @font-face{font-family:'SaarSP';src:url('https://static.tildacdn.com/tild6565-6366-4065-b536-663938373766/SaarSPDemo.WOFF') format('woff');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:'SaarSP';src:url('https://static.tildacdn.com/tild6330-3266-4634-a532-316339613139/LiteralBold.WOFF') format('woff');font-weight:600;font-style:normal;font-display:swap}
-:root{--bg:#1a1a19;--surface:#222221;--line:#34332f;--ink:#f2efef;--mut:#9a9292;--mut2:#7a7474;--red:#cf2c04}
+:root{--bg:#1a1a19;--surface:#222221;--line:#34332f;--ink:#f2efef;--ink2:#d9d3d3;--mut:#9a9292;--mut2:#7a7474;--red:#cf2c04;--rail:232px;--gap:64px}
 *{box-sizing:border-box}
+html{scrollbar-color:#3d3b37 var(--bg)}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Work Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding:44px 20px 88px;counter-reset:qgroup}
+::selection{background:#8f2409;color:#fff}
+[id]{scroll-margin-top:28px}
+.wrap{max-width:1120px;margin:0 auto;padding:44px 32px 96px}
 a{color:inherit;text-decoration:none}
 
 /* ---- header: brand mark + links, same as /about/ and homepage ---- */
@@ -61,50 +65,56 @@ a{color:inherit;text-decoration:none}
 .wave rect{fill:var(--red)}
 .wave rect:nth-child(3n){fill:#6f2a1c}
 
-.bc{font-size:13px;color:var(--mut);margin:22px 0 20px}
+/* ---- the sheet: SaarSP carries structure, Work Sans carries content; red marks state, never prose ---- */
+.bc{font-size:13px;color:var(--mut);margin:22px 0 30px}
 .bc a{color:var(--mut)}
 .bc a:hover{color:var(--ink)}
-.meta{display:inline-block;font-size:14px;color:var(--red);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px}
-h1{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(30px,5.6vw,46px);line-height:1.04;letter-spacing:0;margin:0 0 22px;text-wrap:balance}
-.lead{font-size:17px;font-weight:500;color:#cfc9c9;margin:0 0 30px;max-width:64ch}
-
-/* ---- entity paragraph — the one block search engines AND humans read first ---- */
-.intro{position:relative;margin:0 0 46px;padding:22px 24px;background:var(--surface);border-radius:10px;border-left:3px solid var(--red)}
-.intro .eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
-.intro p{margin:0;font-size:16px;line-height:1.65;color:#d9d3d3;max-width:74ch}
-.intro strong{color:var(--ink);font-weight:600}
+.meta{display:block;font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 16px;font-variant-numeric:tabular-nums}
+h1{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(34px,6.2vw,76px);line-height:.96;letter-spacing:0;margin:0 0 30px;max-width:15em;text-wrap:balance}
+.lead{font-size:clamp(17px,1.6vw,20px);line-height:1.55;font-weight:500;color:#cfc9c9;margin:0 0 18px;max-width:52ch}
 .num{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
 .ia{font-size:.8em;font-weight:700;margin-left:1px;color:var(--mut)}
-.iadisc{max-width:60ch;margin:22px 0 0;font-size:12px;line-height:1.5;color:var(--mut2)}
 
-/* ---- table of contents — a filter row, not a link list ---- */
-.toc{list-style:none;margin:0 0 50px;padding:14px 0;display:flex;flex-wrap:wrap;gap:6px 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.toc a{display:inline-flex;align-items:center;gap:7px;min-height:44px;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
-.toc a:hover,.toc a:focus-visible{color:var(--ink)}
+/* two columns: a margin head on the left, the text on the right — liner-notes credits, not cards */
+.intro,.doc{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gap);align-items:start}
+.intro{margin:56px 0 0;padding:30px 0 0;border-top:1px solid var(--line)}
+.eyebrow{grid-column:1;grid-row:1 / span 6;margin:0;font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:21px;line-height:1.1;letter-spacing:.01em;text-transform:uppercase;color:var(--ink)}
+.intro>p:not(.eyebrow){grid-column:2;margin:0;font-size:clamp(17px,1.5vw,19.5px);line-height:1.62;font-weight:500;color:var(--ink2);max-width:62ch}
+.intro strong{color:var(--ink);font-weight:600}
+
+/* ---- the rail: sections on the left, a playhead that travels with the reader ---- */
+.doc{margin:64px 0 0;padding:30px 0 0;border-top:1px solid var(--line)}
+.rail{grid-column:1;position:sticky;top:28px;max-height:calc(100vh - 56px);overflow-y:auto;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.flow{grid-column:2;min-width:0}
+.flow>:first-child{margin-top:0}
+.rail-h{margin:0 0 12px;font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:21px;line-height:1.1;text-transform:uppercase;color:var(--ink)}
+.toc{--y:0px;position:relative;list-style:none;margin:0;padding:0 0 0 20px;border-left:1px solid var(--line)}
+.toc::before{content:"";position:absolute;left:-1px;top:0;width:1px;height:var(--y);background:var(--red)}
+.toc::after{content:"";position:absolute;left:-5px;top:calc(var(--y) - 1px);width:9px;height:2px;background:var(--red);opacity:0;transition:opacity .2s}
+.toc.on::after{opacity:1}
+.toc li{margin:0}
+.toc a{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-height:44px;padding:11px 0;font-size:14px;line-height:1.38;font-weight:600;color:var(--mut);transition:color .15s}
+.toc a:hover,.toc a[aria-current]{color:var(--ink)}
 .toc a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-.toc .fc{font-size:11px;font-weight:600;color:var(--mut);letter-spacing:0;text-transform:none}
-.toc a:hover .fc{color:var(--mut)}
+.toc .fc{flex:0 0 auto;font-size:12px;font-weight:600;color:var(--mut);font-variant-numeric:tabular-nums}
 
-/* ---- section headers — the two-tier rhythm: a chapter break, not just another rule ---- */
-h2{counter-increment:qgroup;counter-reset:qitem;display:flex;align-items:baseline;gap:16px;margin:76px 0 30px;padding-top:32px;border-top:1px solid var(--line);font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(21px,3.6vw,27px);line-height:1.1;color:var(--ink);letter-spacing:0}
-h2:first-of-type{margin-top:0;padding-top:0;border-top:0}
-h2::before{content:counter(qgroup,decimal-leading-zero);flex:0 0 auto;font-family:'SaarSP',Arial,sans-serif;font-weight:600;font-size:15px;color:var(--red);letter-spacing:.04em}
-
-/* ---- questions — numbered per section, aligned gutter, rotating +  ---- */
+/* ---- sections and questions ---- */
+h2{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(26px,3vw,38px);line-height:1.02;letter-spacing:0;color:var(--ink);margin:96px 0 20px;text-wrap:balance}
+h2+details{border-top:1px solid var(--line)}
 details{border-bottom:1px solid var(--line)}
-details summary{position:relative;cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:18px 34px 18px 0;font-size:16.5px;font-weight:600;color:var(--ink);transition:color .15s,transform .15s}
+details summary{position:relative;cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:12px;min-height:44px;padding:20px 52px 20px 0;font-size:clamp(16px,1.4vw,18px);line-height:1.4;font-weight:600;color:var(--ink)}
 details summary::-webkit-details-marker{display:none}
-details summary::before{counter-increment:qitem;content:counter(qitem,decimal-leading-zero);flex:0 0 30px;padding-top:2px;font-size:12px;font-weight:700;color:var(--mut);letter-spacing:.02em;font-variant-numeric:tabular-nums;transition:color .15s}
-details[open] summary::before{color:var(--red)}
-details summary:hover,details summary:focus-visible{color:var(--red)}
-details summary:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-@media(prefers-reduced-motion:no-preference){details summary:hover,details summary:focus-visible{transform:translateX(2px)}}
-details summary::after{content:"+";position:absolute;right:2px;top:16px;font-size:19px;font-weight:400;color:var(--mut2);line-height:1;transition:transform .25s ease,color .15s}
-details[open] summary::after{transform:rotate(45deg);color:var(--red)}
-details[open] summary{color:var(--red)}
-.ans{font-size:15.5px;color:#cfc9c9;max-width:68ch;margin:0 0 24px;padding:0 28px 0 42px}
-.ans a{color:var(--red);font-weight:600}
-.ans a:hover{text-decoration:underline}
+details summary::after{content:"";position:absolute;right:6px;top:calc(20px + .7em - 7px);width:14px;height:14px;background:linear-gradient(currentColor,currentColor) center/14px 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 14px no-repeat;color:var(--mut);transition:transform .4s cubic-bezier(.2,.8,.2,1),color .15s}
+details summary:hover::after,details[open] summary::after{color:var(--red)}
+details[open] summary::after{transform:rotate(135deg)}
+details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.ans{font-size:16.5px;line-height:1.7;color:var(--ink2);max-width:64ch;margin:0;padding:0 52px 30px 0}
+.ans p{margin:0 0 12px}
+
+/* links inside prose: ink with a red underline — the brand red fails 4.5:1 as text on this ground */
+.ans a,.intro a,.faqfoot a,.tierlink a{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:1px;text-underline-offset:.24em;transition:text-decoration-thickness .15s,color .15s}
+.ans a:hover,.intro a:hover,.faqfoot a:hover,.tierlink a:hover{color:#fff;text-decoration-thickness:2px}
 
 /* Progressive enhancement only — browsers without ::details-content just open/close instantly, which is already the correct baseline behaviour. */
 @supports selector(::details-content){
@@ -115,25 +125,53 @@ details[open] summary{color:var(--red)}
   }
 }
 
-.upd{font-size:13px;color:var(--mut);margin:56px 0 0;padding-top:24px;border-top:1px solid var(--line)}
-.faqfoot{font-size:13px;color:var(--mut);margin-top:14px}
-.faqfoot a{color:var(--red);font-weight:600}
-.faqfoot a:hover{text-decoration:underline}
-.back{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:var(--mut);margin-top:10px}
-.back a{color:var(--red);font-weight:600}
-.back a:hover{text-decoration:underline}
+@media(prefers-reduced-motion:reduce){*,::before,::after{transition-duration:0s!important}}
 
+/* ---- coda ---- */
+.upd{font-size:13px;color:var(--mut);margin:80px 0 0;padding-top:24px;border-top:1px solid var(--line)}
+.iadisc{max-width:60ch;margin:16px 0 0;font-size:12.5px;line-height:1.5;color:var(--mut)}
+.faqfoot{font-size:14px;color:var(--mut);margin:14px 0 0}
+.back{display:flex;align-items:center;min-height:44px;font-size:14px;color:var(--mut);margin:10px 0 0}
+.back a{color:var(--mut);font-weight:600;transition:color .15s}
+.back a:hover{color:var(--ink)}
+@media(min-width:768px){
+  .upd,.iadisc,.faqfoot,.back{margin-left:calc(var(--rail) + var(--gap))}
+}
+/* tablet and narrow laptop windows keep the sheet, on a slimmer margin */
+@media(min-width:768px) and (max-width:1023px){
+  :root{--rail:168px;--gap:36px}
+  .wrap{padding-left:28px;padding-right:28px}
+  .toc a{font-size:13.5px}
+  .eyebrow,.rail-h{font-size:19px}
+}
+
+/* ---- below the two-column width: one column, the rail becomes a row of section links ---- */
+@media(max-width:767px){
+  .intro,.doc{display:block}
+  .eyebrow{margin:0 0 14px;font-size:18px}
+  .rail{position:static;max-height:none;overflow:visible;margin:0 0 8px}
+  .rail-c{display:none}
+  .toc{display:flex;flex-wrap:wrap;gap:0 24px;padding:4px 0;border-left:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .toc::before,.toc::after{display:none}
+  .toc a{justify-content:flex-start;gap:7px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  .doc{margin-top:48px;padding-top:0;border-top:0}
+  .flow{margin-top:56px}
+  h2{margin-top:72px}
+}
 @media(max-width:520px){
   .wrap{padding:32px 18px 64px}
   .wave{height:14px;margin-bottom:26px}
-  h1{font-size:clamp(27px,7.2vw,34px)}
-  .lead{font-size:15.5px}
-  .intro{padding:18px 18px;border-radius:8px}
-  .toc{gap:6px 18px;padding:12px 0;margin-bottom:40px}
-  h2{margin:54px 0 22px;padding-top:24px;gap:12px}
-  details summary{font-size:15.5px;padding-right:30px;gap:8px}
-  details summary::before{flex-basis:22px;font-size:11px}
-  .ans{padding-left:30px;padding-right:0;font-size:15px}
+  .bc{margin-bottom:22px}
+  h1{font-size:clamp(30px,9vw,40px);margin-bottom:22px}
+  .lead{font-size:16px}
+  .intro{margin-top:40px;padding-top:24px}
+  .intro>p:not(.eyebrow){font-size:16.5px}
+  .toc{gap:0 18px}
+  .flow{margin-top:44px}
+  h2{margin:60px 0 14px;font-size:clamp(25px,7.4vw,30px)}
+  details summary{font-size:16px;padding-right:40px}
+  details summary::after{right:2px}
+  .ans{padding-right:0;font-size:15.5px}
 }
 </style>
 </head>
@@ -297,7 +335,6 @@ details[open] summary{color:var(--red)}
 
   <div class="bc"><a href="https://credits.podlesnytwins.com/">Портфолио</a> / Вопросы и ответы</div>
 
-  <div class="meta">Podlesny Twins · Санкт-Петербург</div>
   <h1>Вопросы и ответы: сведение, мастеринг и работы Podlesny Twins</h1>
   <p class="lead">Собрали вопросы, которые нам чаще всего задают перед заказом. Не нашли свой — напишите в Telegram или спросите в нашем открытом чате, отвечаем быстро.</p>
 
@@ -306,6 +343,8 @@ details[open] summary{color:var(--red)}
     <p><strong>Podlesny Twins</strong> — это студия сведения и мастеринга братьев-близнецов Антона и Павла Подлесных из Санкт-Петербурга, работающая с 2017 года в жанрах хип-хоп, поп, инди и рок. За это время студия свела более <span class="num">1500</span> треков; в открытом каталоге на этом сайте опубликованы <span class="num" data-n="works">222</span> избранных работ для <span class="num" data-n="artists">80</span> артистов, включая Хаски, ЛСП, NAVAI, T-Fest, MACAN, Клаву Коку, Диму Билана и ANNA ASTI. Стоимость сведения — от <span class="num">30 000</span> до <span class="num">45 000</span> ₽, мастеринга — <span class="num">6 000</span> ₽. Также близнецы ведут курсы Podlesny Education: осенью 2026 года идёт ограниченный Mentors-Only набор на <span class="num">30</span> мест со стартом 6 октября.</p>
   </div>
 
+  <div class="doc">
+  <nav class="rail" aria-label="Разделы">
   <ul class="toc">
     <li><a href="#about">О студии <span class="fc">5</span></a></li>
     <li><a href="#credits">Работы <span class="fc">9</span></a></li>
@@ -314,6 +353,8 @@ details[open] summary{color:var(--red)}
     <li><a href="#education">Обучение <span class="fc">4</span></a></li>
     <li><a href="#social">Соцсети и чат <span class="fc">2</span></a></li>
   </ul>
+  </nav>
+  <div class="flow">
 
   <h2 id="about">О студии</h2>
 
@@ -492,10 +533,54 @@ details[open] summary{color:var(--red)}
     <p class="ans">У Podlesny Twins есть телеграм-канал о звуке — <a href="https://t.me/lesnymix" rel="noopener">t.me/lesnymix</a>: заметки о сведении и мастеринге, разборы рабочих моментов, новости студии и курсов Podlesny Education. При канале работает открытый чат — там обсуждают звук, задают вопросы и делятся опытом: вступить можно <a href="https://t.me/+VXgXHnAXj9w2ZGYy" rel="noopener">по этой ссылке</a>. Также братья ведут YouTube (<a href="https://youtube.com/@podlesnytwins" rel="noopener">youtube.com/@podlesnytwins</a>) с разборами сведения и страницу ВКонтакте (<a href="https://vk.com/podlesnytwins" rel="noopener">vk.com/podlesnytwins</a>).</p>
   </details>
 
+  </div>
+  </div>
+
   <p class="upd">Последнее обновление: 25 сентября 2026 года.</p>
   <p class="iadisc">* Моргенштерн Алишер Тагирович признан в Российской Федерации иностранным агентом.</p>
   <p class="faqfoot"><a href="https://t.me/lesnymix" rel="noopener">Канал о звуке</a> · <a href="https://t.me/+VXgXHnAXj9w2ZGYy" rel="noopener">Чат</a></p>
   <p class="back"><a href="https://credits.podlesnytwins.com/track/">← Все работы студии</a></p>
 </div>
+<script id="rail">
+// The rail's playhead: the active section is the last heading above the
+// reading line, and the red tick travels between that section's link and the
+// next one as the reader moves through it. build_tier.py and build_blog.py
+// lift this script together with the stylesheet, so all three stay in step.
+(function () {
+  var toc = document.querySelector('.rail .toc'), doc = document.querySelector('.doc');
+  if (!toc || !doc) return;
+  var flow = doc.querySelector('.flow') || doc;
+  var links = [].slice.call(toc.querySelectorAll('a[href*="#"]'));
+  var heads = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+  var wide = window.matchMedia('(min-width:768px)'), queued = false;
+  function top(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  function mark(a) { return a.offsetTop + Math.min(a.offsetHeight / 2, 21); }
+  function draw() {
+    queued = false;
+    if (!wide.matches) return;
+    var line = window.scrollY + window.innerHeight * 0.3, i = -1, k, y = 0;
+    for (k = 0; k < heads.length; k++) if (heads[k] && top(heads[k]) <= line) i = k;
+    for (k = 0; k < links.length; k++) {
+      if (k === i) links[k].setAttribute('aria-current', 'location');
+      else links[k].removeAttribute('aria-current');
+    }
+    if (i >= 0) {
+      var start = top(heads[i]);
+      var end = heads[i + 1] ? top(heads[i + 1]) : top(flow) + flow.offsetHeight;
+      var f = Math.max(0, Math.min(1, (line - start) / Math.max(1, end - start)));
+      var from = mark(links[i]), to = links[i + 1] ? mark(links[i + 1]) : toc.offsetHeight;
+      y = from + f * (to - from);
+    }
+    toc.style.setProperty('--y', y.toFixed(1) + 'px');
+    toc.classList.toggle('on', i >= 0);
+  }
+  function queue() { if (!queued) { queued = true; window.requestAnimationFrame(draw); } }
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  if (wide.addEventListener) wide.addEventListener('change', queue);
+  document.addEventListener('toggle', queue, true);   // an opened answer moves every heading below it
+  draw();
+})();
+</script>
 </body>
 </html>
