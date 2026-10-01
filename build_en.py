@@ -430,6 +430,8 @@ class Site:
         # the static set is owned by build_who_mixed (hreflang + sitemap use the
         # same one); it includes /tier/, which build_tier.py renders for EN
         self.en_paths = {"/" + p for p in bwm.EN_STATIC} | {f"/track/{s}/" for s in self.track_pages}
+        # blog articles with an English version (rendered by build_blog.py)
+        self.en_paths |= {f"/blog/{f.stem}/" for f in (ROOT / "blog-src" / "en").glob("*.md")}
 
 
 # ─────────────────────────────────────────────────────────────── missing log

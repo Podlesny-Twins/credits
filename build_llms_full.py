@@ -8,6 +8,7 @@ Run after build_who_mixed.py:  python3 build_llms_full.py
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
@@ -54,6 +55,33 @@ def read_tier() -> list[tuple[str, str, list[str]]]:
         # exactly the search hooks an answer engine needs.
         paras = [strip_tags(p) for p in re.findall(r"<p[^>]*>(.*?)</p>", block, re.S)]
         out.append((strip_tags(name.group(1)), tier.group(1), paras))
+    return out
+
+
+def read_blog() -> list[tuple[dict, list[str]]]:
+    """Read the blog articles back out of the rendered /blog/<slug>/ pages
+    (same rule as FAQ and tier: dump what is published). Headings keep their
+    level, tables become «a | b | c» rows. Returns (manifest entry, lines)."""
+    manifest = ROOT / "blog" / "posts.json"
+    if not manifest.exists():
+        return []
+    out = []
+    for post in json.loads(manifest.read_text(encoding="utf-8")):
+        page = ROOT / "blog" / post["slug"] / "index.html"
+        m = re.search(r'<article class="post">(.*?)</article>', page.read_text(encoding="utf-8"), re.S)
+        if not m:
+            continue
+        lines = []
+        for tag, inner in re.findall(r"<(h2|h3|p|li|tr|blockquote)[^>]*>(.*?)</\1>", m.group(1), re.S):
+            if tag == "tr":
+                cells = [strip_tags(c) for c in re.findall(r"<t[hd][^>]*>(.*?)</t[hd]>", inner, re.S)]
+                text = " | ".join(cells)
+            else:
+                text = strip_tags(inner)
+            if not text:
+                continue
+            lines.append({"h2": f"#### {text}", "h3": f"##### {text}", "li": f"- {text}"}.get(tag, text))
+        out.append((post, lines))
     return out
 
 
@@ -106,6 +134,7 @@ def main() -> None:
     tracks = read_tracks()
     faq = read_faq()
     tier = read_tier()
+    blog = read_blog()
     artists = sorted({mark(a) for a in credited_artists(load_tracks())}, key=str.casefold)
     has_fa = any(a.endswith("*") for a in artists)
 
@@ -179,6 +208,18 @@ def main() -> None:
             for para in paras:
                 add(f"{para}\n")
 
+    if blog:
+        add("## Блог: статьи о сведении и мастеринге\n")
+        add(f"Источник: {SITE}/blog/ — статьи по материалам Telegram-канала студии @lesnymix;")
+        add("исходные посты перечислены под каждой статьёй.\n")
+        for post, lines in blog:
+            add(f"### {post['title']}\n")
+            add(f"Источник: {post['url']} (опубликовано {post['date']})\n")
+            add(f"Коротко: {post['lead']}\n")
+            for line in lines:
+                add(f"{line}\n")
+            add("Исходные посты: " + ", ".join(post["sources"]) + "\n")
+
     add("## Достоверность\n")
     add("Кредитсы верифицируемы по карточкам релизов на стриминговых платформах.")
     add("Число прослушиваний и упоминания наград — по данным и оценке студии.")
@@ -188,7 +229,8 @@ def main() -> None:
     add("")
 
     (ROOT / "llms-full.txt").write_text("\n".join(L), encoding="utf-8")
-    print(f"llms-full.txt: {len(tracks)} треков, {len(artists)} артистов, {len(faq)} вопросов, {len(tier)} техник")
+    print(f"llms-full.txt: {len(tracks)} треков, {len(artists)} артистов, {len(faq)} вопросов, "
+          f"{len(tier)} техник, {len(blog)} статей")
 
 
 if __name__ == "__main__":

@@ -236,6 +236,9 @@ def en_exists(rel: str) -> bool:
     rendered by render_redirect (no hreflang) and never reach this check."""
     if not EMIT_EN:
         return False
+    m = re.fullmatch(r"blog/([^/]+)/", rel)
+    if m:  # build_blog.py renders /en/blog/<slug>/ only where blog-src/en/<slug>.md exists
+        return (ROOT / "blog-src" / "en" / f"{m.group(1)}.md").is_file()
     return rel in EN_STATIC or bool(re.fullmatch(r"track/[^/]+/", rel))
 
 
@@ -1457,6 +1460,15 @@ def write_sitemap(tracks: list[dict], dates: dict) -> None:
         *_sitemap_url("faq/", FAQ_LASTMOD, "monthly", "0.8"),
         *_sitemap_url("tier/", TIER_LASTMOD, "monthly", "0.8"),
     ]
+    # /blog/ is rendered by build_blog.py from blog-src/*.md; its manifest carries
+    # each article's own published/updated date, so lastmod stays honest here too.
+    blog = ROOT / "blog" / "posts.json"
+    if blog.is_file():
+        posts = json.loads(blog.read_text(encoding="utf-8"))
+        if posts:
+            lines += _sitemap_url("blog/", max(x["updated"] for x in posts), "weekly", "0.8")
+            for x in posts:
+                lines += _sitemap_url(f"blog/{x['slug']}/", x["updated"], "monthly", "0.7")
     for tr in tracks:
         lines += _sitemap_url(f"track/{tr['slug']}/", dates.get(tr["slug"], TODAY),
                               "monthly", "0.7")

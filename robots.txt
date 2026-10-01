@@ -6,75 +6,92 @@
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: GPTBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 # --- Perplexity ---
 User-agent: PerplexityBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Perplexity-User
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 # --- Anthropic ---
 User-agent: ClaudeBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Claude-SearchBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Claude-User
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 # --- Google ---
 User-agent: Googlebot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 # --- Yandex ---
 User-agent: YandexBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: YandexAdditional
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 # --- Others ---
 User-agent: Bingbot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Applebot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: CCBot
 Allow: /
 Disallow: /edit/
+Disallow: /blog-src/
 
 User-agent: *
 Allow: /
 # Приватная песочница владельца — индексировать нечего
 Disallow: /edit/
+Disallow: /blog-src/
 
 Sitemap: https://credits.podlesnytwins.com/sitemap.xml

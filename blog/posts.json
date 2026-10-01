@@ -1,0 +1,177 @@
+[
+ {
+  "slug": "pochemu-bas-ploho-zvuchit-v-mikse",
+  "title": "Почему бас плохо звучит в миксе и как это исправить",
+  "description": "Бас пропадает на телефоне или гудит в клубе? Рабочий диапазон баса, гармоники, проверка саба без сабвуфера, конфликт с бочкой и две ошибки, которые портят низ.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Проблемы с низом чаще всего вытекают из неправильно подобранной тональности, и дело не только в басе вне тональности: важен ещё диапазон, в котором он играет. Рабочий промежуток — от фа до ля контроктавы (основной тон примерно 44–55 Гц, а с телефона слышно его гармоники): такой бас слышен и в наушниках, и в клубе, и с телефона. Ниже без мощного сабвуфера он пропадает, а выше 80 Гц ему не хватает саба.",
+  "url": "https://credits.podlesnytwins.com/blog/pochemu-bas-ploho-zvuchit-v-mikse/",
+  "sources": [
+   "https://t.me/lesnymix/607",
+   "https://t.me/lesnymix/55",
+   "https://t.me/lesnymix/67"
+  ],
+  "en": {
+   "title": "Why your bass sounds bad in the mix (and how to fix it)",
+   "description": "Bass vanishing on phones or booming in the club? The working range, harmonics, checking the sub without a subwoofer, the kick clash and two mistakes that wreck the low end.",
+   "lead": "Low-end problems usually come from a badly chosen key, and it's not just the key: the register the bass sits in matters too. The working range is F1 to A1 (a fundamental of roughly 44–55 Hz, and on a phone you hear its harmonics): a bass there comes through on headphones, in a club and on a phone. Below that it disappears without a big subwoofer, and above 80 Hz it runs short of sub.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/pochemu-bas-ploho-zvuchit-v-mikse/"
+  }
+ },
+ {
+  "slug": "tranzienty-v-svedenii",
+  "title": "Транзиенты в сведении: как вернуть атаку бочке и не потерять громкость",
+  "description": "Что такое транзиенты, почему их не вытащить эквалайзером и как вернуть атаку бочке: подмешать клик через Snapback или транзиенты через шейпер с дельтой.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Транзиентами называют атаки звуков. Они задают глубину трека, создают ощущение чёткости и грамотного позиционирования элементов микса. Если атака у бочки есть, но тихая, её усиливают транзиент-шейпером с функцией дельты и подмешивают параллельно. Если атаки нет совсем, эквалайзер не поможет — нужно подмешать отдельный клик, например плагином Snapback.",
+  "url": "https://credits.podlesnytwins.com/blog/tranzienty-v-svedenii/",
+  "sources": [
+   "https://t.me/lesnymix/610",
+   "https://t.me/lesnymix/58"
+  ],
+  "en": {
+   "title": "Transients in mixing: how to get the kick's attack back without losing loudness",
+   "description": "What transients are, why EQ can't pull them out of a dull kick, and two ways to get the attack back: layer a click with Snapback or use a transient shaper in delta mode.",
+   "lead": "Transients are the attacks of sounds. They give a track depth and clarity and make every element feel like it's in the right place. If the kick has an attack but it's quiet, boost it with a transient shaper in delta mode and blend it in on a parallel channel. If there's no attack at all, EQ won't help; you need to layer a separate click, for example with Snapback.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/tranzienty-v-svedenii/"
+  }
+ },
+ {
+  "slug": "templeyt-dlya-svedeniya",
+  "title": "Темплейт для сведения: как устроен шаблон проекта Podlesny Twins",
+  "description": "Как устроен наш темплейт для сведения: обработка на исходных дорожках, роутинг «матрёшкой», пять главных шин и три мастер-шины для выгрузки мастеринг-инженеру.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Темплейт — это не просто набор пресетов, в которые ты вставляешь дорожки от трека к треку, а набор тщательно подобранных инструментов, собранный годами. В нашем темплейте вся первичная обработка стоит на исходных дорожках, шины нужны для удобства, а роутинг собран «матрёшкой»: подгруппы, пять главных шин, instrumental и all vox, потом три мастер-шины.",
+  "url": "https://credits.podlesnytwins.com/blog/templeyt-dlya-svedeniya/",
+  "sources": [
+   "https://t.me/lesnymix/530",
+   "https://t.me/lesnymix/537",
+   "https://t.me/lesnymix/539",
+   "https://t.me/lesnymix/402",
+   "https://t.me/lesnymix/320",
+   "https://t.me/lesnymix/517"
+  ],
+  "en": {
+   "title": "Our mixing template: how the Podlesny Twins session template is built",
+   "description": "How our mixing template works: processing on the source tracks, nested routing, five main buses and three master buses for exporting mixes to the mastering engineer.",
+   "lead": "Our template is years' worth of carefully picked tools, much more than a pile of presets you load onto every song. In our template, all the primary processing sits on the source tracks, the buses are there for convenience, and the routing is nested like a matryoshka doll: subgroups, five main buses, instrumental and all vox, then three master buses.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/templeyt-dlya-svedeniya/"
+  }
+ },
+ {
+  "slug": "parallelnaya-obrabotka-zhivyh-barabanov",
+  "title": "Параллельная обработка живых барабанов: метод Эндрю Шепса",
+  "description": "Как сводить живые барабаны по методу Эндрю Шепса: почти без прямой компрессии, с параллельными шинами Drum Crush, Drums Dirt и Kick+Snare Crush и автоматизацией.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "На отдельных дорожках и группе барабанов у Andrew Scheps почти нет компрессии, чтобы барабаны оставались живыми и динамичными. Плотность и энергия появляются через параллельные шины: Drum Crush (Puigchild 670, 4–5 дБ), Drums Dirt (сатурация Omnipressor) и Kick+Snare Crush (dbx 160, 2–3 дБ). Их подмешивают столько, сколько просит аранжировка, и автоматизируют по частям трека.",
+  "url": "https://credits.podlesnytwins.com/blog/parallelnaya-obrabotka-zhivyh-barabanov/",
+  "sources": [
+   "https://t.me/lesnymix/546",
+   "https://t.me/lesnymix/548",
+   "https://t.me/lesnymix/224",
+   "https://t.me/lesnymix/281"
+  ],
+  "en": {
+   "title": "Parallel processing for live drums: the Andrew Scheps method",
+   "description": "Mixing live drums the Andrew Scheps way: almost no direct compression, three parallel buses (Drum Crush, Drums Dirt, Kick+Snare Crush) and automation by song section.",
+   "lead": "Andrew Scheps uses almost no compression on the individual drum tracks or the drum group, which keeps the drums alive and dynamic. Density and energy come from parallel buses instead: Drum Crush (Puigchild 670, 4–5 dB), Drums Dirt (Omnipressor saturation) and Kick+Snare Crush (dbx 160, 2–3 dB). You blend them in as much as the arrangement asks for and automate them by section.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/parallelnaya-obrabotka-zhivyh-barabanov/"
+  }
+ },
+ {
+  "slug": "pochemu-miks-tishe-demo",
+  "title": "Почему сведённый трек тише демо и нужно ли сдавать мастер в −14 LUFS",
+  "description": "Демо приходят на −5…−6 LUFS и кажутся громче микса. Чем платят за такую громкость, как сохранить характер демки и что Spotify на самом деле делает с −14 LUFS.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Демо часто приходят очень громкими, на −5…−6 LUFS, поэтому сведённая версия рядом кажется тише. За такую громкость платят транзиентами, шириной стерео и искажениями на телефонах. А «всегда выгружать в −14 LUFS, потому что так требуют площадки» мы считаем мифом: Spotify, например, сам приводит треки к −14 LUFS при воспроизведении, а громкий мастер просто убавляет.",
+  "url": "https://credits.podlesnytwins.com/blog/pochemu-miks-tishe-demo/",
+  "sources": [
+   "https://t.me/lesnymix/58",
+   "https://t.me/lesnymix/181",
+   "https://t.me/lesnymix/182"
+  ],
+  "en": {
+   "title": "Why your mix sounds quieter than the demo, and whether you really need −14 LUFS",
+   "description": "Demos arrive at around −5 or −6 LUFS and sound louder than the mix. What that loudness costs, how to keep the demo's character, and what Spotify really does with −14 LUFS.",
+   "lead": "Demos often come in very loud, at around −5 or −6 LUFS, so the finished mix next to them seems quieter. The price of that loudness is lost transients, narrower stereo and distortion on phones. And \"always export at −14 LUFS because the platforms require it\" is a myth in our view: Spotify, for one, normalizes tracks to −14 LUFS on playback and simply turns a loud master down.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/pochemu-miks-tishe-demo/"
+  }
+ },
+ {
+  "slug": "bek-vokal-i-dably",
+  "title": "Как сводить бэк-вокал и даблы: монтаж, тюн и сибилянты",
+  "description": "Как свести бэк-вокал и даблы: что сделать ещё на записи, как быстро смонтировать даблы через OTT, зачем Melodyne ставят перед автотюном и как убрать сибилянты.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Некоторые начинающие артисты думают, что чем больше вокальных дорожек, тем лучше, но часто это даёт обратный эффект — вместо плотной пачки выходит неразборчивая каша. При сведении бэков порядок такой: монтаж по ритму основного вокала, затем тюн, затем сибилянты, вручную или агрессивным диэссером. После каждого серьёзного шага — A/B-тест с демо.",
+  "url": "https://credits.podlesnytwins.com/blog/bek-vokal-i-dably/",
+  "sources": [
+   "https://t.me/lesnymix/51",
+   "https://t.me/lesnymix/52",
+   "https://t.me/lesnymix/30",
+   "https://t.me/lesnymix/32",
+   "https://t.me/lesnymix/34",
+   "https://t.me/lesnymix/35",
+   "https://t.me/lesnymix/70",
+   "https://t.me/lesnymix/78"
+  ],
+  "en": {
+   "title": "How to mix backing vocals and doubles: editing, tuning and sibilants",
+   "description": "How to mix backing vocals and doubles: what to get right when recording, a fast way to edit doubles with OTT, why Melodyne goes first, and taming sibilants.",
+   "lead": "Some beginner artists think more vocal tracks means a better result, but it often backfires: instead of a thick stack you get a muddy mess. When we mix backing vocals the order is: edit them to the lead vocal's timing, then tune, then deal with sibilants, by hand or with an aggressive de-esser. After every serious step, A/B against the demo.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/bek-vokal-i-dably/"
+  }
+ },
+ {
+  "slug": "bitkrasher-na-vokale",
+  "title": "Биткрашер на вокале: когда излишняя детальность мешает миксу",
+  "description": "Зачем ставить биткрашер на вокал: как снижение битности до 13–15 бит убирает лишнюю детальность, помогает голосу сесть в микс и где начинается шум.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Если вокал записан очень детально и не воспринимается как часть песни, помогает снизить его битность биткрашером. На сверхдетальном лид-вокале мы ставили 13 бит — голос зазвучал мягко и певуче, а набор дорожек собрался в песню. Небольшое снижение, с 16 до 15 или 14 бит, помогает «усадить» вокал. Главное, чтобы шум и зернистость не бросались в уши.",
+  "url": "https://credits.podlesnytwins.com/blog/bitkrasher-na-vokale/",
+  "sources": [
+   "https://t.me/lesnymix/531",
+   "https://t.me/lesnymix/23"
+  ],
+  "en": {
+   "title": "Bitcrusher on vocals: when too much detail hurts the mix",
+   "description": "Why put a bitcrusher on a vocal: how dropping to 13–15 bits removes excess detail, helps the voice sit in the arrangement, and where the noise starts to show.",
+   "lead": "If a vocal is so detailed it doesn't feel like part of the song, try lowering its bit depth with a bitcrusher. On an overly detailed lead we went to 13 bits: the voice turned soft and smooth, and the tracks came together as a song. A small drop, from 16 to 15 or 14 bits, helps a vocal sit, as long as the noise and grain don't show.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/bitkrasher-na-vokale/"
+  }
+ },
+ {
+  "slug": "lr-i-mid-side-miks",
+  "title": "LR или Mid-Side: как выстроить стерео в миксе и нужна ли моносовместимость",
+  "description": "Нужна ли моносовместимость в эпоху наушников, чем LR-микс отличается от Mid-Side, как слушать каналы L, R, Mid и Side и как отодвинуть инструмент без реверба.",
+  "date": "2026-10-01",
+  "updated": "2026-10-01",
+  "lead": "Все миксы можно условно разделить на две категории. В LR-миксах левый и правый каналы сильно различаются за счёт агрессивного панорамирования. В Mid-Side-миксах всё сосредоточено в центре, а сайд работает как подушка, где летают хорусы, ревербы и дилеи. Лид-вокал, бочку, бас и снейр в обоих случаях лучше держать в центре.",
+  "url": "https://credits.podlesnytwins.com/blog/lr-i-mid-side-miks/",
+  "sources": [
+   "https://t.me/lesnymix/407",
+   "https://t.me/lesnymix/408",
+   "https://t.me/lesnymix/63"
+  ],
+  "en": {
+   "title": "LR or Mid-Side: how to build the stereo image, and whether mono compatibility still matters",
+   "description": "Mono compatibility in the headphone era, LR vs Mid-Side mixes, listening to L, R, Mid and Side separately, and pushing an instrument back without reverb.",
+   "lead": "Mixes roughly fall into two camps. In LR mixes the left and right channels differ a lot because of aggressive panning. In Mid-Side mixes everything is focused in the center, and the side channel is a bed where choruses, reverbs and delays live. Either way, the lead vocal, kick, bass and snare are best kept in the center.",
+   "updated": "2026-10-01",
+   "url": "https://credits.podlesnytwins.com/en/blog/lr-i-mid-side-miks/"
+  }
+ }
+]

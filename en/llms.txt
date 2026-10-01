@@ -31,6 +31,19 @@
 - [Mixing techniques tier list](https://credits.podlesnytwins.com/en/tier/): the studio's ratings of 51 mixing and mastering techniques on a scale from L to F; this is the position of Podlesny Twins, not a universal rule
 - [Sitemap](https://credits.podlesnytwins.com/sitemap.xml)
 
+## Blog
+
+Articles by the studio on mixing and mastering, based on its Telegram channel @lesnymix; each one links to the source posts (in Russian).
+
+- [Why your bass sounds bad in the mix (and how to fix it)](https://credits.podlesnytwins.com/en/blog/pochemu-bas-ploho-zvuchit-v-mikse/): Bass vanishing on phones or booming in the club? The working range, harmonics, checking the sub without a subwoofer, the kick clash and two mistakes that wreck the low end.
+- [Transients in mixing: how to get the kick's attack back without losing loudness](https://credits.podlesnytwins.com/en/blog/tranzienty-v-svedenii/): What transients are, why EQ can't pull them out of a dull kick, and two ways to get the attack back: layer a click with Snapback or use a transient shaper in delta mode.
+- [Our mixing template: how the Podlesny Twins session template is built](https://credits.podlesnytwins.com/en/blog/templeyt-dlya-svedeniya/): How our mixing template works: processing on the source tracks, nested routing, five main buses and three master buses for exporting mixes to the mastering engineer.
+- [Parallel processing for live drums: the Andrew Scheps method](https://credits.podlesnytwins.com/en/blog/parallelnaya-obrabotka-zhivyh-barabanov/): Mixing live drums the Andrew Scheps way: almost no direct compression, three parallel buses (Drum Crush, Drums Dirt, Kick+Snare Crush) and automation by song section.
+- [Why your mix sounds quieter than the demo, and whether you really need −14 LUFS](https://credits.podlesnytwins.com/en/blog/pochemu-miks-tishe-demo/): Demos arrive at around −5 or −6 LUFS and sound louder than the mix. What that loudness costs, how to keep the demo's character, and what Spotify really does with −14 LUFS.
+- [How to mix backing vocals and doubles: editing, tuning and sibilants](https://credits.podlesnytwins.com/en/blog/bek-vokal-i-dably/): How to mix backing vocals and doubles: what to get right when recording, a fast way to edit doubles with OTT, why Melodyne goes first, and taming sibilants.
+- [Bitcrusher on vocals: when too much detail hurts the mix](https://credits.podlesnytwins.com/en/blog/bitkrasher-na-vokale/): Why put a bitcrusher on a vocal: how dropping to 13–15 bits removes excess detail, helps the voice sit in the arrangement, and where the noise starts to show.
+- [LR or Mid-Side: how to build the stereo image, and whether mono compatibility still matters](https://credits.podlesnytwins.com/en/blog/lr-i-mid-side-miks/): Mono compatibility in the headphone era, LR vs Mid-Side mixes, listening to L, R, Mid and Side separately, and pushing an instrument back without reverb.
+
 ## Full content
 - [llms-full.txt](https://credits.podlesnytwins.com/llms-full.txt): facts, artists, the full FAQ (Russian)
 
