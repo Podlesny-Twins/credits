@@ -103,7 +103,7 @@ LANG = {
             "faq": "Вопросы и ответы",
             "more": "Ещё в блоге",
             "more_aria": "Другие статьи блога",
-            "back": "← Все статьи блога",
+            "back": "Все статьи блога",
             "llms_head": "## Блог",
             "llms_intro": ("Статьи студии о сведении и мастеринге — {SITE}/blog/ — по материалам "
                            "Telegram-канала @lesnymix; у каждой внизу ссылки на исходные посты."),
@@ -140,7 +140,7 @@ LANG = {
             "faq": "FAQ",
             "more": "More from the blog",
             "more_aria": "Other blog articles",
-            "back": "← All blog articles",
+            "back": "All blog articles",
             "llms_head": "## Blog",
             "llms_intro": ("Articles by the studio on mixing and mastering, based on its Telegram channel "
                            "@lesnymix; each one links to the source posts (in Russian)."),
@@ -180,7 +180,7 @@ MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "Au
 EXTRA_CSS = """
 <style>
 /* ---- blog: article head, prose, credits rows, and the index as a running order ---- */
-.pflink[aria-current="page"]{color:var(--red)}
+.pflink[aria-current="page"]{color:var(--red-ink)}
 .dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:14px;color:var(--mut)}
 .dek p{margin:0}
 .byline a{color:var(--ink2);font-weight:600;transition:color .15s}
@@ -721,7 +721,7 @@ def render_index(posts: list[dict]) -> str:
 
   <div class="coda">
   <p class="faqfoot">Новые заметки сначала выходят в Telegram-канале <a href="{CHANNEL}" rel="noopener">@lesnymix</a> · <a href="{CHAT}" rel="noopener">Чат</a></p>
-  <p class="back"><a href="{SITE}/">← Все работы студии</a></p>
+  <p class="back"><a href="{SITE}/">Все работы студии</a></p>
   </div>
 </div>
 </body>

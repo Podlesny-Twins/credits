@@ -89,7 +89,7 @@ LANGS = {
             "video_label": "видео «{title}»",
             "faq": "Вопросы и ответы о студии",
             "works": "Работы студии",
-            "back": "← К портфолио",
+            "back": "К портфолио",
         },
     },
     "en": {
@@ -115,7 +115,7 @@ LANGS = {
             "video_label": "the video “{title}”",
             "faq": "FAQ about the studio",
             "works": "Studio credits",
-            "back": "← Back to the portfolio",
+            "back": "Back to the portfolio",
         },
     },
 }
@@ -401,9 +401,8 @@ def render(data: dict, cfg: dict) -> str:
 <div class="wrap">
   {nav}
 
-  <p class="bc"><a href="{home}">{esc(s["crumb_home"])}</a> → {esc(data["title"])}</p>
+  <p class="bc"><a href="{home}">{esc(s["crumb_home"])}</a> / {esc(data["title"])}</p>
 
-  <p class="meta">{esc(s["meta"].format(n=len(items)))}</p>
   <h1>{esc(data["h1"])}</h1>
   <p class="lead">{esc(data["lead"])}</p>
 

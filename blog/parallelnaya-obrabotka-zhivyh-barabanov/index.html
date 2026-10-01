@@ -37,12 +37,13 @@
 /* Headline font — same family as the main site podlesnytwins.com (Tilda 'SaarSP') */
 @font-face{font-family:'SaarSP';src:url('https://static.tildacdn.com/tild6565-6366-4065-b536-663938373766/SaarSPDemo.WOFF') format('woff');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:'SaarSP';src:url('https://static.tildacdn.com/tild6330-3266-4634-a532-316339613139/LiteralBold.WOFF') format('woff');font-weight:600;font-style:normal;font-display:swap}
-:root{--bg:#1a1a19;--surface:#222221;--line:#34332f;--ink:#f2efef;--ink2:#d9d3d3;--mut:#9a9292;--mut2:#7a7474;--red:#cf2c04;--rail:232px;--gap:64px}
+:root{--bg:#1a1a19;--surface:#222221;--line:#34332f;--ink:#f2efef;--ink2:#d9d3d3;--mut:#9a9292;--mut2:#7a7474;--red:#cf2c04;--red-ink:#fa3d0f;--rail:232px;--gap:64px}
 *{box-sizing:border-box}
 html{scrollbar-color:#3d3b37 var(--bg)}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Work Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
 ::selection{background:#8f2409;color:#fff}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
 [id]{scroll-margin-top:28px}
 .wrap{max-width:1120px;margin:0 auto;padding:44px 32px 96px}
 a{color:inherit;text-decoration:none}
@@ -58,6 +59,7 @@ a{color:inherit;text-decoration:none}
 .pflink:hover{color:var(--ink)}
 .pflink:hover .ar{transform:translateX(3px)}
 .pflink+.pflink{border-left:1px solid rgba(255,255,255,.2);padding-left:14px}
+.navlinks .ar{display:none}
 .pflink:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 .pflang{color:var(--mut)}
 .pflang:hover,.pflang:focus-visible{color:var(--red)}
@@ -135,8 +137,11 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .iadisc{max-width:60ch;margin:16px 0 0;font-size:12.5px;line-height:1.5;color:var(--mut)}
 .faqfoot{font-size:14px;color:var(--mut);margin:14px 0 0}
 .back{display:flex;align-items:center;min-height:44px;font-size:14px;color:var(--mut);margin:10px 0 0}
-.back a{color:var(--mut);font-weight:600;transition:color .15s}
+.back a{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--mut);font-weight:600;transition:color .15s}
+/* the same drawn arrow as the blog index rows, turned back */
+.back a::before{content:"";flex:0 0 auto;width:18px;height:10px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transform:scaleX(-1);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .back a:hover{color:var(--ink)}
+.back a:hover::before{transform:scaleX(-1) translateX(4px)}
 @media(min-width:768px){
   .upd,.iadisc,.faqfoot,.back{margin-left:calc(var(--rail) + var(--gap))}
 }
@@ -156,7 +161,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .rail-c{display:none}
   .toc{display:flex;flex-wrap:wrap;gap:0 24px;padding:4px 0;border-left:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .toc::before,.toc::after{display:none}
-  .toc a{justify-content:flex-start;gap:7px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  .rail:not(.rail-c) .toc a{justify-content:flex-start;gap:7px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
   .doc{margin-top:48px;padding-top:0;border-top:0}
   .flow{margin-top:56px}
   h2{margin-top:72px}
@@ -180,7 +185,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
 <style>
 /* ---- blog: article head, prose, credits rows, and the index as a running order ---- */
-.pflink[aria-current="page"]{color:var(--red)}
+.pflink[aria-current="page"]{color:var(--red-ink)}
 .dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:14px;color:var(--mut)}
 .dek p{margin:0}
 .byline a{color:var(--ink2);font-weight:600;transition:color .15s}
@@ -536,7 +541,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
     </ul>
   </nav>
 
-  <p class="back"><a href="https://credits.podlesnytwins.com/blog/">← Все статьи блога</a></p>
+  <p class="back"><a href="https://credits.podlesnytwins.com/blog/">Все статьи блога</a></p>
 </div>
 <script id="rail">
 // The rail's playhead: the active section is the last heading above the
