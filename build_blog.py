@@ -181,15 +181,15 @@ EXTRA_CSS = """
 <style>
 /* ---- blog: article head, prose, credits rows, and the index as a running order ---- */
 .pflink[aria-current="page"]{color:var(--red-ink)}
-.dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:14px;color:var(--mut)}
-.dek p{margin:0}
+.dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:15px;color:var(--mut)}
+.dek p,.dek .meta{margin:0;font-size:inherit}
 .byline a{color:var(--ink2);font-weight:600;transition:color .15s}
 .byline a:hover{color:var(--ink)}
 .post{font-size:17px;line-height:1.75;color:var(--ink2);max-width:66ch}
 .post p{margin:0 0 20px}
-.post h2{font-size:clamp(24px,2.6vw,32px);line-height:1.05;margin:84px 0 22px}
+.post h2{margin:84px 0 22px}
 .post>h2:first-child{margin-top:0}
-.post h3{font-size:18.5px;font-weight:700;line-height:1.35;color:var(--ink);margin:40px 0 10px}
+.post h3{font-size:19px;font-weight:700;line-height:1.35;color:var(--ink);margin:40px 0 10px}
 .post #faq~h3{margin:0;padding:24px 0 10px;border-top:1px solid var(--line)}
 .post ul,.post ol{margin:0 0 24px;padding-left:22px}
 .post li{margin:0 0 10px;padding-left:4px}
@@ -201,7 +201,7 @@ EXTRA_CSS = """
 .post blockquote p{margin:0}
 .post figure{margin:40px 0 44px}
 .post figure img{display:block;width:auto;max-width:100%;height:auto;max-height:min(78vh,720px);border-radius:6px;background:var(--surface)}
-.post figcaption{font-size:13.5px;line-height:1.5;color:var(--mut);margin-top:12px;max-width:56ch}
+.post figcaption{font-size:13px;line-height:1.5;color:var(--mut);margin-top:12px;max-width:56ch}
 .post code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;background:var(--surface);padding:1px 5px;border-radius:4px}
 .tbl{overflow-x:auto;margin:4px 0 28px;-webkit-overflow-scrolling:touch}
 .tbl table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.55;font-variant-numeric:tabular-nums}
@@ -216,23 +216,23 @@ EXTRA_CSS = """
 .src,.about,.more,.shelf,.coda{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gap);align-items:start;margin:0;padding:30px 0;border-top:1px solid var(--line)}
 .src{margin-top:96px}
 .src>:not(.eyebrow),.about>:not(.eyebrow),.more>:not(.eyebrow),.coda>*{grid-column:2}
-.src>p:not(.eyebrow),.about>p:not(.eyebrow){margin:0 0 10px;font-size:15.5px;line-height:1.6;color:var(--ink2);max-width:62ch}
+.src>p:not(.eyebrow),.about>p:not(.eyebrow){margin:0 0 10px;font-size:15px;line-height:1.6;color:var(--ink2);max-width:62ch}
 .src ul{list-style:none;margin:4px 0 0;padding:0}
 .src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
 .more ul{list-style:none;margin:0;padding:0}
 .more li+li{border-top:1px solid var(--line)}
-.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:16px;font-weight:600;line-height:1.4;color:var(--ink)}
+.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
 .more li:first-child a{padding-top:0;min-height:44px}
 .more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
 .more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
 .more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
-.dur{flex:0 0 auto;font-size:12.5px;font-weight:600;color:var(--mut);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.dur{flex:0 0 auto;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
 
 /* ---- the index: a running order, newest article opens it ---- */
 .tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
 .shelf{margin-top:64px}
 .shelf+.shelf{margin-top:48px}
-.shelf>h2{grid-column:1;position:sticky;top:28px;margin:0;font-size:clamp(24px,2.4vw,30px)}
+.shelf>h2{grid-column:1;position:sticky;top:28px;margin:0;font-size:22px;line-height:1.1}
 .shelf>.posts{grid-column:2}
 .posts{list-style:none;margin:0;padding:0}
 .posts li{position:relative;padding:28px 64px 28px 0;border-bottom:1px solid var(--line)}
@@ -241,28 +241,29 @@ EXTRA_CSS = """
 .posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
 .posts li:first-child::after{top:10px}
 .posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
-.posts .pt{font-size:21px;font-weight:600;line-height:1.32;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.posts .pt{font-size:19px;font-weight:600;line-height:1.35;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
 .posts .pt::before{content:"";position:absolute;inset:0}
 .posts li:hover .pt{text-decoration-color:var(--red)}
 .posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
 .posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
-.posts .pd{margin:10px 0 12px;font-size:15.5px;line-height:1.6;color:#bdb6b6;max-width:62ch}
-.posts .pm{margin:0;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-variant-numeric:tabular-nums}
+.posts .pd{margin:8px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
+.posts .pm{margin:0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
 /* articles read as a running order: the reading time sits where a track's duration would */
 .run li{padding-right:88px}
 .run li::after{display:none}
-.run .dur{position:absolute;right:0;top:31px;font-size:14px;letter-spacing:.02em;transition:color .15s}
+.run .dur{position:absolute;right:0;top:32px;transition:color .15s}
 .run li:hover .dur,.run li:focus-within .dur{color:var(--ink)}
 .run .pm{margin-top:4px}
 /* the newest article opens the issue, with its own picture when it has one */
-.run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:40px;align-items:start;padding:0 0 40px}
+.run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto 1fr;column-gap:40px;align-items:start;padding:0 0 40px}
 .run>li.opener>*{grid-column:1}
-.run>li.opener .pt{font-family:'SaarSP',Arial,sans-serif;font-weight:400;font-size:clamp(40px,5vw,60px);line-height:.98;text-decoration-thickness:3px;text-underline-offset:.1em}
-.run>li.opener .pd{font-size:clamp(16.5px,1.5vw,19px);color:var(--ink2);margin:18px 0 16px;max-width:54ch}
-.run>li.opener .pi{grid-column:2;grid-row:1 / span 3;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+/* same face as every other article title, one step up — the picture and the size carry the lead, not a second typeface */
+.run>li.opener .pt{font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.01em}
+.run>li.opener .pd{font-size:17px;color:var(--ink2);margin:14px 0 14px;max-width:54ch}
+.run>li.opener .pi{grid-column:2;grid-row:1 / span 4;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .run>li.opener:hover .pi{transform:translateY(-3px)}
 .coda{margin-top:96px}
-.coda .faqfoot{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.5;font-weight:500;color:var(--ink2);max-width:44ch}
+.coda .faqfoot{margin:0;font-size:clamp(17px,1.5vw,19px);line-height:1.5;font-weight:500;color:var(--ink2);max-width:44ch}
 .coda .back{margin:18px 0 0}
 @media(min-width:768px) and (max-width:1023px){
   .post{font-size:16.5px}
@@ -274,16 +275,16 @@ EXTRA_CSS = """
   .coda{margin-top:72px}
 }
 @media(max-width:520px){
-  .dek{gap:4px 16px;font-size:13.5px}
+  .dek{gap:4px 16px;font-size:14px}
   .post{font-size:16.5px}
   .post h2{margin-top:60px}
   .posts li{padding-right:40px}
   .posts li::after{top:34px;width:20px}
-  .posts .pt{font-size:18.5px}
+  .posts .pt{font-size:18px}
   .run li{padding-right:56px}
-  .run .dur{top:30px;font-size:13px}
+  .run .dur{top:30px}
   .run>li.opener{column-gap:20px}
-  .run>li.opener .pt{font-size:clamp(30px,9vw,38px)}
+  .run>li.opener .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener .pi{width:96px;grid-row:1}
   .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }

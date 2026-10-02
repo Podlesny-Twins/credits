@@ -203,7 +203,7 @@ EXTRA_CSS = """
 .tierkey{list-style:none;margin:0 0 46px;padding:0;display:grid;gap:2px}
 .tierkey li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:#cfc9c9}
 .tierkey li:last-child{border-bottom:0}
-.tg{display:inline-flex;align-items:center;justify-content:center;min-width:26px;padding:2px 7px;border-radius:4px;font-family:'SaarSP',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ink);background:#2e2d2b;border:1px solid var(--line)}
+.tg{display:inline-flex;align-items:center;justify-content:center;min-width:26px;padding:2px 7px;border-radius:4px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ink);background:#2e2d2b;border:1px solid var(--line)}
 .tg-L{background:var(--red);border-color:var(--red);color:#fff}
 .tg-S{background:#8f2409;border-color:#8f2409;color:#fff}
 .tg-A{background:#4a3a1d;border-color:#5d4923}
