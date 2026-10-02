@@ -229,12 +229,11 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
 .more ul{list-style:none;margin:0;padding:0}
 .more li+li{border-top:1px solid var(--line)}
-.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
+.more a{display:flex;align-items:center;min-height:52px;padding:14px 0;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1;color:var(--ink)}
 .more li:first-child a{padding-top:0;min-height:44px}
-.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.14em;transition:text-decoration-color .2s}
 .more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
 .more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
-.dur{flex:0 0 auto;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
 
 /* ---- the index: a running order, newest article opens it ---- */
 .tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
@@ -249,25 +248,21 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
 .posts li:first-child::after{top:10px}
 .posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
-.posts .pt{font-size:19px;font-weight:600;line-height:1.35;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+/* every article title in the display face, same size — on the index, under "Ещё в блоге" and as the article's own H1 */
+.posts .pt{font-family:var(--display);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.04;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.12em;transition:text-decoration-color .2s}
 .posts .pt::before{content:"";position:absolute;inset:0}
 .posts li:hover .pt{text-decoration-color:var(--red)}
 .posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
 .posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
-.posts .pd{margin:8px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
+.posts .pd{margin:12px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
 .posts .pm{margin:0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
-/* articles read as a running order: the reading time sits where a track's duration would */
-.run li{padding-right:88px}
+.run li{padding-right:0}
 .run li::after{display:none}
-.run .dur{position:absolute;right:0;top:32px;transition:color .15s}
-.run li:hover .dur,.run li:focus-within .dur{color:var(--ink)}
 .run .pm{margin-top:4px}
 /* the newest article opens the issue, with its own picture when it has one */
 .run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto 1fr;column-gap:40px;align-items:start;padding:0 0 40px}
 .run>li.opener>*{grid-column:1}
-/* same face as every other article title, one step up — the picture and the size carry the lead, not a second typeface */
-.run>li.opener .pt{font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.01em}
-.run>li.opener .pd{font-size:17px;color:var(--ink2);margin:14px 0 14px;max-width:54ch}
+
 .run>li.opener .pi{grid-column:2;grid-row:1 / span 4;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .run>li.opener:hover .pi{transform:translateY(-3px)}
 .coda{margin-top:96px}
@@ -288,11 +283,8 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .post h2{margin-top:60px}
   .posts li{padding-right:40px}
   .posts li::after{top:34px;width:20px}
-  .posts .pt{font-size:18px}
-  .run li{padding-right:56px}
-  .run .dur{top:30px}
+  .posts .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener{column-gap:20px}
-  .run>li.opener .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener .pi{width:96px;grid-row:1}
   .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }
@@ -461,7 +453,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   <h1>Почему бас плохо звучит в миксе и как это исправить</h1>
   <div class="dek">
     <p class="byline">Антон и Павел Подлесные, звукорежиссёры студии <a href="https://credits.podlesnytwins.com/faq/">Podlesny Twins</a></p>
-    <p class="meta"><time datetime="2026-10-01">1 октября 2026</time> · 5 мин чтения</p>
+    <p class="meta"><time datetime="2026-10-01">1 октября 2026</time></p>
   </div>
 
   <div class="intro">
@@ -540,13 +532,13 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   <nav class="more" aria-label="Другие статьи блога">
     <p class="eyebrow">Ещё в блоге</p>
     <ul>
-      <li><a href="https://credits.podlesnytwins.com/blog/tranzienty-v-svedenii/"><span class="t">Транзиенты в сведении: как вернуть атаку бочке и не потерять громкость</span><span class="dur">4 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/templeyt-dlya-svedeniya/"><span class="t">Темплейт для сведения: как устроен шаблон проекта Podlesny Twins</span><span class="dur">6 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/parallelnaya-obrabotka-zhivyh-barabanov/"><span class="t">Параллельная обработка живых барабанов: метод Эндрю Шепса</span><span class="dur">4 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/pochemu-miks-tishe-demo/"><span class="t">Почему сведённый трек тише демо и нужно ли сдавать мастер в −14 LUFS</span><span class="dur">4 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/bek-vokal-i-dably/"><span class="t">Как сводить бэк-вокал и даблы: монтаж, тюн и сибилянты</span><span class="dur">6 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/bitkrasher-na-vokale/"><span class="t">Биткрашер на вокале: когда излишняя детальность мешает миксу</span><span class="dur">5 мин</span></a></li>
-      <li><a href="https://credits.podlesnytwins.com/blog/lr-i-mid-side-miks/"><span class="t">LR или Mid-Side: как выстроить стерео в миксе и нужна ли моносовместимость</span><span class="dur">5 мин</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/tranzienty-v-svedenii/"><span class="t">Транзиенты в сведении: как вернуть атаку бочке и не потерять громкость</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/templeyt-dlya-svedeniya/"><span class="t">Темплейт для сведения: как устроен шаблон проекта Podlesny Twins</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/parallelnaya-obrabotka-zhivyh-barabanov/"><span class="t">Параллельная обработка живых барабанов: метод Эндрю Шепса</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/pochemu-miks-tishe-demo/"><span class="t">Почему сведённый трек тише демо и нужно ли сдавать мастер в −14 LUFS</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/bek-vokal-i-dably/"><span class="t">Как сводить бэк-вокал и даблы: монтаж, тюн и сибилянты</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/bitkrasher-na-vokale/"><span class="t">Биткрашер на вокале: когда излишняя детальность мешает миксу</span></a></li>
+      <li><a href="https://credits.podlesnytwins.com/blog/lr-i-mid-side-miks/"><span class="t">LR или Mid-Side: как выстроить стерео в миксе и нужна ли моносовместимость</span></a></li>
     </ul>
   </nav>
 

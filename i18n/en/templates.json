@@ -96,7 +96,5 @@
 "track_info_role": {"ru": "{role}", "en": "{role}"},
 "faq_counter_phrase": {"ru": "{tracks} избранных работ для {artists} артистов", "en": "{tracks} selected credits for {artists} artists"},
 "redirect_title": {"ru": "Переехало → {slug}", "en": "Moved → {slug}"},
-"redirect_body": {"ru": "Страница переехала: <a href=\"{url}\">{url}</a>", "en": "This page has moved: <a href=\"{url}\">{url}</a>"},
-"blog_minutes": {"ru": "{n} мин чтения", "en": "{n} min read"},
-"blog_minutes_short": {"ru": "{n} мин", "en": "{n} min"}
+"redirect_body": {"ru": "Страница переехала: <a href=\"{url}\">{url}</a>", "en": "This page has moved: <a href=\"{url}\">{url}</a>"}
 }

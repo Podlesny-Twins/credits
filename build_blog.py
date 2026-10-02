@@ -87,8 +87,6 @@ LANG = {
             "blog": "Блог",
             "blog_link": "Блог",
             "in_short": "Коротко",
-            "minutes": "{n} мин чтения",
-            "min_short": "{n} мин",
             "contents": "Содержание",
             "updated": "обновлено",
             "byline": "Антон и Павел Подлесные, звукорежиссёры студии",
@@ -124,8 +122,6 @@ LANG = {
             "blog": "Blog",
             "blog_link": "Blog",
             "in_short": "In short",
-            "minutes": "{n} min read",
-            "min_short": "{n} min",
             "contents": "Contents",
             "updated": "updated",
             "byline": "Anton and Pavel Podlesny, mixing engineers at",
@@ -221,12 +217,11 @@ EXTRA_CSS = """
 .src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
 .more ul{list-style:none;margin:0;padding:0}
 .more li+li{border-top:1px solid var(--line)}
-.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
+.more a{display:flex;align-items:center;min-height:52px;padding:14px 0;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1;color:var(--ink)}
 .more li:first-child a{padding-top:0;min-height:44px}
-.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.14em;transition:text-decoration-color .2s}
 .more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
 .more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
-.dur{flex:0 0 auto;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
 
 /* ---- the index: a running order, newest article opens it ---- */
 .tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
@@ -241,25 +236,21 @@ EXTRA_CSS = """
 .posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
 .posts li:first-child::after{top:10px}
 .posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
-.posts .pt{font-size:19px;font-weight:600;line-height:1.35;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+/* every article title in the display face, same size — on the index, under "Ещё в блоге" and as the article's own H1 */
+.posts .pt{font-family:var(--display);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.04;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.12em;transition:text-decoration-color .2s}
 .posts .pt::before{content:"";position:absolute;inset:0}
 .posts li:hover .pt{text-decoration-color:var(--red)}
 .posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
 .posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
-.posts .pd{margin:8px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
+.posts .pd{margin:12px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
 .posts .pm{margin:0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
-/* articles read as a running order: the reading time sits where a track's duration would */
-.run li{padding-right:88px}
+.run li{padding-right:0}
 .run li::after{display:none}
-.run .dur{position:absolute;right:0;top:32px;transition:color .15s}
-.run li:hover .dur,.run li:focus-within .dur{color:var(--ink)}
 .run .pm{margin-top:4px}
 /* the newest article opens the issue, with its own picture when it has one */
 .run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto 1fr;column-gap:40px;align-items:start;padding:0 0 40px}
 .run>li.opener>*{grid-column:1}
-/* same face as every other article title, one step up — the picture and the size carry the lead, not a second typeface */
-.run>li.opener .pt{font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.01em}
-.run>li.opener .pd{font-size:17px;color:var(--ink2);margin:14px 0 14px;max-width:54ch}
+
 .run>li.opener .pi{grid-column:2;grid-row:1 / span 4;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .run>li.opener:hover .pi{transform:translateY(-3px)}
 .coda{margin-top:96px}
@@ -280,11 +271,8 @@ EXTRA_CSS = """
   .post h2{margin-top:60px}
   .posts li{padding-right:40px}
   .posts li::after{top:34px;width:20px}
-  .posts .pt{font-size:18px}
-  .run li{padding-right:56px}
-  .run .dur{top:30px}
+  .posts .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener{column-gap:20px}
-  .run>li.opener .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener .pi{width:96px;grid-row:1}
   .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }
@@ -373,7 +361,6 @@ def parse(path: Path) -> dict:
     meta["image"] = {"url": im.group(1), "width": int(im.group(2)), "height": int(im.group(3))} if im else None
     meta["faq"] = faq_pairs(meta["body"])
     meta["words"] = len(strip_tags(meta["lead"] + " " + meta["body"]).split())
-    meta["minutes"] = max(1, round(meta["words"] / (180 if path.parent == SRC else 220)))
     return meta
 
 
@@ -526,8 +513,7 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
         for x in p["sources"]
     )
     others = "\n".join(
-        f'      <li><a href="{base}blog/{o["slug"]}/"><span class="t">{esc(o["title"])}</span>'
-        f'<span class="dur">{s["min_short"].format(n=o["minutes"])}</span></a></li>'
+        f'      <li><a href="{base}blog/{o["slug"]}/"><span class="t">{esc(o["title"])}</span></a></li>'
         for o in siblings if o["slug"] != p["slug"]
     )
     contents = "\n".join(
@@ -574,7 +560,7 @@ def render_post(p: dict, lang: str, siblings: list[dict], has_twin: bool) -> str
   <h1>{esc(p["title"])}</h1>
   <div class="dek">
     <p class="byline">{s["byline"]} <a href="{base}faq/">Podlesny Twins</a></p>
-    <p class="meta"><time datetime="{p["date"]}">{human_date(p["date"], lang)}</time>{updated} · {s["minutes"].format(n=p["minutes"])}</p>
+    <p class="meta"><time datetime="{p["date"]}">{human_date(p["date"], lang)}</time>{updated}</p>
   </div>
 
   <div class="intro">
@@ -732,10 +718,9 @@ def render_index(posts: list[dict]) -> str:
 
 def running_order(posts: list[dict]) -> list[str]:
     """Index rows. The newest article leads with its date, reading time and
-    first picture; the rest read like a tracklist — title, teaser and the
-    reading time as a duration. A row repeats the date only when it differs
-    from the row above, so a batch published on one day shows it once."""
-    s = LANG["ru"]["s"]
+    first picture; every title is set the same way. A row repeats the date
+    only when it differs from the row above, so a batch published on one day
+    shows it once. No reading time: the owner reads it as generated filler."""
     rows, prev = [], None
     for k, p in enumerate(posts):
         link = f'<a class="pt" href="{SITE}/blog/{p["slug"]}/">{esc(p["title"])}</a>'
@@ -744,12 +729,10 @@ def running_order(posts: list[dict]) -> list[str]:
         if k == 0:
             pic = (f'<img class="pi" src="{p["image"]["url"]}" alt="" width="{p["image"]["width"]}" '
                    f'height="{p["image"]["height"]}" decoding="async">' if p["image"] else "")
-            rows.append(f'    <li class="opener">{link}{teaser}<p class="pm">{date} · '
-                        f'<span>{s["minutes"].format(n=p["minutes"])}</span></p>{pic}</li>')
+            rows.append(f'    <li class="opener">{link}{teaser}<p class="pm">{date}</p>{pic}</li>')
         else:
             when = f'<p class="pm">{date}</p>' if p["date"] != prev else ""
-            rows.append(f'    <li>{link}{teaser}{when}'
-                        f'<span class="dur">{s["min_short"].format(n=p["minutes"])}</span></li>')
+            rows.append(f'    <li>{link}{teaser}{when}</li>')
         prev = p["date"]
     return rows
 

@@ -223,12 +223,11 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
 .more ul{list-style:none;margin:0;padding:0}
 .more li+li{border-top:1px solid var(--line)}
-.more a{display:flex;align-items:baseline;justify-content:space-between;gap:24px;min-height:52px;padding:14px 0;font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
+.more a{display:flex;align-items:center;min-height:52px;padding:14px 0;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1;color:var(--ink)}
 .more li:first-child a{padding-top:0;min-height:44px}
-.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+.more .t{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.14em;transition:text-decoration-color .2s}
 .more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
 .more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
-.dur{flex:0 0 auto;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
 
 /* ---- the index: a running order, newest article opens it ---- */
 .tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
@@ -243,25 +242,21 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
 .posts li:first-child::after{top:10px}
 .posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
-.posts .pt{font-size:19px;font-weight:600;line-height:1.35;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.22em;transition:text-decoration-color .2s}
+/* every article title in the display face, same size — on the index, under "Ещё в блоге" and as the article's own H1 */
+.posts .pt{font-family:var(--display);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.04;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.12em;transition:text-decoration-color .2s}
 .posts .pt::before{content:"";position:absolute;inset:0}
 .posts li:hover .pt{text-decoration-color:var(--red)}
 .posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
 .posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
-.posts .pd{margin:8px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
+.posts .pd{margin:12px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
 .posts .pm{margin:0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
-/* articles read as a running order: the reading time sits where a track's duration would */
-.run li{padding-right:88px}
+.run li{padding-right:0}
 .run li::after{display:none}
-.run .dur{position:absolute;right:0;top:32px;transition:color .15s}
-.run li:hover .dur,.run li:focus-within .dur{color:var(--ink)}
 .run .pm{margin-top:4px}
 /* the newest article opens the issue, with its own picture when it has one */
 .run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto 1fr;column-gap:40px;align-items:start;padding:0 0 40px}
 .run>li.opener>*{grid-column:1}
-/* same face as every other article title, one step up — the picture and the size carry the lead, not a second typeface */
-.run>li.opener .pt{font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.01em}
-.run>li.opener .pd{font-size:17px;color:var(--ink2);margin:14px 0 14px;max-width:54ch}
+
 .run>li.opener .pi{grid-column:2;grid-row:1 / span 4;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .run>li.opener:hover .pi{transform:translateY(-3px)}
 .coda{margin-top:96px}
@@ -282,11 +277,8 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .post h2{margin-top:60px}
   .posts li{padding-right:40px}
   .posts li::after{top:34px;width:20px}
-  .posts .pt{font-size:18px}
-  .run li{padding-right:56px}
-  .run .dur{top:30px}
+  .posts .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener{column-gap:20px}
-  .run>li.opener .pt{font-size:clamp(22px,6.4vw,26px)}
   .run>li.opener .pi{width:96px;grid-row:1}
   .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }
@@ -459,14 +451,14 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   <section class="shelf">
   <h2 id="posts">Articles</h2>
   <ul class="posts run">
-    <li class="opener"><a class="pt" href="https://credits.podlesnytwins.com/en/blog/pochemu-bas-ploho-zvuchit-v-mikse/">Why your bass sounds bad in the mix (and how to fix it)</a><p class="pd">Bass vanishing on phones or booming in the club? The working range, harmonics, checking the sub without a subwoofer, the kick clash and two mistakes that wreck the low end.</p><p class="pm"><time datetime="2026-10-01">01.10.2026</time> · <span>5 min read</span></p><img class="pi" src="https://credits.podlesnytwins.com/blog/img/bas-teoriya-nizkogo-kontsa.jpg" alt="" width="596" height="800" decoding="async"></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/tranzienty-v-svedenii/">Transients in mixing: how to get the kick's attack back without losing loudness</a><p class="pd">What transients are, why EQ can't pull them out of a dull kick, and two ways to get the attack back: layer a click with Snapback or use a transient shaper in delta mode.</p><span class="dur">4 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/templeyt-dlya-svedeniya/">Our mixing template: how the Podlesny Twins session template is built</a><p class="pd">How our mixing template works: processing on the source tracks, nested routing, five main buses and three master buses for exporting mixes to the mastering engineer.</p><span class="dur">6 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/parallelnaya-obrabotka-zhivyh-barabanov/">Parallel processing for live drums: the Andrew Scheps method</a><p class="pd">Mixing live drums the Andrew Scheps way: almost no direct compression, three parallel buses (Drum Crush, Drums Dirt, Kick+Snare Crush) and automation by song section.</p><span class="dur">4 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/pochemu-miks-tishe-demo/">Why your mix sounds quieter than the demo, and whether you really need −14 LUFS</a><p class="pd">Demos arrive at around −5 or −6 LUFS and sound louder than the mix. What that loudness costs, how to keep the demo's character, and what Spotify really does with −14 LUFS.</p><span class="dur">4 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/bek-vokal-i-dably/">How to mix backing vocals and doubles: editing, tuning and sibilants</a><p class="pd">How to mix backing vocals and doubles: what to get right when recording, a fast way to edit doubles with OTT, why Melodyne goes first, and taming sibilants.</p><span class="dur">6 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/bitkrasher-na-vokale/">Bitcrusher on vocals: when too much detail hurts the mix</a><p class="pd">Why put a bitcrusher on a vocal: how dropping to 13–15 bits removes excess detail, helps the voice sit in the arrangement, and where the noise starts to show.</p><span class="dur">5 min</span></li>
-    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/lr-i-mid-side-miks/">LR or Mid-Side: how to build the stereo image, and whether mono compatibility still matters</a><p class="pd">Mono compatibility in the headphone era, LR vs Mid-Side mixes, listening to L, R, Mid and Side separately, and pushing an instrument back without reverb.</p><span class="dur">5 min</span></li>
+    <li class="opener"><a class="pt" href="https://credits.podlesnytwins.com/en/blog/pochemu-bas-ploho-zvuchit-v-mikse/">Why your bass sounds bad in the mix (and how to fix it)</a><p class="pd">Bass vanishing on phones or booming in the club? The working range, harmonics, checking the sub without a subwoofer, the kick clash and two mistakes that wreck the low end.</p><p class="pm"><time datetime="2026-10-01">01.10.2026</time></p><img class="pi" src="https://credits.podlesnytwins.com/blog/img/bas-teoriya-nizkogo-kontsa.jpg" alt="" width="596" height="800" decoding="async"></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/tranzienty-v-svedenii/">Transients in mixing: how to get the kick's attack back without losing loudness</a><p class="pd">What transients are, why EQ can't pull them out of a dull kick, and two ways to get the attack back: layer a click with Snapback or use a transient shaper in delta mode.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/templeyt-dlya-svedeniya/">Our mixing template: how the Podlesny Twins session template is built</a><p class="pd">How our mixing template works: processing on the source tracks, nested routing, five main buses and three master buses for exporting mixes to the mastering engineer.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/parallelnaya-obrabotka-zhivyh-barabanov/">Parallel processing for live drums: the Andrew Scheps method</a><p class="pd">Mixing live drums the Andrew Scheps way: almost no direct compression, three parallel buses (Drum Crush, Drums Dirt, Kick+Snare Crush) and automation by song section.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/pochemu-miks-tishe-demo/">Why your mix sounds quieter than the demo, and whether you really need −14 LUFS</a><p class="pd">Demos arrive at around −5 or −6 LUFS and sound louder than the mix. What that loudness costs, how to keep the demo's character, and what Spotify really does with −14 LUFS.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/bek-vokal-i-dably/">How to mix backing vocals and doubles: editing, tuning and sibilants</a><p class="pd">How to mix backing vocals and doubles: what to get right when recording, a fast way to edit doubles with OTT, why Melodyne goes first, and taming sibilants.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/bitkrasher-na-vokale/">Bitcrusher on vocals: when too much detail hurts the mix</a><p class="pd">Why put a bitcrusher on a vocal: how dropping to 13–15 bits removes excess detail, helps the voice sit in the arrangement, and where the noise starts to show.</p></li>
+    <li><a class="pt" href="https://credits.podlesnytwins.com/en/blog/lr-i-mid-side-miks/">LR or Mid-Side: how to build the stereo image, and whether mono compatibility still matters</a><p class="pd">Mono compatibility in the headphone era, LR vs Mid-Side mixes, listening to L, R, Mid and Side separately, and pushing an instrument back without reverb.</p></li>
   </ul>
   </section>
 
