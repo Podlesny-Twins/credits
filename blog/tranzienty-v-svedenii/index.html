@@ -184,7 +184,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 </style>
 
 <style>
-/* ---- blog: article head, prose, credits rows, and the index as a running order ---- */
+/* ---- blog: article head, prose, credits rows, and the index as a contents page ---- */
 .pflink[aria-current="page"]{color:var(--red-ink)}
 .dek{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:-4px 0 0;font-size:15px;color:var(--mut)}
 .dek p,.dek .meta{margin:0;font-size:inherit}
@@ -218,9 +218,9 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .tbl td:first-child{color:var(--ink);font-weight:600}
 
 /* credits under the article: the same margin-head grid as the rest of the sheet */
-.src,.about,.more,.shelf,.coda{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gap);align-items:start;margin:0;padding:30px 0;border-top:1px solid var(--line)}
+.src,.about,.more{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gap);align-items:start;margin:0;padding:30px 0;border-top:1px solid var(--line)}
 .src{margin-top:96px}
-.src>:not(.eyebrow),.about>:not(.eyebrow),.more>:not(.eyebrow),.coda>*{grid-column:2}
+.src>:not(.eyebrow),.about>:not(.eyebrow),.more>:not(.eyebrow){grid-column:2}
 .src>p:not(.eyebrow),.about>p:not(.eyebrow){margin:0 0 10px;font-size:15px;line-height:1.6;color:var(--ink2);max-width:62ch}
 .src ul{list-style:none;margin:4px 0 0;padding:0}
 .src li{margin:0;padding:6px 0;font-size:15px;line-height:1.5;color:var(--mut)}
@@ -232,58 +232,42 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .more a:hover .t,.more a:focus-visible .t{text-decoration-color:var(--red)}
 .more a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
-/* ---- the index: a running order, newest article opens it ---- */
+/* ---- the index: a contents page across the full measure — title left, what it is about right ---- */
 .tierlink{font-size:15px;line-height:1.6;color:var(--mut);margin:0;max-width:62ch}
-.shelf{margin-top:64px}
-.shelf+.shelf{margin-top:48px}
-.shelf>h2{grid-column:1;position:sticky;top:28px;margin:0;font-size:22px;line-height:1.1}
-.shelf>.posts{grid-column:2}
-.posts{list-style:none;margin:0;padding:0}
-.posts li{position:relative;padding:28px 64px 28px 0;border-bottom:1px solid var(--line)}
-.posts li:first-child{padding-top:0}
-.posts li:last-child{border-bottom:0;padding-bottom:0}
-.posts li::after{content:"";position:absolute;right:4px;top:38px;width:24px;height:12px;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h22M16.5.8 22 6l-5.5 5.2' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .35s cubic-bezier(.2,.8,.2,1),background-color .15s}
-.posts li:first-child::after{top:10px}
-.posts li:hover::after,.posts li:focus-within::after{background:var(--red);transform:translateX(6px)}
+.shelf{display:block;margin:72px 0 0;padding:0;border:0}
+.shelf+.shelf{margin-top:88px}
+.shelf>h2{margin:0 0 18px;font-size:22px;line-height:1.1}
+.posts{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.posts li{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:56px;align-items:start;padding:30px 0 32px;border-top:1px solid var(--line)}
+.posts li>*{grid-column:2}
 /* every article title in the display face, same size — on the index, under "Ещё в блоге" and as the article's own H1 */
-.posts .pt{font-family:var(--display);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.04;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.12em;transition:text-decoration-color .2s}
+.posts .pt{grid-column:1;grid-row:1 / span 3;font-family:var(--display);font-weight:400;font-size:clamp(24px,2.5vw,32px);line-height:1.04;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.12em;transition:text-decoration-color .2s}
 .posts .pt::before{content:"";position:absolute;inset:0}
 .posts li:hover .pt{text-decoration-color:var(--red)}
 .posts .pt:focus-visible{outline:none;text-decoration-color:var(--red)}
 .posts li:has(.pt:focus-visible){outline:2px solid var(--red);outline-offset:6px}
-.posts .pd{margin:12px 0 10px;font-size:15px;line-height:1.6;color:#bdb6b6;max-width:62ch}
-.posts .pm{margin:0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
-.run li{padding-right:0}
-.run li::after{display:none}
-.run .pm{margin-top:4px}
-/* the newest article opens the issue, with its own picture when it has one */
-.run>li.opener{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto 1fr;column-gap:40px;align-items:start;padding:0 0 40px}
-.run>li.opener>*{grid-column:1}
-
-.run>li.opener .pi{grid-column:2;grid-row:1 / span 4;display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:6px;background:var(--surface);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.run>li.opener:hover .pi{transform:translateY(-3px)}
-.coda{margin-top:96px}
+.posts .pd{margin:3px 0 0;font-size:16px;line-height:1.55;color:#bdb6b6;transition:color .2s}
+.posts li:hover .pd{color:var(--ink2)}
+.posts .pm{margin:10px 0 0;font-size:13px;font-weight:500;color:var(--mut);font-variant-numeric:tabular-nums}
+.coda{display:block;margin-top:96px;padding:30px 0 0;border-top:0}
 .coda .faqfoot{margin:0;font-size:clamp(17px,1.5vw,19px);line-height:1.5;font-weight:500;color:var(--ink2);max-width:44ch}
-.coda .back{margin:18px 0 0}
+.coda .faqfoot,.coda .back{margin-left:0}
+.coda .back{margin-top:18px}
 @media(min-width:768px) and (max-width:1023px){
   .post{font-size:16.5px}
 }
 @media(max-width:767px){
-  .src,.about,.more,.shelf,.coda{display:block}
+  .src,.about,.more{display:block}
+  .posts li{display:block;padding:24px 0 26px}
+  .posts .pd{margin-top:10px}
   .src{margin-top:72px}
-  .shelf>h2{position:static;margin:0 0 24px}
   .coda{margin-top:72px}
 }
 @media(max-width:520px){
   .dek{gap:4px 16px;font-size:14px}
   .post{font-size:16.5px}
   .post h2{margin-top:60px}
-  .posts li{padding-right:40px}
-  .posts li::after{top:34px;width:20px}
   .posts .pt{font-size:clamp(22px,6.4vw,26px)}
-  .run>li.opener{column-gap:20px}
-  .run>li.opener .pi{width:96px;grid-row:1}
-  .run>li.opener .pd,.run>li.opener .pm{grid-column:1 / -1}
 }
 </style>
 </head>
