@@ -56,6 +56,7 @@ import sys
 from pathlib import Path
 
 import markdown
+import blog_index
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
@@ -623,6 +624,7 @@ def render_index(posts: list[dict]) -> str:
             "about": {"@id": bwm.STUDIO_ID},
             "mainEntity": {"@id": BLOG_ID},
             "breadcrumb": {"@id": f"{page}#breadcrumbs"},
+            "hasPart": {"@id": f"{page}#articles"},
         },
         {
             "@type": "Blog",
@@ -638,7 +640,15 @@ def render_index(posts: list[dict]) -> str:
             ],
         },
     ]
-    items = "\n".join(running_order(posts))
+    graph.append({
+        "@type": "ItemList", "@id": f"{page}#articles",
+        "name": "Статьи о сведении и мастеринге", "numberOfItems": len(posts),
+        "itemListElement": [
+            {"@type": "ListItem", "position": n + 1, "url": f"{page}{p['slug']}/", "name": p['title']}
+            for n, p in enumerate(posts)
+        ],
+    })
+    items = blog_index.index_rows(posts, SITE)
     press = "\n".join(
         f'    <li><a class="pt" href="{i["url"]}" rel="noopener">{esc(i["title"])}</a>'
         f'<p class="pd">{esc(i["about"])}</p>'
@@ -665,56 +675,65 @@ def render_index(posts: list[dict]) -> str:
 <link rel="icon" type="image/png" href="{SITE}/favicon.png">
 <script type="application/ld+json">{ld_json(graph)}</script>
 {style}
-{EXTRA_CSS}</head>
-<body>
+{EXTRA_CSS}
+{blog_index.CSS}</head>
+<body class="blog-index">
+<a class="skip-link" href="#posts">К статьям</a>
 <div class="wrap">
   {nav}
 
   <div class="bc"><a href="{SITE}/">Портфолио</a> / Блог</div>
 
-  <h1>{esc(INDEX["h1"])}</h1>
-  <p class="lead">{esc(INDEX["lead"])}</p>
-  <p class="tierlink">{tier_sentence()}</p>
+  <main>
+  <header class="journal-head">
+    <h1>{esc(INDEX["h1"])}</h1>
+    <div class="journal-intro">
+      <p>{esc(INDEX["lead"])}</p>
+      <p class="journal-byline">Антон и Павел Подлесные · <a href="{SITE}/">Работы студии</a></p>
+    </div>
+  </header>
 
-  <section class="shelf">
-  <h2 id="posts">Статьи</h2>
-  <ul class="posts">
-{items}
-  </ul>
+  <section class="journal-browser" aria-labelledby="posts">
+    <div class="browser-top"><h2 id="posts">Статьи</h2></div>
+    <div data-journal-controls hidden>
+      <label class="search" for="article-search"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg><input id="article-search" type="search" placeholder="Найти статью" aria-label="Поиск по статьям"></label>
+      <div class="topics" role="group" aria-label="Темы статей">{blog_index.topic_controls(posts)}</div>
+      <p class="result-status" id="result-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    </div>
+    <div class="journal-layout">
+      <div>
+        <ul class="journal-entries">{items}</ul>
+        <div class="journal-empty" id="journal-empty" hidden><p>Ничего не нашлось. Попробуйте другое слово или выберите все темы.</p><button type="button" class="reset-search">Сбросить поиск</button></div>
+      </div>
+      <aside class="journal-aside" aria-label="Ещё от Podlesny Twins">
+        <a class="tier-feature" href="{SITE}/tier/">
+          <h2>Тир-лист техник сведения</h2>
+          <p>Приёмов в тир-листе: {tier_count()}. Наши оценки по шкале от L до F.</p>
+          <span class="tier-action">Смотреть оценки</span>
+        </a>
+        <div class="aside-channel"><h2>Из студии — в Telegram</h2><p>Новые заметки сначала выходят в нашем канале.</p><a href="{CHANNEL}" rel="noopener">@lesnymix</a></div>
+      </aside>
+    </div>
   </section>
 
-  <section class="shelf">
+  <section class="press-section">
   <h2 id="interviews">Интервью</h2>
   <ul class="posts">
 {press}
   </ul>
   </section>
 
-  <div class="coda">
+  </main>
+  <footer class="coda">
   <p class="faqfoot">Новые заметки сначала выходят в Telegram-канале <a href="{CHANNEL}" rel="noopener">@lesnymix</a> · <a href="{CHAT}" rel="noopener">Чат</a></p>
   <p class="back"><a href="{SITE}/">Все работы студии</a></p>
-  </div>
+  </footer>
 </div>
+{blog_index.JS}
 </body>
 </html>
 """
 
-
-def running_order(posts: list[dict]) -> list[str]:
-    """Index rows, all alike: title on the left, teaser on the right. A row
-    shows the date only when it differs from the row above, so a batch
-    published on one day shows it once. No reading time and no pictures:
-    the owner reads the first as generated filler, and the post images are
-    too uneven to set side by side."""
-    rows, prev = [], None
-    for p in posts:
-        link = f'<a class="pt" href="{SITE}/blog/{p["slug"]}/">{esc(p["title"])}</a>'
-        teaser = f'<p class="pd">{esc(p["description"])}</p>'
-        date = f'<time datetime="{p["date"]}">{dotted(p["date"])}</time>'
-        when = f'<p class="pm">{date}</p>' if p["date"] != prev else ""
-        rows.append(f'    <li>{link}{teaser}{when}</li>')
-        prev = p["date"]
-    return rows
 
 
 # ── the tier-list pointer on the index ────────────────────────────────
