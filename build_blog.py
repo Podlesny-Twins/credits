@@ -643,11 +643,11 @@ def render_index(posts: list[dict]) -> str:
         "@type": "ItemList", "@id": f"{page}#articles",
         "name": "Статьи о сведении и мастеринге", "numberOfItems": len(posts),
         "itemListElement": [
-            {"@type": "ListItem", "position": n + 1, "url": f"{page}{p['slug']}/", "name": p['title']}
+            {"@type": "ListItem", "position": n + 1, "url": f"{page}{p['slug']}/", "name": blog_index.TEASERS.get(p['slug'], (None, None))[0] or p['title']}
             for n, p in enumerate(posts)
         ],
     })
-    items = blog_index.index_rows(posts, SITE)
+    items = blog_index.index_rows(posts, SITE, tier_count())
     press = "\n".join(
         f'    <li><a class="pt" href="{i["url"]}" rel="noopener">{esc(i["title"])}</a>'
         f'<p class="pd">{esc(i["about"])}</p>'
@@ -685,10 +685,10 @@ def render_index(posts: list[dict]) -> str:
 
   <main>
   <header class="journal-head">
-    <h1>{esc(INDEX["h1"])}</h1>
+    <h1>Звук. Изнутри.</h1>
     <div class="journal-intro">
-      <p>{esc(INDEX["lead"])}</p>
-      <p class="journal-byline">Антон и Павел Подлесные · <a href="{SITE}/">Работы студии</a></p>
+      <p>{esc(INDEX["h1"])}</p>
+      <p class="journal-byline">Антон и Павел Подлесные</p>
     </div>
   </header>
 
@@ -700,18 +700,9 @@ def render_index(posts: list[dict]) -> str:
       <p class="result-status" id="result-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
     <div class="journal-layout">
-      <div>
         <ul class="journal-entries">{items}</ul>
         <div class="journal-empty" id="journal-empty" hidden><p>Ничего не нашлось. Попробуйте другое слово или выберите все темы.</p><button type="button" class="reset-search">Сбросить поиск</button></div>
-      </div>
-      <aside class="journal-aside" aria-label="Ещё от Podlesny Twins">
-        <a class="tier-feature" href="{SITE}/tier/">
-          <h2>Тир-лист техник сведения</h2>
-          <p>Приёмов в тир-листе: {tier_count()}. Наши оценки по шкале от L до F.</p>
-          <span class="tier-action">Смотреть оценки</span>
-        </a>
-        <div class="aside-channel"><h2>Из студии — в Telegram</h2><p>Новые заметки сначала выходят в нашем канале.</p><a href="{CHANNEL}" rel="noopener">@lesnymix</a></div>
-      </aside>
+
     </div>
   </section>
 
