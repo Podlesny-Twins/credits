@@ -622,9 +622,8 @@ def render_index(posts: list[dict]) -> str:
             "description": INDEX["description"],
             "inLanguage": "ru",
             "about": {"@id": bwm.STUDIO_ID},
-            "mainEntity": {"@id": BLOG_ID},
+            "mainEntity": [{"@id": BLOG_ID}, {"@id": f"{page}#articles"}],
             "breadcrumb": {"@id": f"{page}#breadcrumbs"},
-            "hasPart": {"@id": f"{page}#articles"},
         },
         {
             "@type": "Blog",
