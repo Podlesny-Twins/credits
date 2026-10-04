@@ -396,20 +396,27 @@ def render(data: dict, cfg: dict) -> str:
 <link rel="icon" type="image/png" href="{SITE}/favicon.png">
 <script type="application/ld+json">{ld}</script>
 {style}
-{EXTRA_CSS}</head>
-<body>
+{EXTRA_CSS}
+<link rel="stylesheet" href="/faq/design.css">
+<link rel="stylesheet" href="/tier/design.css">
+</head>
+<body class="faq-page tier-page">
 <div class="wrap">
   {nav}
 
   <p class="bc"><a href="{home}">{esc(s["crumb_home"])}</a> / {esc(data["title"])}</p>
 
+  <main>
+  <header class="faq-head">
   <h1>{esc(data["h1"])}</h1>
   <p class="lead">{esc(data["lead"])}</p>
-
-  <div class="intro">
-    <p class="eyebrow">{esc(s["intro_eyebrow"])}</p>
-    <p>{data["intro"]}</p>
+  </header>
+  <div class="faq-tools" hidden>
+    <label class="faq-search" for="faq-search"><span aria-hidden="true">⌕</span><input id="faq-search" type="search" aria-label="{'Поиск по техникам' if cfg['html_lang']=='ru' else 'Search techniques'}" placeholder="{'Найти технику или плагин' if cfg['html_lang']=='ru' else 'Find a technique or plugin'}"></label>
+    <button id="faq-expand" type="button" aria-pressed="false">{'Раскрыть все пояснения' if cfg['html_lang']=='ru' else 'Expand all explanations'}</button>
   </div>
+  <p class="faq-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="faq-empty" hidden><p>{'Ничего не найдено. Попробуйте другое слово.' if cfg['html_lang']=='ru' else 'No results. Try another word.'}</p><button id="faq-reset" type="button">{'Сбросить поиск' if cfg['html_lang']=='ru' else 'Reset search'}</button></div>
 
   <div class="doc">
   <div class="rail"><ul class="toc">{toc}</ul></div>
@@ -421,6 +428,12 @@ def render(data: dict, cfg: dict) -> str:
   </div>
   </div>
 
+  <div class="intro">
+    <p class="eyebrow">{esc(s["intro_eyebrow"])}</p>
+    <p>{data["intro"]}</p>
+  </div>
+
+  </main>
   <p class="upd">{esc(s["updated"].format(date=data["modified_human"]))}</p>
   <p class="faqfoot">{esc(s["full_video"])}<a href="https://www.youtube.com/watch?v={v['id']}" rel="noopener">{esc(s["video_label"].format(title=v["title"]))}</a>
    · <a href="{faq}">{esc(s["faq"])}</a>
@@ -428,33 +441,7 @@ def render(data: dict, cfg: dict) -> str:
   <p class="back"><a href="{home}">{esc(s["back"])}</a></p>
 </div>
 {rail_script(cfg["shell"])}
-<script>
-// Every technique is addressable as /tier/#slug — that is what the JSON-LD
-// publishes and what an answer engine cites. Browsers do not open a targeted
-// <details>, so a visitor would land on a closed row. Open it on arrival.
-(function () {{
-  function target() {{
-    try {{
-      var el = location.hash && document.querySelector(location.hash);
-      return el && el.tagName === 'DETAILS' ? el : null;
-    }} catch (e) {{ return null; }}
-  }}
-  // Open before the browser settles on a scroll position: expanding the block
-  // afterwards shifts everything below it and the anchor lands off-screen.
-  function open(el) {{ if (el && !el.open) el.open = true; }}
-  open(target());
-  addEventListener('load', function () {{
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  }});
-  addEventListener('hashchange', function () {{
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  }});
-}})();
-</script>
+<script src="/faq/ui.js" defer></script>
 </body>
 </html>
 """

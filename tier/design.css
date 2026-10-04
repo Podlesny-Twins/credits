@@ -1,0 +1,16 @@
+/* Tier-specific composition; shared blue editorial tokens live in FAQ. */
+.tier-page .faq-head{grid-template-columns:1.3fr 1fr}
+.tier-page h1{font-size:clamp(42px,5vw,70px);max-width:12ch}
+.tier-page .tierkey{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;margin:14px 0 50px}
+.tier-page .tierkey li{grid-template-columns:38px 1fr;align-items:start;font-size:13px;line-height:1.6;padding:14px 0;color:var(--ink2);border-bottom:1px solid var(--line)}
+.tier-page .tg{border-radius:0;font-family:Literal,sans-serif;border-color:#415466;background:#162331;color:var(--blue);min-width:28px}
+.tier-page .tg-L{background:var(--blue);border-color:var(--blue);color:var(--bg)}
+.tier-page .tg-S{background:#7fa7c3;border-color:#7fa7c3;color:var(--bg)}
+.tier-page .tg-A{background:#304e64;border-color:#60809a;color:#e4f2fc}
+.tier-page :is(.tg-D,.tg-F,.tg-N){background:transparent;color:var(--mut)}
+.tier-page h2 .tg{font-size:20px;padding:6px 12px;margin-right:10px;vertical-align:middle}
+.tier-page .vd{color:var(--ink)}
+.tier-page .at,.tier-page .at a{color:var(--mut)}
+.tier-page .faq-search>span{font-size:30px;line-height:1}
+.tier-page:has(#faq-search:not(:placeholder-shown)) .tierkey,.tier-page:has(#faq-search:not(:placeholder-shown)) .flow>.meta{display:none}
+@media(max-width:767px){.tier-page h1{font-size:clamp(36px,9vw,56px);max-width:13ch}.tier-page .tierkey{grid-template-columns:1fr;gap:0;margin-bottom:36px}.tier-page .tierkey li{font-size:14px}.tier-page h2 .tg{font-size:17px}}

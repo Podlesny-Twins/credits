@@ -208,8 +208,11 @@ details summary .qn{flex:1 1 auto}
   .tierkey li{grid-template-columns:38px 1fr;gap:10px;font-size:14px}
 }
 </style>
+
+<link rel="stylesheet" href="/faq/design.css">
+<link rel="stylesheet" href="/tier/design.css">
 </head>
-<body>
+<body class="faq-page tier-page">
 <div class="wrap">
   <div class="pfnav">
     <a class="pfbrand" href="https://podlesnytwins.com" aria-label="Podlesny Twins">Podlesny Twins</a>
@@ -369,13 +372,17 @@ details summary .qn{flex:1 1 auto}
 
   <p class="bc"><a href="https://credits.podlesnytwins.com/en/">Podlesny Twins</a> / Mixing techniques tier list</p>
 
+  <main>
+  <header class="faq-head">
   <h1>Mixing techniques tier list</h1>
   <p class="lead">Anton and Pavel Podlesny went through 51 mixing and mastering techniques, their own, from the chat and from the comments, and placed each on a scale from L to F: does it make the mix better or worse.</p>
-
-  <div class="intro">
-    <p class="eyebrow">In short</p>
-    <p>The scale has seven steps. <strong>L</strong> is a legendary technique the studio uses in every mix. <strong>F</strong> is something that leaves the mix worse than it was. In between sit techniques that don't work every time or for everyone; that is the biggest group. Podlesny Twins call C, D and F tier techniques "the fast carbs of mixing": they work right now, and the problems surface later. At the top of the scale, by contrast, are techniques that put the engineer in an awkward spot: mixing in mono, mixing with only the midrange, mixing straight into a limiter. It's like running with a weighted backpack: you hear worse than you could, and that is exactly why you make more precise decisions. Another 5 techniques were discussed without a tier letter; they are collected separately at the end.</p>
+  </header>
+  <div class="faq-tools" hidden>
+    <label class="faq-search" for="faq-search"><span aria-hidden="true">⌕</span><input id="faq-search" type="search" aria-label="Search techniques" placeholder="Find a technique or plugin"></label>
+    <button id="faq-expand" type="button" aria-pressed="false">Expand all explanations</button>
   </div>
+  <p class="faq-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="faq-empty" hidden><p>No results. Try another word.</p><button id="faq-reset" type="button">Reset search</button></div>
 
   <div class="doc">
   <div class="rail"><ul class="toc"><li><a href="#tier-L">L tier <span class="fc">5</span></a></li><li><a href="#tier-S">S tier <span class="fc">6</span></a></li><li><a href="#tier-A">A tier <span class="fc">6</span></a></li><li><a href="#tier-B">B tier <span class="fc">17</span></a></li><li><a href="#tier-C">C tier <span class="fc">3</span></a></li><li><a href="#tier-D">D tier <span class="fc">4</span></a></li><li><a href="#tier-F">F tier <span class="fc">5</span></a></li><li><a href="#tier-N">Unrated <span class="fc">5</span></a></li></ul></div>
@@ -591,6 +598,12 @@ details summary .qn{flex:1 1 auto}
   </div>
   </div>
 
+  <div class="intro">
+    <p class="eyebrow">In short</p>
+    <p>The scale has seven steps. <strong>L</strong> is a legendary technique the studio uses in every mix. <strong>F</strong> is something that leaves the mix worse than it was. In between sit techniques that don't work every time or for everyone; that is the biggest group. Podlesny Twins call C, D and F tier techniques "the fast carbs of mixing": they work right now, and the problems surface later. At the top of the scale, by contrast, are techniques that put the engineer in an awkward spot: mixing in mono, mixing with only the midrange, mixing straight into a limiter. It's like running with a weighted backpack: you hear worse than you could, and that is exactly why you make more precise decisions. Another 5 techniques were discussed without a tier letter; they are collected separately at the end.</p>
+  </div>
+
+  </main>
   <p class="upd">Last updated: September 10, 2026. The ratings are the position of Podlesny Twins
   (Anton and Pavel Podlesny), not a universal rule: a technique's tier changes
   with the material and the task.</p>
@@ -640,32 +653,6 @@ details summary .qn{flex:1 1 auto}
   draw();
 })();
 </script>
-<script>
-// Every technique is addressable as /tier/#slug — that is what the JSON-LD
-// publishes and what an answer engine cites. Browsers do not open a targeted
-// <details>, so a visitor would land on a closed row. Open it on arrival.
-(function () {
-  function target() {
-    try {
-      var el = location.hash && document.querySelector(location.hash);
-      return el && el.tagName === 'DETAILS' ? el : null;
-    } catch (e) { return null; }
-  }
-  // Open before the browser settles on a scroll position: expanding the block
-  // afterwards shifts everything below it and the anchor lands off-screen.
-  function open(el) { if (el && !el.open) el.open = true; }
-  open(target());
-  addEventListener('load', function () {
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  });
-  addEventListener('hashchange', function () {
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  });
-})();
-</script>
+<script src="/faq/ui.js" defer></script>
 </body>
 </html>

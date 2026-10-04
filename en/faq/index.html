@@ -182,8 +182,10 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .ans{padding-right:0;font-size:16px}
 }
 </style>
+<link rel="stylesheet" href="/faq/design.css">
 </head>
-<body>
+<body class="faq-page">
+<a class="faq-skip" href="#about">Skip to questions</a>
 <div class="wrap">
   <div class="pfnav">
     <a class="pfbrand" href="https://podlesnytwins.com" aria-label="Podlesny Twins">Podlesny Twins</a>
@@ -343,20 +345,26 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
   <div class="bc"><a href="https://credits.podlesnytwins.com/en/">Portfolio</a> / FAQ</div>
 
-  <h1>FAQ: mixing, mastering and the credits of Podlesny Twins</h1>
+  <main>
+<header class="faq-head">
+<h1>Questions &amp; answers:<span class="faq-subtitle"> mixing, mastering and Podlesny Twins credits</span></h1>
   <p class="lead">The questions we get asked most often before a booking. If yours is not here, message us on Telegram or ask in our open chat; we reply quickly.</p>
 
-  <div class="intro">
-    <p class="eyebrow">The studio in brief</p>
-    <p><strong>Podlesny Twins</strong> is the mixing and mastering studio of twin brothers Anton and Pavel Podlesny from Saint Petersburg, working since 2017 in hip-hop, pop, indie and rock. In that time the studio has mixed more than <span class="num">1500</span> tracks; the open catalogue on this site lists <span class="num" data-n="works">222</span> selected credits for <span class="num" data-n="artists">80</span> artists, including Husky, LSP, NAVAI, T-Fest, MACAN, Klava Koka, Dima Bilan and ANNA ASTI. Mixing costs from <span class="num">30,000</span> to <span class="num">45,000</span> ₽, mastering <span class="num">6,000</span> ₽. The twins also run the Podlesny Education courses: in autumn 2026 a limited Mentors-Only intake of <span class="num">30</span> seats opens, starting October 6.</p>
-  </div>
 
+
+  </header>
+  <div class="faq-tools" hidden>
+    <label class="faq-search" for="faq-search"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg><input type="search" id="faq-search" placeholder="Find a question or answer" aria-label="Search questions and answers"></label>
+    <button type="button" id="faq-expand" aria-pressed="false">Expand all answers</button>
+  </div>
+  <p class="faq-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="faq-empty" hidden><p>No results. Try another word.</p><button type="button" id="faq-reset">Reset search</button></div>
   <div class="doc">
   <nav class="rail" aria-label="Sections">
   <ul class="toc">
     <li><a href="#about">About the studio <span class="fc">5</span></a></li>
     <li><a href="#credits">Credits <span class="fc">9</span></a></li>
-    <li><a href="#approach">Approach <span class="fc">3</span></a></li>
+    <li><a href="#approach">Approach <span class="fc">4</span></a></li>
     <li><a href="#order">Rates and booking <span class="fc">9</span></a></li>
     <li><a href="#education">Education <span class="fc">4</span></a></li>
     <li><a href="#social">Social media and chat <span class="fc">2</span></a></li>
@@ -366,7 +374,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
   <h2 id="about">About the studio</h2>
 
-  <details id="q-kto-takie">
+  <details id="q-kto-takie" open>
     <summary>Who are Podlesny Twins?</summary>
     <p class="ans">Podlesny Twins is the audio engineering studio of twin brothers Anton and Pavel Podlesny from Saint Petersburg. Since 2017 Anton and Pavel have personally mixed and mastered music by artists of the Russian-language scene, from Husky and LSP to Dima Bilan and ANNA ASTI. In total the studio has mixed more than <span class="num">1500</span> tracks; the open catalogue at credits.podlesnytwins.com lists <span class="num" data-n="works">222</span> selected credits for <span class="num" data-n="artists">80</span> artists.</p>
   </details>
@@ -544,6 +552,11 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   </div>
   </div>
 
+  <div class="intro">
+    <p class="eyebrow">The studio in brief</p>
+    <p><strong>Podlesny Twins</strong> is the mixing and mastering studio of twin brothers Anton and Pavel Podlesny from Saint Petersburg, working since 2017 in hip-hop, pop, indie and rock. In that time the studio has mixed more than <span class="num">1500</span> tracks; the open catalogue on this site lists <span class="num" data-n="works">222</span> selected credits for <span class="num" data-n="artists">80</span> artists, including Husky, LSP, NAVAI, T-Fest, MACAN, Klava Koka, Dima Bilan and ANNA ASTI. Mixing costs from <span class="num">30,000</span> to <span class="num">45,000</span> ₽, mastering <span class="num">6,000</span> ₽. The twins also run the Podlesny Education courses: in autumn 2026 a limited Mentors-Only intake of <span class="num">30</span> seats opens, starting October 6.</p>
+  </div>
+  </main>
   <p class="upd">Last updated: September 25, 2026.</p>
   <p class="iadisc">* Alisher Tagirovich Morgenshtern is recognised as a foreign agent in the Russian Federation.</p>
   <p class="faqfoot"><a href="https://t.me/lesnymix" rel="noopener">Telegram channel</a> · <a href="https://t.me/+VXgXHnAXj9w2ZGYy" rel="noopener">Telegram chat</a></p>
@@ -590,5 +603,6 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   draw();
 })();
 </script>
+<script src="/faq/ui.js" defer></script>
 </body>
 </html>

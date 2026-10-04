@@ -182,8 +182,10 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .ans{padding-right:0;font-size:16px}
 }
 </style>
+<link rel="stylesheet" href="/faq/design.css">
 </head>
-<body>
+<body class="faq-page">
+<a class="faq-skip" href="#about">К вопросам</a>
 <div class="wrap">
   <div class="pfnav">
     <a class="pfbrand" href="https://podlesnytwins.com" aria-label="Podlesny Twins">Podlesny Twins</a>
@@ -343,20 +345,26 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
   <div class="bc"><a href="https://credits.podlesnytwins.com/">Портфолио</a> / Вопросы и ответы</div>
 
-  <h1>Вопросы и ответы: сведение, мастеринг и работы Podlesny Twins</h1>
+  <main>
+<header class="faq-head">
+<h1>Вопросы и ответы:<span class="faq-subtitle"> сведение, мастеринг и работы Podlesny Twins</span></h1>
   <p class="lead">Собрали вопросы, которые нам чаще всего задают перед заказом. Не нашли свой — напишите в Telegram или спросите в нашем открытом чате, отвечаем быстро.</p>
 
-  <div class="intro">
-    <p class="eyebrow">Коротко о студии</p>
-    <p><strong>Podlesny Twins</strong> — это студия сведения и мастеринга братьев-близнецов Антона и Павла Подлесных из Санкт-Петербурга, работающая с 2017 года в жанрах хип-хоп, поп, инди и рок. За это время студия свела более <span class="num">1500</span> треков; в открытом каталоге на этом сайте опубликованы <span class="num" data-n="works">222</span> избранных работ для <span class="num" data-n="artists">80</span> артистов, включая Хаски, ЛСП, NAVAI, T-Fest, MACAN, Клаву Коку, Диму Билана и ANNA ASTI. Стоимость сведения — от <span class="num">30 000</span> до <span class="num">45 000</span> ₽, мастеринга — <span class="num">6 000</span> ₽. Также близнецы ведут курсы Podlesny Education: осенью 2026 года идёт ограниченный Mentors-Only набор на <span class="num">30</span> мест со стартом 6 октября.</p>
-  </div>
 
+
+  </header>
+  <div class="faq-tools" hidden>
+    <label class="faq-search" for="faq-search"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg><input type="search" id="faq-search" placeholder="Найти вопрос или ответ" aria-label="Поиск по вопросам и ответам"></label>
+    <button type="button" id="faq-expand" aria-pressed="false">Раскрыть все ответы</button>
+  </div>
+  <p class="faq-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="faq-empty" hidden><p>Ничего не найдено. Попробуйте другое слово.</p><button type="button" id="faq-reset">Сбросить поиск</button></div>
   <div class="doc">
   <nav class="rail" aria-label="Разделы">
   <ul class="toc">
     <li><a href="#about">О студии <span class="fc">5</span></a></li>
     <li><a href="#credits">Работы <span class="fc">9</span></a></li>
-    <li><a href="#approach">Подход <span class="fc">3</span></a></li>
+    <li><a href="#approach">Подход <span class="fc">4</span></a></li>
     <li><a href="#order">Цены и заказ <span class="fc">9</span></a></li>
     <li><a href="#education">Обучение <span class="fc">4</span></a></li>
     <li><a href="#social">Соцсети и чат <span class="fc">2</span></a></li>
@@ -366,7 +374,7 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 
   <h2 id="about">О студии</h2>
 
-  <details id="q-kto-takie">
+  <details id="q-kto-takie" open>
     <summary>Кто такие Podlesny Twins?</summary>
     <p class="ans">Podlesny Twins — это студия звукорежиссуры братьев-близнецов Антона и Павла Подлесных из Санкт-Петербурга. С 2017 года Антон и Павел лично сводят и мастерят музыку артистов русскоязычной сцены — от Хаски и ЛСП до Димы Билана и ANNA ASTI. Всего студия свела более <span class="num">1500</span> треков; в открытый каталог на credits.podlesnytwins.com отобраны <span class="num" data-n="works">222</span> работ для <span class="num" data-n="artists">80</span> артистов.</p>
   </details>
@@ -544,6 +552,11 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   </div>
   </div>
 
+  <div class="intro">
+    <p class="eyebrow">Коротко о студии</p>
+    <p><strong>Podlesny Twins</strong> — это студия сведения и мастеринга братьев-близнецов Антона и Павла Подлесных из Санкт-Петербурга, работающая с 2017 года в жанрах хип-хоп, поп, инди и рок. За это время студия свела более <span class="num">1500</span> треков; в открытом каталоге на этом сайте опубликованы <span class="num" data-n="works">222</span> избранных работ для <span class="num" data-n="artists">80</span> артистов, включая Хаски, ЛСП, NAVAI, T-Fest, MACAN, Клаву Коку, Диму Билана и ANNA ASTI. Стоимость сведения — от <span class="num">30 000</span> до <span class="num">45 000</span> ₽, мастеринга — <span class="num">6 000</span> ₽. Также близнецы ведут курсы Podlesny Education: осенью 2026 года идёт ограниченный Mentors-Only набор на <span class="num">30</span> мест со стартом 6 октября.</p>
+  </div>
+  </main>
   <p class="upd">Последнее обновление: 25 сентября 2026 года.</p>
   <p class="iadisc">* Моргенштерн Алишер Тагирович признан в Российской Федерации иностранным агентом.</p>
   <p class="faqfoot"><a href="https://t.me/lesnymix" rel="noopener">Канал о звуке</a> · <a href="https://t.me/+VXgXHnAXj9w2ZGYy" rel="noopener">Чат</a></p>
@@ -590,5 +603,6 @@ details summary:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   draw();
 })();
 </script>
+<script src="/faq/ui.js" defer></script>
 </body>
 </html>

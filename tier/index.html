@@ -208,8 +208,11 @@ details summary .qn{flex:1 1 auto}
   .tierkey li{grid-template-columns:38px 1fr;gap:10px;font-size:14px}
 }
 </style>
+
+<link rel="stylesheet" href="/faq/design.css">
+<link rel="stylesheet" href="/tier/design.css">
 </head>
-<body>
+<body class="faq-page tier-page">
 <div class="wrap">
   <div class="pfnav">
     <a class="pfbrand" href="https://podlesnytwins.com" aria-label="Podlesny Twins">Podlesny Twins</a>
@@ -369,13 +372,17 @@ details summary .qn{flex:1 1 auto}
 
   <p class="bc"><a href="https://credits.podlesnytwins.com/">Podlesny Twins</a> / Тир-лист техник сведения</p>
 
+  <main>
+  <header class="faq-head">
   <h1>Тир-лист техник сведения</h1>
   <p class="lead">Антон и Павел Подлесные разобрали 51 приёмов сведения и мастеринга — свои, из чата и из комментариев — и расставили по шкале от L до F: делает микс лучше или вредит ему.</p>
-
-  <div class="intro">
-    <p class="eyebrow">Коротко</p>
-    <p>Шкала — семь ступеней. <strong>L</strong> — легендарная техника, студия использует её в каждом миксе. <strong>F</strong> — то, после чего сведение становится хуже, чем было. Между ними — приёмы, которые работают не всегда и не у всех; самая большая группа именно здесь. Техники C, D и F-тира Podlesny Twins называют «быстрыми углеводами сведения»: работают сейчас, а проблемы всплывают позже. Наверху шкалы, наоборот, стоят приёмы, которые ставят звукорежиссёра в неудобные условия — сведение в моно, сведение только в среднечастотном режиме, сведение сразу в лимитер. Это как бегать с рюкзаком: слышишь хуже, чем мог бы, и именно поэтому принимаешь более точные решения. Ещё 5 приёма разобрали, но букву тира им не назвали — они собраны в конце отдельно.</p>
+  </header>
+  <div class="faq-tools" hidden>
+    <label class="faq-search" for="faq-search"><span aria-hidden="true">⌕</span><input id="faq-search" type="search" aria-label="Поиск по техникам" placeholder="Найти технику или плагин"></label>
+    <button id="faq-expand" type="button" aria-pressed="false">Раскрыть все пояснения</button>
   </div>
+  <p class="faq-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="faq-empty" hidden><p>Ничего не найдено. Попробуйте другое слово.</p><button id="faq-reset" type="button">Сбросить поиск</button></div>
 
   <div class="doc">
   <div class="rail"><ul class="toc"><li><a href="#tier-L">L-тир <span class="fc">5</span></a></li><li><a href="#tier-S">S-тир <span class="fc">6</span></a></li><li><a href="#tier-A">A-тир <span class="fc">6</span></a></li><li><a href="#tier-B">B-тир <span class="fc">17</span></a></li><li><a href="#tier-C">C-тир <span class="fc">3</span></a></li><li><a href="#tier-D">D-тир <span class="fc">4</span></a></li><li><a href="#tier-F">F-тир <span class="fc">5</span></a></li><li><a href="#tier-N">Без оценки <span class="fc">5</span></a></li></ul></div>
@@ -591,6 +598,12 @@ details summary .qn{flex:1 1 auto}
   </div>
   </div>
 
+  <div class="intro">
+    <p class="eyebrow">Коротко</p>
+    <p>Шкала — семь ступеней. <strong>L</strong> — легендарная техника, студия использует её в каждом миксе. <strong>F</strong> — то, после чего сведение становится хуже, чем было. Между ними — приёмы, которые работают не всегда и не у всех; самая большая группа именно здесь. Техники C, D и F-тира Podlesny Twins называют «быстрыми углеводами сведения»: работают сейчас, а проблемы всплывают позже. Наверху шкалы, наоборот, стоят приёмы, которые ставят звукорежиссёра в неудобные условия — сведение в моно, сведение только в среднечастотном режиме, сведение сразу в лимитер. Это как бегать с рюкзаком: слышишь хуже, чем мог бы, и именно поэтому принимаешь более точные решения. Ещё 5 приёма разобрали, но букву тира им не назвали — они собраны в конце отдельно.</p>
+  </div>
+
+  </main>
   <p class="upd">Обновлено: 10 сентября 2026. Оценки — позиция студии Podlesny Twins
   (Антон и Павел Подлесные), а не универсальное правило: тир техники меняется
   вместе с материалом и задачей.</p>
@@ -640,32 +653,6 @@ details summary .qn{flex:1 1 auto}
   draw();
 })();
 </script>
-<script>
-// Every technique is addressable as /tier/#slug — that is what the JSON-LD
-// publishes and what an answer engine cites. Browsers do not open a targeted
-// <details>, so a visitor would land on a closed row. Open it on arrival.
-(function () {
-  function target() {
-    try {
-      var el = location.hash && document.querySelector(location.hash);
-      return el && el.tagName === 'DETAILS' ? el : null;
-    } catch (e) { return null; }
-  }
-  // Open before the browser settles on a scroll position: expanding the block
-  // afterwards shifts everything below it and the anchor lands off-screen.
-  function open(el) { if (el && !el.open) el.open = true; }
-  open(target());
-  addEventListener('load', function () {
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  });
-  addEventListener('hashchange', function () {
-    var el = target();
-    open(el);
-    if (el) el.scrollIntoView();
-  });
-})();
-</script>
+<script src="/faq/ui.js" defer></script>
 </body>
 </html>
